@@ -1,5 +1,8 @@
+@namespace
+class SpriteKind:
+    Decorativo = SpriteKind.create()
 def CrearMapa():
-    scene.set_background_color(12)
+    scene.set_background_color(15)
     tiles.set_current_tilemap(tilemap("""
         nivel
         """))
@@ -35,6 +38,10 @@ def CreacionPersonajes():
     scene.camera_follow_sprite(prota)
 prota: Sprite = None
 CrearMapa()
+antorcha = sprites.create(assets.image("""
+    miImagen
+    """), SpriteKind.player)
 info.set_life(3)
 nivel = 1
 CreacionPersonajes()
+posicionesAntorchas = [tiles.get_tile_location(10, 460)]
