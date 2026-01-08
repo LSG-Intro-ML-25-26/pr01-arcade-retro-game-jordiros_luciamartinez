@@ -1,19 +1,33 @@
-function creacionPersonajes() {
-    
-    prota = sprites.create(assets.image`
-            ParadaPerfilDerecho
-            `, SpriteKind.Player)
+function CrearMapa () {
+    scene.setBackgroundColor(15)
+    tiles.setCurrentTilemap(tilemap`nivel`)
+}
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    prota,
+    assets.animation`heroWalkRight`,
+    100,
+    false
+    )
+})
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    prota,
+    assets.animation`heroWalkLeft`,
+    100,
+    false
+    )
+})
+function CreacionPersonajes () {
+    prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
+    prota.y = 460
+    prota.x = 60
     controller.moveSprite(prota, 100, 100)
+    prota.ay = 200
     scene.cameraFollowSprite(prota)
-    prota.ay = 300
 }
-
-function niveles() {
-    
-}
-
-let prota : Sprite = null
+let prota: Sprite = null
+CrearMapa()
 info.setLife(3)
 let nivel = 1
-creacionPersonajes()
-niveles()
+CreacionPersonajes()
