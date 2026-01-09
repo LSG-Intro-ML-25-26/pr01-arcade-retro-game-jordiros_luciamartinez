@@ -1,18 +1,15 @@
 namespace SpriteKind {
     export const Decorativo = SpriteKind.create()
 }
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (prota.isHittingTile(CollisionDirection.Bottom)) {
+        prota.setVelocity(0, -150)
+    }
+})
 function CrearMapa () {
     scene.setBackgroundColor(15)
     tiles.setCurrentTilemap(tilemap`nivel`)
 }
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-    prota,
-    assets.animation`heroWalkRight`,
-    100,
-    false
-    )
-})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     prota,
@@ -21,13 +18,22 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     false
     )
 })
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    prota,
+    assets.animation`heroWalkRight`,
+    100,
+    false
+    )
+})
 function CreacionPersonajes () {
     prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
+    controller.moveSprite(prota, 100, 0)
+    prota.setStayInScreen(true)
     prota.y = 460
     prota.x = 60
-    controller.moveSprite(prota, 100, 400)
-    prota.ay = 1000
     scene.cameraFollowSprite(prota)
+    prota.ay += 200
 }
 let prota: Sprite = null
 CrearMapa()
