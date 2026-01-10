@@ -47,7 +47,7 @@ function CreacionPersonajes () {
     prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
     controller.moveSprite(prota, 100, 0)
     prota.y = 460
-    prota.x = 40
+    prota.x = 20
     scene.cameraFollowSprite(prota)
     prota.ay = 200
 }
