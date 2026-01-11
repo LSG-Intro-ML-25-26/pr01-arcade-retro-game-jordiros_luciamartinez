@@ -22,25 +22,6 @@ namespace myImages {
 . . . . . . f f f f f f . . . . 
 . . . . . . . f f f . . . . . . 
 `;
-            case "image1":
-            case "miImagen":return img`
-c c c c c c c c c f f f c c c c 
-c c c c c c d d d b f f c c c c 
-c c c c d d d d d b b b c c c c 
-c c c c d d d d b b b b f c c c 
-f f f b b b 4 4 4 4 b b b f f f 
-f f f b b b 4 5 5 4 b b b f f f 
-f f f b b b 4 5 5 4 b b b f f f 
-c c f b b b 4 4 4 4 d d d c c c 
-c c c f b b d e e d d d c c c c 
-c c c f b b d e e d d d c c c c 
-c c c f f f d e e d c c c c c c 
-c c f f f f f e e c c c c c c c 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-c c c c c c c c f f f f f c c c 
-`;
         }
         return null;
     })
@@ -186,42 +167,6 @@ c c c c c c c c f f f f f c c c
 . . f f 5 5 4 4 f e e f . . . . 
 . . f f f f f f f f f f . . . . 
 . . . f f f . . . f f . . . . . 
-`];
-            case "miMosaico1":
-            case "anim5":return [img`
-c c c c c c c c c f f f c c c c 
-c c c c c c d d d b f f c c c c 
-c c c c d d d d d b b b c c c c 
-c c c c d d d d b b b b f c c c 
-f f f b b b 4 4 4 4 b b b f f f 
-f f f b b b 4 5 5 4 b b b f f f 
-f f f b b b 4 5 5 4 b b b f f f 
-c c f b b b 4 4 4 4 d d d c c c 
-c c c f b b d e e d d d c c c c 
-c c c f b b d e e d d d c c c c 
-c c c f f f d e e d c c c c c c 
-c c f f f f f e e c c c c c c c 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-c c c c c c c c f f f f f c c c 
-`, img`
-c c c c c c c c c f f f c c c c 
-c c c c c c c c c f f f c c c c 
-c c c c c d d d d b b f c c c c 
-c c c c d d d d b b b b f c c c 
-f f f f b b b 4 4 b b b f f f f 
-f f f f b b 4 5 5 4 b b f f f f 
-f f f f b b 4 5 5 4 b b f f f f 
-c c f f b b b 4 4 d d d c c c c 
-c c c f b b d e e d d d c c c c 
-c c c f f b d e e d d c c c c c 
-c c c f f f c e e c c c c c c c 
-c c f f f f f e e c c c c c c c 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-c c c c c c c c f f f f f c c c 
 `];
         }
         return null;
