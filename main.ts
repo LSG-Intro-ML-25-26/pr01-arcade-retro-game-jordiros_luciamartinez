@@ -181,8 +181,7 @@ scene.setBackgroundImage(img`
 tiles.setCurrentTilemap(tilemap`nivel`)
 CreacionMinimapa()
 CreacionPersonajes()
-game.onUpdate(function () {
-    pause(1)
+game.onUpdateInterval(1, function () {
     sprites.destroy(mapStripe)
     CreacionMinimapa()
     minimap.includeSprite(myMinimap, prota, MinimapSpriteScale.Double)

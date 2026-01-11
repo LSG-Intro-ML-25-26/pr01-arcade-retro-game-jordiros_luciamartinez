@@ -192,11 +192,10 @@ tiles.set_current_tilemap(tilemap("""
 CreacionMinimapa()
 CreacionPersonajes()
 
-def on_on_update():
-    pause(1)
+def on_update_interval():
     sprites.destroy(mapStripe)
     CreacionMinimapa()
     minimap.include_sprite(myMinimap, prota, MinimapSpriteScale.DOUBLE)
     mapStripe.set_position(scene.camera_property(CameraProperty.X) + 54,
         scene.camera_property(CameraProperty.Y) - 44)
-game.on_update(on_on_update)
+game.on_update_interval(1, on_update_interval)
