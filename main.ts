@@ -5,6 +5,7 @@ namespace SpriteKind {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (prota.isHittingTile(CollisionDirection.Bottom)) {
         prota.setVelocity(0, -150)
+        music.play(music.createSong(hex`00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a`), music.PlaybackMode.InBackground)
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
