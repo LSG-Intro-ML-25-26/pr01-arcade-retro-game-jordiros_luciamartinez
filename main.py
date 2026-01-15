@@ -6,6 +6,10 @@ class SpriteKind:
 def on_a_pressed():
     if prota.is_hitting_tile(CollisionDirection.BOTTOM):
         prota.set_velocity(0, -150)
+        music.play(music.create_song(hex("""
+                00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                """)),
+            music.PlaybackMode.IN_BACKGROUND)
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
 def on_left_pressed():

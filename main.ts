@@ -4,7 +4,12 @@ namespace SpriteKind {
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (prota.isHittingTile(CollisionDirection.Bottom)) {
-        prota.setVelocity(0, -150)
+        prota.setVelocity(0, -125)
+        salto = true
+        music.play(music.createSong(hex`00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a`), music.PlaybackMode.InBackground)
+    } else if (salto == true) {
+        prota.setVelocity(0, -125)
+        salto = false
         music.play(music.createSong(hex`00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a`), music.PlaybackMode.InBackground)
     }
 })
@@ -32,6 +37,17 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
     false
     )
 })
+function generarNivel () {
+    if (nivel == 1) {
+        tiles.setCurrentTilemap(tilemap`nivel1`)
+        prota.y = 460
+        prota.x = 20
+    } else if (nivel == 2) {
+        tiles.setCurrentTilemap(tilemap`level`)
+        prota.y = 60
+        prota.x = 20
+    }
+}
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     prota,
@@ -47,16 +63,16 @@ function CreacionMinimapa () {
 function CreacionPersonajes () {
     prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
     controller.moveSprite(prota, 100, 0)
-    prota.y = 460
-    prota.x = 20
     scene.cameraFollowSprite(prota)
     prota.ay = 200
 }
 let mapStripe: Sprite = null
 let myMinimap: minimap.Minimap = null
+let salto = false
 let prota: Sprite = null
+let nivel = 0
 info.setLife(3)
-let nivel = 1
+nivel = 2
 scene.setBackgroundImage(img`
     bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
     bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
@@ -179,9 +195,9 @@ scene.setBackgroundImage(img`
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     `)
-tiles.setCurrentTilemap(tilemap`nivel`)
-CreacionMinimapa()
 CreacionPersonajes()
+generarNivel()
+CreacionMinimapa()
 game.onUpdateInterval(1, function () {
     sprites.destroy(mapStripe)
     CreacionMinimapa()
