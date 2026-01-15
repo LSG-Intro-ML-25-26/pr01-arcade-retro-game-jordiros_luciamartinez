@@ -23,13 +23,6 @@ def on_a_pressed():
                 00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
                 """)),
             music.PlaybackMode.IN_BACKGROUND)
-    elif salto == True:
-        prota.set_velocity(0, -125)
-        salto = False
-        music.play(music.create_song(hex("""
-                00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                """)),
-            music.PlaybackMode.IN_BACKGROUND)
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
 def on_left_pressed():
