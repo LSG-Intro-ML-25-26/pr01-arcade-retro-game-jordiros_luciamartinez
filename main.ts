@@ -3,7 +3,7 @@ namespace SpriteKind {
     export const Map = SpriteKind.create()
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(menu)) {
+    if (partida) {
         SistemaDeDobleSalto()
     }
 })
@@ -15,28 +15,34 @@ function GenerarMinimapa () {
     mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-    prota,
-    assets.animation`heroWalkLeft`,
-    100,
-    true
-    )
+    if (partida) {
+        animation.runImageAnimation(
+        prota,
+        assets.animation`heroWalkLeft`,
+        100,
+        true
+        )
+    }
 })
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
-    animation.runImageAnimation(
-    prota,
-    assets.animation`heroWalkRight`,
-    100,
-    false
-    )
+    if (partida) {
+        animation.runImageAnimation(
+        prota,
+        assets.animation`heroWalkRight`,
+        100,
+        false
+        )
+    }
 })
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
-    animation.runImageAnimation(
-    prota,
-    assets.animation`heroWalkLeft`,
-    100,
-    false
-    )
+    if (partida) {
+        animation.runImageAnimation(
+        prota,
+        assets.animation`heroWalkLeft`,
+        100,
+        false
+        )
+    }
 })
 function GenerarNivel () {
     if (nivel == 1) {
@@ -72,12 +78,24 @@ function SistemaDeDobleSalto () {
     }
 }
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-    prota,
-    assets.animation`heroWalkRight`,
-    100,
-    true
-    )
+    if (partida) {
+        animation.runImageAnimation(
+        prota,
+        assets.animation`heroWalkRight`,
+        100,
+        true
+        )
+    }
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        if (mostrar_minimapa) {
+            mostrar_minimapa = false
+            sprites.destroy(mapStripe)
+        } else {
+            mostrar_minimapa = true
+        }
+    }
 })
 function MostrarLore () {
     game.setDialogTextColor(2)
@@ -101,16 +119,28 @@ function MostrarLore () {
         `)
     game.showLongText("El caballero End debe adentrarse al castillo oscuro y derrotar a los 3 reyes que gobiernan el reino Nochesfera, restaurando así la paz.", DialogLayout.Full)
 }
-controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida) {
-        if (mostrar_minimapa) {
-            mostrar_minimapa = false
-            sprites.destroy(mapStripe)
-        } else {
-            mostrar_minimapa = true
-        }
-    }
-})
+function MostrarInstrucciones () {
+    game.setDialogTextColor(2)
+    game.setDialogFrame(img`
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        `)
+    game.showLongText("A : Saltar\\nA+A : Doble salto\\nB : Atacar\\nDER./IZQ. : Moverse\\nBAJO : Minimapa", DialogLayout.Full)
+}
 function CreacionPersonajes () {
     info.setLife(3)
     prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
@@ -118,16 +148,16 @@ function CreacionPersonajes () {
     scene.cameraFollowSprite(prota)
     prota.ay = 200
 }
-let mostrar_minimapa = false
 let salto = false
 let nivel = 0
 let prota: Sprite = null
 let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
+let mostrar_minimapa = false
 let partida = false
-let menu = false
-menu = true
+let menu = true
 partida = false
+mostrar_minimapa = true
 game.onUpdateInterval(1, function () {
     if (menu) {
         scene.setBackgroundImage(assets.image`myImage4`)
@@ -135,14 +165,13 @@ game.onUpdateInterval(1, function () {
             menu = false
         }
     } else if (!(partida)) {
-        partida = true
-        nivel = 3
+        nivel = 1
         MostrarLore()
+        MostrarInstrucciones()
         CreacionPersonajes()
         GenerarNivel()
-    } else {
-        if (mostrar_minimapa) {
-            GenerarMinimapa()
-        }
+        partida = true
+    } else if (mostrar_minimapa) {
+        GenerarMinimapa()
     }
 })
