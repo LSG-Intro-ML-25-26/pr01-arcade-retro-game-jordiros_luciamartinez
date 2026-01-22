@@ -81,7 +81,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`player_left_animated`,
+        assets.animation`player_right_animated`,
         200,
         true
         )
