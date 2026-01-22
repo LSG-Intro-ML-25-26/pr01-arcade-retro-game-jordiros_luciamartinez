@@ -20,9 +20,24 @@ def GenerarMinimapa():
 def on_left_pressed():
     if partida:
         animation.run_image_animation(prota,
-            assets.animation("""
-                heroWalkLeft
-                """),
+            [img("""
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                """)],
             100,
             True)
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
@@ -30,9 +45,24 @@ controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 def on_right_released():
     if partida:
         animation.run_image_animation(prota,
-            assets.animation("""
-                heroWalkRight
-                """),
+            [img("""
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                """)],
             100,
             False)
 controller.right.on_event(ControllerButtonEvent.RELEASED, on_right_released)
@@ -40,9 +70,24 @@ controller.right.on_event(ControllerButtonEvent.RELEASED, on_right_released)
 def on_left_released():
     if partida:
         animation.run_image_animation(prota,
-            assets.animation("""
-                heroWalkLeft
-                """),
+            [img("""
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                """)],
             100,
             False)
 controller.left.on_event(ControllerButtonEvent.RELEASED, on_left_released)
@@ -95,9 +140,24 @@ def SistemaDeDobleSalto():
 def on_right_pressed():
     if partida:
         animation.run_image_animation(prota,
-            assets.animation("""
-                heroWalkRight
-                """),
+            [img("""
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                . . . . . . . . . . . . . . . .
+                """)],
             100,
             True)
 controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)

@@ -18,8 +18,8 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`heroWalkLeft`,
-        100,
+        assets.animation`myAnim0`,
+        200,
         true
         )
     }
@@ -28,8 +28,8 @@ controller.right.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`heroWalkRight`,
-        100,
+        assets.animation`myAnim`,
+        200,
         false
         )
     }
@@ -38,8 +38,8 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`heroWalkLeft`,
-        100,
+        assets.animation`myAnim0`,
+        200,
         false
         )
     }
@@ -67,22 +67,22 @@ function SistemaDeDobleSalto () {
         prota.setVelocity(0, -125)
         salto = true
         music.play(music.createSong(hex`
-                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                                        `), music.PlaybackMode.InBackground)
+                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                            `), music.PlaybackMode.InBackground)
     } else if (salto == true) {
         prota.setVelocity(0, -125)
         salto = false
         music.play(music.createSong(hex`
-                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                                        `), music.PlaybackMode.InBackground)
+                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                            `), music.PlaybackMode.InBackground)
     }
 }
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`heroWalkRight`,
-        100,
+        assets.animation`myAnim`,
+        200,
         true
         )
     }
@@ -144,12 +144,9 @@ function MostrarInstrucciones () {
 function CreacionPersonajes () {
     info.setLife(3)
     prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
-    controller.moveSprite(prota, 100, 100)
+    controller.moveSprite(prota, 100, 0)
     scene.cameraFollowSprite(prota)
-    prota.ay = 300
-}
-function niveles () {
-	
+    prota.ay = 200
 }
 let salto = false
 let nivel = 0
