@@ -4,7 +4,7 @@ class SpriteKind:
     Map = SpriteKind.create()
 
 def on_a_pressed():
-    if not (menu):
+    if partida:
         SistemaDeDobleSalto()
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
@@ -18,7 +18,7 @@ def GenerarMinimapa():
         scene.camera_property(CameraProperty.Y) - 44)
 
 def on_left_pressed():
-    if not (menu):
+    if partida:
         animation.run_image_animation(prota,
             assets.animation("""
                 heroWalkLeft
@@ -28,7 +28,7 @@ def on_left_pressed():
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def on_right_released():
-    if not (menu):
+    if partida:
         animation.run_image_animation(prota,
             assets.animation("""
                 heroWalkRight
@@ -38,7 +38,7 @@ def on_right_released():
 controller.right.on_event(ControllerButtonEvent.RELEASED, on_right_released)
 
 def on_left_released():
-    if not (menu):
+    if partida:
         animation.run_image_animation(prota,
             assets.animation("""
                 heroWalkLeft
@@ -93,7 +93,7 @@ def SistemaDeDobleSalto():
             music.PlaybackMode.IN_BACKGROUND)
 
 def on_right_pressed():
-    if not (menu):
+    if partida:
         animation.run_image_animation(prota,
             assets.animation("""
                 heroWalkRight
@@ -154,7 +154,7 @@ def MostrarInstrucciones():
         f f f f f f f f f f f f f f f f
         f f f f f f f f f f f f f f f f
         """))
-    game.show_long_text("A : Saltar\\nB : Atacar\\nDER./IZQ. : Moverse\\nBAJO : Minimapa",
+    game.show_long_text("A : Saltar\\nA+A : Doble salto\\nB : Atacar\\nDER./IZQ. : Moverse\\nBAJO : Minimapa",
         DialogLayout.FULL)
 def CreacionPersonajes():
     global prota
@@ -166,19 +166,19 @@ def CreacionPersonajes():
     controller.move_sprite(prota, 100, 0)
     scene.camera_follow_sprite(prota)
     prota.ay = 200
-mostrar_minimapa = False
 salto = False
 nivel = 0
 prota: Sprite = None
 myMinimap: minimap.Minimap = None
 mapStripe: Sprite = None
+mostrar_minimapa = False
 partida = False
-menu = False
 menu = True
 partida = False
+mostrar_minimapa = True
 
 def on_update_interval():
-    global menu, partida, nivel
+    global menu, nivel, partida
     if menu:
         scene.set_background_image(assets.image("""
             myImage4
@@ -186,13 +186,12 @@ def on_update_interval():
         if controller.A.is_pressed():
             menu = False
     elif not (partida):
-        partida = True
         nivel = 1
         MostrarLore()
         MostrarInstrucciones()
         CreacionPersonajes()
         GenerarNivel()
-    else:
-        if mostrar_minimapa:
-            GenerarMinimapa()
+        partida = True
+    elif mostrar_minimapa:
+        GenerarMinimapa()
 game.on_update_interval(1, on_update_interval)
