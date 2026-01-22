@@ -74,6 +74,28 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+function MostrarLore () {
+    game.setDialogTextColor(2)
+    game.setDialogFrame(img`
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
+        `)
+    game.showLongText("El caballero End debe adentrarse al castillo oscuor y derrotar a los 3 reyes que gobiernan el reino Nochesfera restaurando así la paz.", DialogLayout.Full)
+}
 function CreacionPersonajes () {
     info.setLife(3)
     prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
@@ -87,6 +109,7 @@ let salto = false
 let prota: Sprite = null
 let nivel = 0
 nivel = 1
+MostrarLore()
 CreacionPersonajes()
 GenerarNivel()
 game.onUpdateInterval(1, function () {
