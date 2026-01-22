@@ -18,7 +18,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`myAnim0`,
+        assets.animation`player_left_animated`,
         200,
         true
         )
@@ -28,7 +28,7 @@ controller.right.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`myAnim`,
+        assets.animation`player_right_animated`,
         200,
         false
         )
@@ -38,7 +38,7 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`myAnim0`,
+        assets.animation`player_left_animated`,
         200,
         false
         )
@@ -46,17 +46,17 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
 })
 function GenerarNivel () {
     if (nivel == 1) {
-        scene.setBackgroundImage(assets.image`myImage1`)
+        scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
         prota.y = 460
         prota.x = 20
     } else if (nivel == 2) {
-        scene.setBackgroundImage(assets.image`myImage`)
-        tiles.setCurrentTilemap(tilemap`level`)
+        scene.setBackgroundImage(assets.image`fondo_nivel_2`)
+        tiles.setCurrentTilemap(tilemap`nivel0`)
         prota.y = 60
         prota.x = 20
     } else if (nivel == 3) {
-        scene.setBackgroundImage(assets.image`myImage0`)
+        scene.setBackgroundImage(assets.image`fondo_nivel_3`)
         tiles.setCurrentTilemap(tilemap`nivel3`)
         prota.y = 460
         prota.x = 20
@@ -81,7 +81,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`myAnim`,
+        assets.animation`player_right_animated`,
         200,
         true
         )
@@ -99,51 +99,17 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function MostrarLore () {
     game.setDialogTextColor(2)
-    game.setDialogFrame(img`
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        `)
+    game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("El caballero End debe adentrarse al castillo oscuro y derrotar a los 3 reyes que gobiernan el reino Nochesfera, restaurando así la paz.", DialogLayout.Full)
 }
 function MostrarInstrucciones () {
     game.setDialogTextColor(2)
-    game.setDialogFrame(img`
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        f f f f f f f f f f f f f f f f 
-        `)
+    game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("A : Saltar\\nA+A : Doble salto\\nB : Atacar\\nDER./IZQ. : Moverse\\nBAJO : Minimapa", DialogLayout.Full)
 }
 function CreacionPersonajes () {
     info.setLife(3)
-    prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
+    prota = sprites.create(assets.image`player_right_image`, SpriteKind.Player)
     controller.moveSprite(prota, 100, 0)
     scene.cameraFollowSprite(prota)
     prota.ay = 200
@@ -160,7 +126,7 @@ partida = false
 mostrar_minimapa = true
 game.onUpdateInterval(1, function () {
     if (menu) {
-        scene.setBackgroundImage(assets.image`myImage4`)
+        scene.setBackgroundImage(assets.image`fondo_menu`)
         if (controller.A.isPressed()) {
             menu = false
         }

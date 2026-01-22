@@ -19,11 +19,9 @@ namespace myTiles {
     //% fixedInstance jres blockIdentity=images._tile
     export const tile24 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
-    export const tile25 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
     export const tile26 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
-    export const tile27 = image.ofBuffer(hex``);
+    export const tile25 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile28 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
@@ -55,6 +53,8 @@ namespace myTiles {
     //% fixedInstance jres blockIdentity=images._tile
     export const tile12 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
+    export const tile27 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
     export const tile13 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile16 = image.ofBuffer(hex``);
@@ -75,13 +75,13 @@ namespace myTiles {
     //% fixedInstance jres blockIdentity=images._tile
     export const tile40 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
-    export const tile20 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile21 = image.ofBuffer(hex``);
+    export const tile23 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile22 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
-    export const tile23 = image.ofBuffer(hex``);
+    export const tile21 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile20 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
@@ -151,7 +151,7 @@ namespace myTiles {
 ..................22222222222222..................
 22222222222222222222222222222222222222222222222222
 `, [myTiles.transparency16,myTiles.tile15,myTiles.tile17,myTiles.tile29,myTiles.tile34,myTiles.tile35,myTiles.tile36,myTiles.tile37,myTiles.tile38,myTiles.tile30,myTiles.tile31,myTiles.tile32,myTiles.tile33,myTiles.tile4,myTiles.tile8,myTiles.tile39,myTiles.tile40], TileScale.Sixteen);
-            case "level":
+            case "nivel0":
             case "level1":return tiles.createTilemap(hex`32001e00030303030303030302030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030203030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303020303030303030303040503030303030405030303030304050303030303040503030303030303030303030303080303030302030303030303030306070303030303060703030303030607030303030306070303030303030303030301010101030303030203030303030803030303030308030303030303080303030303030803030303030308030303030303030303030303030405020303030303010101010101010101010101010101010101010101010101010101010103030303030303030303030303060702030303030303030203030303030303030303030303030303030303030303030303020303030303030303030303080303030203080303030303020303030303030303030303030303030303030303030303030302030308030303030405030301010101020101030303030302030303030303030405030303030304050303030303030303030201010103030303060703030303030302030303030303030203030303030303060703030303030607030303030303030303020303030303030303030303030303030203030303030803020303030308030303030303080303030303030803030303030302030303030303030303030803030303020303030303010102030303010101010101010101010101010101010308030303030203030303080303010101010303030302030303030303030203030303030303030303030303030303030302010103030303020303030301010103030303030304050203030303030303020303030303030303030303030303030303030203030303030302030303030303030303030303030607020308030303030302010103030303030303030303030303030303020303030308030203030303030303030303030803030302010103030303030202020103030303030303030303030303030302030303030101020303080303030303030303010101010203030303030303020202020103030303030303030303090a0303020303030303030201010103030303040503030303030302030303030308030202020202010303030303030303080b0c0803020308030303030203030303030303060703030303030302030303030301010202020202020101010101010101010101010102010103030303020303030303030303030308030303030203030303030303030303030303030303030303030303030303030303030303030302030303030803030101010103030303020308030303030303030303030303030303030303030303030303030303030308030203030303010101030303030303040502010103030303030304050303030405030303040503030304050303030303030101020303030303030303030303030306070202020103030303030607030303060703030306070303030607030303030301020202030303030303030303030308030303020202020103030803030303080303030308030303030803030303080303010202020203030308030303030303030101010102020202020101010101010101010101010101010101010101010101010102020202020101010103030308030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030103030303030304050303030405030303040503030304050303030405030303040503030304050303030405030303030803020103030303030607030303060703030306070303030607030303060703030306070303030607030303060703030303010102020103030803030303080303030308030303030803030303080303030308030303030803030303080303030308030302020202020101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010202`, img`
 ........2.........................................
 ........2.........................................
@@ -191,86 +191,86 @@ namespace myTiles {
     helpers._registerFactory("tile", function(name: string) {
         switch(helpers.stringTrim(name)) {
             case "transparency16":return transparency16;
-            case "miMosaico1":
+            case "antorcha_nivel_1":
             case "tile3":return tile3;
-            case "myTile1":
+            case "suelo_nivel_1":
             case "tile2":return tile2;
-            case "myTile2":
+            case "ladrillo_nivel_1":
             case "tile6":return tile6;
-            case "miMosaico":
+            case "pared_nivel_1":
             case "tile1":return tile1;
-            case "myTile5":
+            case "suelo_nivel_2":
             case "tile11":return tile11;
-            case "myTile6":
+            case "ladrillo_nivel_2":
             case "tile18":return tile18;
-            case "miMosaico8":
+            case "pared_nivel_2":
             case "tile19":return tile19;
-            case "miMosaico14":
+            case "antorcha_nivel_2":
             case "tile24":return tile24;
-            case "miMosaico15":
-            case "tile25":return tile25;
-            case "miMosaico16":
+            case "puerta_2_nivel_2":
             case "tile26":return tile26;
-            case "miMosaico17":
-            case "tile27":return tile27;
-            case "miMosaico18":
+            case "puerta_1_nivel_2":
+            case "tile25":return tile25;
+            case "puerta_4_nivel_2":
             case "tile28":return tile28;
-            case "miMosaico19":
+            case "pared_nivel_3":
             case "tile15":return tile15;
-            case "myTile0":
+            case "suelo_nivel_3":
             case "tile17":return tile17;
-            case "myTile3":
+            case "ladrillo_nivel_3":
             case "tile29":return tile29;
-            case "miMosaico4":
+            case "puerta_1_nivel_1":
             case "tile9":return tile9;
-            case "miMosaico7":
+            case "puerta_2_nivel_1":
             case "tile14":return tile14;
-            case "miMosaico0":
+            case "puerta_3_nivel_1":
             case "tile5":return tile5;
-            case "miMosaico2":
+            case "puerta_4_nivel_1":
             case "tile7":return tile7;
-            case "miMosaico24":
+            case "puerta_1_nivel_3":
             case "tile34":return tile34;
-            case "miMosaico25":
+            case "puerta_2_nivel_3":
             case "tile35":return tile35;
-            case "miMosaico26":
+            case "puerta_3_nivel_3":
             case "tile36":return tile36;
-            case "miMosaico27":
+            case "puerta_4_nivel_3":
             case "tile37":return tile37;
-            case "miMosaico28":
+            case "antorhca_nivel_3":
             case "tile38":return tile38;
-            case "miMosaico3":
+            case "ventana_1_nivel_1":
             case "tile10":return tile10;
-            case "miMosaico5":
+            case "ventana_2_nivel_1":
             case "tile12":return tile12;
-            case "miMosaico6":
+            case "puerta_3_nivel_2":
+            case "tile27":return tile27;
+            case "ventana_3_nivel_1":
             case "tile13":return tile13;
-            case "miMosaico9":
+            case "ventana_4_nivel_1":
             case "tile16":return tile16;
-            case "miMosaico20":
+            case "ventana_1_nivel_3":
             case "tile30":return tile30;
-            case "miMosaico21":
+            case "ventana_2_nivel_3":
             case "tile31":return tile31;
-            case "miMosaico22":
+            case "ventana_3_nivel_3":
             case "tile32":return tile32;
-            case "miMosaico23":
+            case "ventana_4_nivel_3":
             case "tile33":return tile33;
-            case "myTile4":
+            case "pared_aula":
             case "tile8":return tile8;
-            case "myTile":
+            case "ordenador":
             case "tile4":return tile4;
-            case "myTile7":
+            case "Darky":
             case "tile39":return tile39;
-            case "myTile8":
+            case "Lucia":
             case "tile40":return tile40;
-            case "miMosaico10":
-            case "tile20":return tile20;
-            case "miMosaico11":
-            case "tile21":return tile21;
-            case "miMosaico12":
-            case "tile22":return tile22;
-            case "miMosaico13":
+            case "ventana_4_nivel_2":
             case "tile23":return tile23;
+            case "ventana_3_nivel_2":
+            case "tile22":return tile22;
+            case "ventana_2_nivel_2":
+            case "tile21":return tile21;
+            case "ventana_1_nivel_2":
+            case "tile20":return tile20;
         }
         return null;
     })
