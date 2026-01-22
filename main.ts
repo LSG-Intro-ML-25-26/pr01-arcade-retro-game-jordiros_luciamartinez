@@ -3,18 +3,8 @@ namespace SpriteKind {
     export const Map = SpriteKind.create()
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (prota.isHittingTile(CollisionDirection.Bottom)) {
-        prota.setVelocity(0, -125)
-        salto = true
-        music.play(music.createSong(hex`
-                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                            `), music.PlaybackMode.InBackground)
-    } else if (salto == true) {
-        prota.setVelocity(0, -125)
-        salto = false
-        music.play(music.createSong(hex`
-                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                            `), music.PlaybackMode.InBackground)
+    if (menu == false) {
+        SistemaDeDobleSalto()
     }
 })
 function GenerarMinimapa () {
@@ -66,6 +56,21 @@ function GenerarNivel () {
         prota.x = 20
     }
 }
+function SistemaDeDobleSalto () {
+    if (prota.isHittingTile(CollisionDirection.Bottom)) {
+        prota.setVelocity(0, -125)
+        salto = true
+        music.play(music.createSong(hex`
+                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                            `), music.PlaybackMode.InBackground)
+    } else if (salto == true) {
+        prota.setVelocity(0, -125)
+        salto = false
+        music.play(music.createSong(hex`
+                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                            `), music.PlaybackMode.InBackground)
+    }
+}
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     prota,
@@ -94,7 +99,7 @@ function MostrarLore () {
         f f f f f f f f f f f f f f f f 
         f f f f f f f f f f f f f f f f 
         `)
-    game.showLongText("El caballero End debe adentrarse al castillo oscuor y derrotar a los 3 reyes que gobiernan el reino Nochesfera restaurando así la paz.", DialogLayout.Full)
+    game.showLongText("El caballero End debe adentrarse al castillo oscuro y derrotar a los 3 reyes que gobiernan el reino Nochesfera, restaurando así la paz.", DialogLayout.Full)
 }
 function CreacionPersonajes () {
     info.setLife(3)
@@ -103,15 +108,29 @@ function CreacionPersonajes () {
     scene.cameraFollowSprite(prota)
     prota.ay = 200
 }
+let salto = false
+let nivel = 0
+let prota: Sprite = null
 let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
-let salto = false
-let prota: Sprite = null
-let nivel = 0
-nivel = 1
-MostrarLore()
-CreacionPersonajes()
-GenerarNivel()
+let menu = false
+menu = true
+let partida = false
 game.onUpdateInterval(1, function () {
-    GenerarMinimapa()
+    if (menu) {
+        scene.setBackgroundImage(assets.image`myImage4`)
+        if (controller.A.isPressed()) {
+            menu = false
+        }
+    } else {
+        if (!(partida)) {
+            partida = true
+            nivel = 1
+            MostrarLore()
+            CreacionPersonajes()
+            GenerarNivel()
+        } else {
+            GenerarMinimapa()
+        }
+    }
 })
