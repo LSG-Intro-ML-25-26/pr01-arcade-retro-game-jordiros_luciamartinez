@@ -17,6 +17,13 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
                             `), music.PlaybackMode.InBackground)
     }
 })
+function GenerarMinimapa () {
+    sprites.destroy(mapStripe)
+    myMinimap = minimap.minimap(MinimapScale.Sixteenth, 1, 15)
+    mapStripe = sprites.create(minimap.getImage(myMinimap), SpriteKind.Map)
+    minimap.includeSprite(myMinimap, prota, MinimapSpriteScale.Double)
+    mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
+}
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     prota,
@@ -41,7 +48,7 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
     false
     )
 })
-function generarNivel () {
+function GenerarNivel () {
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`myImage1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
@@ -67,29 +74,21 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
-function CreacionMinimapa () {
-    myMinimap = minimap.minimap(MinimapScale.Sixteenth, 1, 15)
-    mapStripe = sprites.create(minimap.getImage(myMinimap), SpriteKind.Map)
-}
 function CreacionPersonajes () {
+    info.setLife(3)
     prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
     controller.moveSprite(prota, 100, 0)
     scene.cameraFollowSprite(prota)
     prota.ay = 200
 }
-let mapStripe: Sprite = null
 let myMinimap: minimap.Minimap = null
+let mapStripe: Sprite = null
 let salto = false
 let prota: Sprite = null
 let nivel = 0
-info.setLife(3)
-nivel = 3
+nivel = 1
 CreacionPersonajes()
-generarNivel()
-CreacionMinimapa()
+GenerarNivel()
 game.onUpdateInterval(1, function () {
-    sprites.destroy(mapStripe)
-    CreacionMinimapa()
-    minimap.includeSprite(myMinimap, prota, MinimapSpriteScale.Double)
-    mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
+    GenerarMinimapa()
 })
