@@ -67,21 +67,21 @@ function SistemaDeDobleSalto () {
         prota.setVelocity(0, -125)
         salto = true
         music.play(music.createSong(hex`
-                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                            `), music.PlaybackMode.InBackground)
+                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                                        `), music.PlaybackMode.InBackground)
     } else if (salto == true) {
         prota.setVelocity(0, -125)
         salto = false
         music.play(music.createSong(hex`
-                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                            `), music.PlaybackMode.InBackground)
+                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                                        `), music.PlaybackMode.InBackground)
     }
 }
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`player_right_animated`,
+        assets.animation`player_left_animated`,
         200,
         true
         )
