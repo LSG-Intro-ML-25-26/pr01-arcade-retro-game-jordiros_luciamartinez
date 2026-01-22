@@ -3,7 +3,7 @@ namespace SpriteKind {
     export const Map = SpriteKind.create()
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (menu == false) {
+    if (!(menu)) {
         SistemaDeDobleSalto()
     }
 })
@@ -101,6 +101,16 @@ function MostrarLore () {
         `)
     game.showLongText("El caballero End debe adentrarse al castillo oscuro y derrotar a los 3 reyes que gobiernan el reino Nochesfera, restaurando así la paz.", DialogLayout.Full)
 }
+controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        if (mostrar_minimapa) {
+            mostrar_minimapa = false
+            sprites.destroy(mapStripe)
+        } else {
+            mostrar_minimapa = true
+        }
+    }
+})
 function CreacionPersonajes () {
     info.setLife(3)
     prota = sprites.create(assets.image`ParadaPerfilDerecho`, SpriteKind.Player)
@@ -108,28 +118,30 @@ function CreacionPersonajes () {
     scene.cameraFollowSprite(prota)
     prota.ay = 200
 }
+let mostrar_minimapa = false
 let salto = false
 let nivel = 0
 let prota: Sprite = null
 let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
+let partida = false
 let menu = false
 menu = true
-let partida = false
+partida = false
 game.onUpdateInterval(1, function () {
     if (menu) {
         scene.setBackgroundImage(assets.image`myImage4`)
         if (controller.A.isPressed()) {
             menu = false
         }
+    } else if (!(partida)) {
+        partida = true
+        nivel = 3
+        MostrarLore()
+        CreacionPersonajes()
+        GenerarNivel()
     } else {
-        if (!(partida)) {
-            partida = true
-            nivel = 1
-            MostrarLore()
-            CreacionPersonajes()
-            GenerarNivel()
-        } else {
+        if (mostrar_minimapa) {
             GenerarMinimapa()
         }
     }
