@@ -2,6 +2,28 @@ namespace SpriteKind {
     export const Decorativo = SpriteKind.create()
     export const Map = SpriteKind.create()
 }
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        SistemaDeDobleSalto()
+    }
+})
+function GenerarMinimapa () {
+    sprites.destroy(mapStripe)
+    myMinimap = minimap.minimap(MinimapScale.Sixteenth, 1, 15)
+    mapStripe = sprites.create(minimap.getImage(myMinimap), SpriteKind.Map)
+    minimap.includeSprite(myMinimap, prota, MinimapSpriteScale.Double)
+    mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
+}
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        animation.runImageAnimation(
+        prota,
+        assets.animation`player_left_animated`,
+        200,
+        true
+        )
+    }
+})
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
         animation.runImageAnimation(
@@ -20,48 +42,6 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
         200,
         false
         )
-    }
-})
-controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida) {
-        if (mostrar_minimapa) {
-            mostrar_minimapa = false
-            sprites.destroy(mapStripe)
-        } else {
-            mostrar_minimapa = true
-        }
-    }
-})
-function GenerarMinimapa () {
-    sprites.destroy(mapStripe)
-    myMinimap = minimap.minimap(MinimapScale.Sixteenth, 1, 15)
-    mapStripe = sprites.create(minimap.getImage(myMinimap), SpriteKind.Map)
-    minimap.includeSprite(myMinimap, prota, MinimapSpriteScale.Double)
-    mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
-}
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida) {
-        animation.runImageAnimation(
-        prota,
-        assets.animation`player_right_animated`,
-        200,
-        true
-        )
-    }
-})
-controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida) {
-        animation.runImageAnimation(
-        prota,
-        assets.animation`player_left_animated`,
-        200,
-        true
-        )
-    }
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida) {
-        SistemaDeDobleSalto()
     }
 })
 function GenerarNivel () {
@@ -87,16 +67,36 @@ function SistemaDeDobleSalto () {
         prota.setVelocity(0, -125)
         salto = true
         music.play(music.createSong(hex`
-                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                                        `), music.PlaybackMode.InBackground)
+                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                            `), music.PlaybackMode.InBackground)
     } else if (salto == true) {
         prota.setVelocity(0, -125)
         salto = false
         music.play(music.createSong(hex`
-                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                                        `), music.PlaybackMode.InBackground)
+                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                            `), music.PlaybackMode.InBackground)
     }
 }
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        animation.runImageAnimation(
+        prota,
+        assets.animation`player_right_animated`,
+        200,
+        true
+        )
+    }
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        if (mostrar_minimapa) {
+            mostrar_minimapa = false
+            sprites.destroy(mapStripe)
+        } else {
+            mostrar_minimapa = true
+        }
+    }
+})
 function MostrarLore () {
     game.setDialogTextColor(2)
     game.setDialogFrame(assets.image`fondo_1`)
@@ -116,9 +116,9 @@ function CreacionPersonajes () {
 }
 let salto = false
 let nivel = 0
+let prota: Sprite = null
 let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
-let prota: Sprite = null
 let mostrar_minimapa = false
 let partida = false
 let menu = true
