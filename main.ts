@@ -32,6 +32,27 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
+function CreacionEnemigos () {
+    for (let valor of tiles.getTilesByType(assets.tile`amarilloEnemigo`)) {
+        fantasma = sprites.create(assets.image`FantasmaDerecha`, SpriteKind.Enemy)
+        characterAnimations.loopFrames(
+        fantasma,
+        assets.animation`derechaFantasma`,
+        500,
+        characterAnimations.rule(Predicate.MovingRight)
+        )
+        characterAnimations.loopFrames(
+        fantasma,
+        assets.animation`izquierdaFantasma`,
+        500,
+        characterAnimations.rule(Predicate.MovingLeft)
+        )
+        tiles.placeOnTile(fantasma, valor)
+        tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+        fantasma.ay = 200
+        fantasma.follow(prota, 20)
+    }
+}
 function GenerarMinimapa () {
     sprites.destroy(mapStripe)
     myMinimap = minimap.minimap(MinimapScale.Sixteenth, 1, 15)
@@ -87,14 +108,14 @@ function SistemaDeDobleSalto () {
         prota.setVelocity(0, -125)
         salto = true
         music.play(music.createSong(hex`
-                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                            `), music.PlaybackMode.InBackground)
+                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                                        `), music.PlaybackMode.InBackground)
     } else if (salto == true) {
         prota.setVelocity(0, -125)
         salto = false
         music.play(music.createSong(hex`
-                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                            `), music.PlaybackMode.InBackground)
+                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                                        `), music.PlaybackMode.InBackground)
     }
 }
 function MostrarLore () {
@@ -117,6 +138,7 @@ function CreacionPersonajes () {
 let salto = false
 let nivel = 0
 let myMinimap: minimap.Minimap = null
+let fantasma: Sprite = null
 let mapStripe: Sprite = null
 let prota: Sprite = null
 let mostrar_minimapa = false
@@ -192,6 +214,7 @@ game.onUpdateInterval(1, function () {
         MostrarInstrucciones()
         CreacionPersonajes()
         GenerarNivel()
+        CreacionEnemigos()
         partida = true
     } else if (mostrar_minimapa) {
         GenerarMinimapa()

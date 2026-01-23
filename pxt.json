@@ -3,7 +3,8 @@
     "description": "",
     "dependencies": {
         "device": "*",
-        "arcade-minimap": "github:microsoft/arcade-minimap#v0.6.1"
+        "arcade-minimap": "github:microsoft/arcade-minimap#v0.6.1",
+        "arcade-character-animations": "github:microsoft/arcade-character-animations#v0.0.2"
     },
     "files": [
         "main.blocks",
