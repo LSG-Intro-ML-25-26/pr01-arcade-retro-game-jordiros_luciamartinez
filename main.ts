@@ -123,6 +123,7 @@ function GenerarNivel () {
         tiles.setCurrentTilemap(tilemap`nivel3`)
         prota.setPosition(20, 11)
     }
+    CreacionEnemigos()
 }
 function SistemaDeDobleSalto () {
     if (prota.isHittingTile(CollisionDirection.Bottom)) {
@@ -170,6 +171,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         prota.startEffect(effects.ashes, 1000)
         scene.cameraShake(5, 500)
         info.changeLifeBy(-1)
+        sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
         GenerarNivel()
         prota.setImage(assets.image`player`)
     }
@@ -255,7 +257,6 @@ game.onUpdateInterval(1, function () {
         MostrarInstrucciones()
         CreacionPersonajes()
         GenerarNivel()
-        CreacionEnemigos()
         partida = true
     } else if (mostrar_minimapa) {
         GenerarMinimapa()
