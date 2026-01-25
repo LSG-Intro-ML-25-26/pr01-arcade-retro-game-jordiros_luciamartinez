@@ -35,7 +35,6 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 function CreacionEnemigos () {
     for (let valor of tiles.getTilesByType(assets.tile`amarilloEnemigo`)) {
         fantasma = sprites.create(assets.image`FantasmaDerecha`, SpriteKind.Enemy)
-        fantasma_vivo = true
         characterAnimations.loopFrames(
         fantasma,
         assets.animation`derechaFantasma`,
@@ -70,6 +69,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         true
         )
         characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
+        ataque_prota2 = 0
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -81,6 +81,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         true
         )
         characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingLeft))
+        ataque_prota2 = 0
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -105,6 +106,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             false
             )
         }
+        ataque_prota2 += 1
     }
 })
 function GenerarNivel () {
@@ -158,23 +160,25 @@ function CreacionPersonajes () {
     controller.moveSprite(prota, 100, 0)
     scene.cameraFollowSprite(prota)
     prota.ay = 200
+    ataque_prota = 0
+    ataque_prota2 = 0
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (fantasma_vivo == true) {
-    	
-    } else if (fantasma_vivo == false) {
-        sprites.destroy(fantasma, effects.ashes, 500)
+    if (ataque_prota < ataque_prota2) {
+        sprites.destroy(otherSprite, effects.ashes, 200)
     } else {
+        prota.startEffect(effects.ashes, 1000)
+        scene.cameraShake(5, 500)
         info.changeLifeBy(-1)
-        prota.startEffect(effects.ashes, 500)
-        pause(100)
-        prota.setPosition(20, 460)
+        GenerarNivel()
+        prota.setImage(assets.image`player`)
     }
 })
+let ataque_prota = 0
 let salto = false
 let nivel = 0
+let ataque_prota2 = 0
 let myMinimap: minimap.Minimap = null
-let fantasma_vivo = false
 let fantasma: Sprite = null
 let mapStripe: Sprite = null
 let prota: Sprite = null
