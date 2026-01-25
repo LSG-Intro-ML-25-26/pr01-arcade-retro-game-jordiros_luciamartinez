@@ -35,6 +35,7 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 function CreacionEnemigos () {
     for (let valor of tiles.getTilesByType(assets.tile`amarilloEnemigo`)) {
         fantasma = sprites.create(assets.image`FantasmaDerecha`, SpriteKind.Enemy)
+        fantasma_vivo = true
         characterAnimations.loopFrames(
         fantasma,
         assets.animation`derechaFantasma`,
@@ -50,7 +51,7 @@ function CreacionEnemigos () {
         tiles.placeOnTile(fantasma, valor)
         tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
         fantasma.ay = 200
-        fantasma.follow(prota, 20)
+        fantasma.follow(prota, 30)
     }
 }
 function GenerarMinimapa () {
@@ -85,22 +86,38 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         SistemaDeDobleSalto()
     }
 })
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.NotMoving, Predicate.Moving, Predicate.FacingRight))) {
+            animation.runImageAnimation(
+            prota,
+            assets.animation`atacarIzquierda0`,
+            200,
+            false
+            )
+        } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.NotMoving, Predicate.Moving, Predicate.FacingLeft))) {
+            animation.runImageAnimation(
+            prota,
+            assets.animation`atacarDerecha0`,
+            200,
+            false
+            )
+        }
+    }
+})
 function GenerarNivel () {
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
-        prota.y = 460
-        prota.x = 20
+        prota.setPosition(20, 460)
     } else if (nivel == 2) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel0`)
-        prota.y = 60
-        prota.x = 20
+        prota.setPosition(20, 60)
     } else if (nivel == 3) {
         scene.setBackgroundImage(assets.image`fondo_nivel_3`)
         tiles.setCurrentTilemap(tilemap`nivel3`)
-        prota.y = 460
-        prota.x = 20
+        prota.setPosition(20, 11)
     }
 }
 function SistemaDeDobleSalto () {
@@ -123,21 +140,57 @@ function MostrarLore () {
     game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("El caballero End debe adentrarse al castillo oscuro y derrotar a los 3 reyes que gobiernan el reino Nochesfera, restaurando así la paz.", DialogLayout.Full)
 }
+info.onLifeZero(function () {
+    game.gameOver(false)
+    game.setGameOverEffect(true, effects.melt)
+})
 function MostrarInstrucciones () {
     game.setDialogTextColor(2)
     game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa", DialogLayout.Full)
 }
+controller.B.onEvent(ControllerButtonEvent.Released, function () {
+    if (partida) {
+        if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
+            animation.runImageAnimation(
+            prota,
+            assets.animation`player_left_animated`,
+            200,
+            false
+            )
+        } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingRight))) {
+            animation.runImageAnimation(
+            prota,
+            assets.animation`player_right_animated`,
+            200,
+            false
+            )
+        }
+    }
+})
 function CreacionPersonajes () {
-    info.setLife(3)
     prota = sprites.create(assets.image`player`, SpriteKind.Player)
+    info.setLife(3)
     controller.moveSprite(prota, 100, 0)
     scene.cameraFollowSprite(prota)
     prota.ay = 200
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    if (fantasma_vivo == true) {
+    	
+    } else if (fantasma_vivo == false) {
+        sprites.destroy(fantasma, effects.ashes, 500)
+    } else {
+        info.changeLifeBy(-1)
+        prota.startEffect(effects.ashes, 500)
+        pause(100)
+        prota.setPosition(20, 460)
+    }
+})
 let salto = false
 let nivel = 0
 let myMinimap: minimap.Minimap = null
+let fantasma_vivo = false
 let fantasma: Sprite = null
 let mapStripe: Sprite = null
 let prota: Sprite = null
