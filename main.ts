@@ -93,7 +93,7 @@ function GenerarNivel () {
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
-        prota.setPosition(115, 9)
+        prota.setPosition(20, 460)
     } else if (nivel == 2) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel0`)
@@ -264,6 +264,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         sprite.startEffect(effects.ashes, 1000)
         scene.cameraShake(5, 500)
         info.changeLifeBy(-1)
+        music.play(music.createSong(hex`0090010408020104001c00100500640000041e000004000000000000000000000000000a040004120000000800011d080010000119100018000119`), music.PlaybackMode.InBackground)
         sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
         GenerarNivel()
         prota.setImage(assets.image`player`)
