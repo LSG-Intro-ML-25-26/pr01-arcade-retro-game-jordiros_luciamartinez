@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const Decorativo = SpriteKind.create()
     export const Map = SpriteKind.create()
+    export const Boss = SpriteKind.create()
 }
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
@@ -32,27 +33,6 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
-function CreacionEnemigos () {
-    for (let valor of tiles.getTilesByType(assets.tile`amarilloEnemigo`)) {
-        fantasma = sprites.create(assets.image`FantasmaDerecha`, SpriteKind.Enemy)
-        characterAnimations.loopFrames(
-        fantasma,
-        assets.animation`derechaFantasma`,
-        500,
-        characterAnimations.rule(Predicate.MovingRight)
-        )
-        characterAnimations.loopFrames(
-        fantasma,
-        assets.animation`izquierdaFantasma`,
-        500,
-        characterAnimations.rule(Predicate.MovingLeft)
-        )
-        tiles.placeOnTile(fantasma, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
-        fantasma.ay = 200
-        fantasma.follow(prota, 30)
-    }
-}
 function GenerarMinimapa () {
     sprites.destroy(mapStripe)
     myMinimap = minimap.minimap(MinimapScale.Sixteenth, 1, 15)
@@ -94,14 +74,14 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingRight))) {
             animation.runImageAnimation(
             prota,
-            assets.animation`atacarDerecha0`,
+            assets.animation`atacar_derecha`,
             100,
             false
             )
         } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
             animation.runImageAnimation(
             prota,
-            assets.animation`atacarIzquierda0`,
+            assets.animation`atacar_izquierda`,
             100,
             false
             )
@@ -113,7 +93,7 @@ function GenerarNivel () {
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
-        prota.setPosition(20, 460)
+        prota.setPosition(115, 9)
     } else if (nivel == 2) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel0`)
@@ -123,7 +103,8 @@ function GenerarNivel () {
         tiles.setCurrentTilemap(tilemap`nivel3`)
         prota.setPosition(20, 11)
     }
-    CreacionEnemigos()
+    CrearEnemigos()
+    BossNivel()
 }
 function Inicio () {
     menu = true
@@ -186,6 +167,12 @@ function Inicio () {
         ...............................................................................................................................................................
         `)
 }
+statusbars.onZero(StatusBarKind.Health, function (status) {
+    sprites.destroy(serpiente, effects.disintegrate, 500)
+    sprites.destroy(statusbar)
+    boss_vivo = false
+    info.setLife(3)
+})
 function SistemaDeDobleSalto () {
     if (prota.isHittingTile(CollisionDirection.Bottom)) {
         prota.setVelocity(0, -125)
@@ -206,6 +193,33 @@ function MostrarLore () {
     game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("El caballero End debe adentrarse al castillo oscuro y derrotar a los 3 reyes que gobiernan el reino Nochesfera, restaurando así la paz.", DialogLayout.Full)
 }
+function CrearEnemigos () {
+    if (nivel == 1) {
+        for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
+            fantasma = sprites.create(assets.image`fantasma_derecha`, SpriteKind.Enemy)
+            characterAnimations.loopFrames(
+            fantasma,
+            assets.animation`derecha_fantasma`,
+            500,
+            characterAnimations.rule(Predicate.MovingRight)
+            )
+            characterAnimations.loopFrames(
+            fantasma,
+            assets.animation`izquierda_fantasma`,
+            500,
+            characterAnimations.rule(Predicate.MovingLeft)
+            )
+            tiles.placeOnTile(fantasma, valor)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+            fantasma.ay = 200
+            fantasma.follow(prota, 30)
+        }
+    } else if (nivel == 2) {
+        murcielago = sprites.create(assets.image`muercielago_izquierda`, SpriteKind.Enemy)
+    } else if (nivel == 3) {
+        caracol = sprites.create(assets.image`caracol_izquierda`, SpriteKind.Enemy)
+    }
+}
 info.onLifeZero(function () {
     game.gameOver(false)
     game.setGameOverEffect(false, effects.melt)
@@ -215,6 +229,23 @@ function MostrarInstrucciones () {
     game.setDialogTextColor(2)
     game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa", DialogLayout.Full)
+}
+function BossNivel () {
+    if (nivel == 1) {
+        serpiente = sprites.create(assets.image`serpiente_derecha`, SpriteKind.Boss)
+        serpiente.setScale(3, ScaleAnchor.Middle)
+        tiles.placeOnTile(serpiente, tiles.getTileLocation(40, 5))
+        serpiente.ay = 200
+        boss_vivo = true
+        statusbar = statusbars.create(50, 4, StatusBarKind.EnemyHealth)
+        statusbar.attachToSprite(serpiente)
+        statusbar.setColor(7, 2, 0)
+        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
+    } else if (nivel == 2) {
+    	
+    } else if (nivel == 3) {
+    	
+    }
 }
 function CreacionPersonajes () {
     prota = sprites.create(assets.image`player`, SpriteKind.Player)
@@ -230,7 +261,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     if (ataque_prota < ataque_prota2) {
         sprites.destroy(otherSprite, effects.ashes, 200)
     } else {
-        prota.startEffect(effects.ashes, 1000)
+        sprite.startEffect(effects.ashes, 1000)
         scene.cameraShake(5, 500)
         info.changeLifeBy(-1)
         sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
@@ -238,18 +269,45 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         prota.setImage(assets.image`player`)
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite, otherSprite) {
+    if (sprite.vy > 0 && sprite.y < otherSprite.y) {
+        sprite.vy = -70
+        statusbar.value += -20
+    } else {
+        info.changeLifeBy(-1)
+    }
+    pause(1000)
+})
 let ataque_prota = 0
+let caracol: Sprite = null
+let murcielago: Sprite = null
+let fantasma: Sprite = null
 let salto = false
+let boss_vivo = false
+let statusbar: StatusBarSprite = null
+let serpiente: Sprite = null
 let menu = false
 let nivel = 0
 let ataque_prota2 = 0
 let myMinimap: minimap.Minimap = null
-let fantasma: Sprite = null
 let mapStripe: Sprite = null
 let mostrar_minimapa = false
 let prota: Sprite = null
 let partida = false
 Inicio()
+game.onUpdate(function () {
+    if (boss_vivo) {
+        if (prota.x + 30 < serpiente.x) {
+            serpiente.vx = -20
+            serpiente.setImage(assets.image`serpiente_izquierda`)
+        } else if (prota.x - 30 > serpiente.x) {
+            serpiente.vx = 20
+            serpiente.setImage(assets.image`serpiente_derecha`)
+        } else {
+            serpiente.vx = 0
+        }
+    }
+})
 game.onUpdateInterval(1, function () {
     if (menu) {
         scene.setBackgroundImage(assets.image`fondo_menu`)
