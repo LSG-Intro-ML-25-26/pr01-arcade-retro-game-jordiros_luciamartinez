@@ -69,6 +69,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         200,
         true
         )
+        characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -79,6 +80,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         200,
         true
         )
+        characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingLeft))
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -88,18 +90,18 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
-        if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.NotMoving, Predicate.Moving, Predicate.FacingRight))) {
-            animation.runImageAnimation(
-            prota,
-            assets.animation`atacarIzquierda0`,
-            200,
-            false
-            )
-        } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.NotMoving, Predicate.Moving, Predicate.FacingLeft))) {
+        if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingRight))) {
             animation.runImageAnimation(
             prota,
             assets.animation`atacarDerecha0`,
-            200,
+            100,
+            false
+            )
+        } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
+            animation.runImageAnimation(
+            prota,
+            assets.animation`atacarIzquierda0`,
+            100,
             false
             )
         }
@@ -149,28 +151,10 @@ function MostrarInstrucciones () {
     game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa", DialogLayout.Full)
 }
-controller.B.onEvent(ControllerButtonEvent.Released, function () {
-    if (partida) {
-        if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
-            animation.runImageAnimation(
-            prota,
-            assets.animation`player_left_animated`,
-            200,
-            false
-            )
-        } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingRight))) {
-            animation.runImageAnimation(
-            prota,
-            assets.animation`player_right_animated`,
-            200,
-            false
-            )
-        }
-    }
-})
 function CreacionPersonajes () {
     prota = sprites.create(assets.image`player`, SpriteKind.Player)
     info.setLife(3)
+    characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
     controller.moveSprite(prota, 100, 0)
     scene.cameraFollowSprite(prota)
     prota.ay = 200
