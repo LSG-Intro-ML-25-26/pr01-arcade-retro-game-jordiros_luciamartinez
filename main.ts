@@ -330,9 +330,13 @@ game.onUpdateInterval(1, function () {
         if (controller.A.isPressed()) {
             menu = false
         }
+        if (controller.B.isPressed()) {
+            menu = false
+            MostrarLore()
+            Inicio()
+        }
     } else if (!(partida)) {
         nivel = 1
-        MostrarLore()
         MostrarInstrucciones()
         CreacionPersonajes()
         GenerarNivel()
