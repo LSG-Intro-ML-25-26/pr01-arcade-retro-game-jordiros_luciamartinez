@@ -78,6 +78,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             100,
             false
             )
+            music.play(music.createSoundEffect(WaveShape.Noise, 1364, 1, 255, 255, 100, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
         } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
             animation.runImageAnimation(
             prota,
@@ -85,15 +86,26 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             100,
             false
             )
+            music.setVolume(255)
+            music.play(music.createSoundEffect(WaveShape.Noise, 1364, 1, 255, 255, 100, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
         }
         ataque_prota2 += 1
     }
 })
+statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
+    sprites.destroy(serpiente, effects.disintegrate, 500)
+    sprites.destroy(statusbar)
+    boss_vivo = false
+    info.setLife(3)
+    nivel_superado = true
+})
 function GenerarNivel () {
+    nivel_superado = false
+    sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
-        prota.setPosition(20, 460)
+        prota.setPosition(400, 9)
     } else if (nivel == 2) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel0`)
@@ -167,12 +179,6 @@ function Inicio () {
         ...............................................................................................................................................................
         `)
 }
-statusbars.onZero(StatusBarKind.Health, function (status) {
-    sprites.destroy(serpiente, effects.disintegrate, 500)
-    sprites.destroy(statusbar)
-    boss_vivo = false
-    info.setLife(3)
-})
 function SistemaDeDobleSalto () {
     if (prota.isHittingTile(CollisionDirection.Bottom)) {
         prota.setVelocity(0, -125)
@@ -223,7 +229,14 @@ function CrearEnemigos () {
 info.onLifeZero(function () {
     game.gameOver(false)
     game.setGameOverEffect(false, effects.melt)
+    pause(1000)
     Inicio()
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite, location) {
+    if (nivel_superado == true && controller.up.isPressed()) {
+        nivel += 1
+        GenerarNivel()
+    }
 })
 function MostrarInstrucciones () {
     game.setDialogTextColor(2)
@@ -238,6 +251,7 @@ function BossNivel () {
         serpiente.ay = 200
         boss_vivo = true
         statusbar = statusbars.create(50, 4, StatusBarKind.EnemyHealth)
+        statusbar.value = 20
         statusbar.attachToSprite(serpiente)
         statusbar.setColor(7, 2, 0)
         statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
@@ -260,6 +274,7 @@ function CreacionPersonajes () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (ataque_prota < ataque_prota2) {
         sprites.destroy(otherSprite, effects.ashes, 200)
+        music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.UntilDone)
     } else {
         sprite.startEffect(effects.ashes, 1000)
         scene.cameraShake(5, 500)
@@ -267,7 +282,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         music.play(music.createSong(hex`0090010408020104001c00100500640000041e000004000000000000000000000000000a040004120000000800011d080010000119100018000119`), music.PlaybackMode.InBackground)
         sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
         GenerarNivel()
-        prota.setImage(assets.image`player`)
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite, otherSprite) {
@@ -284,11 +298,12 @@ let caracol: Sprite = null
 let murcielago: Sprite = null
 let fantasma: Sprite = null
 let salto = false
+let menu = false
+let nivel = 0
+let nivel_superado = false
 let boss_vivo = false
 let statusbar: StatusBarSprite = null
 let serpiente: Sprite = null
-let menu = false
-let nivel = 0
 let ataque_prota2 = 0
 let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
