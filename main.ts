@@ -102,10 +102,11 @@ statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
 function GenerarNivel () {
     nivel_superado = false
     sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
-        prota.setPosition(400, 9)
+        prota.setPosition(20, 460)
     } else if (nivel == 2) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel0`)
@@ -234,7 +235,13 @@ info.onLifeZero(function () {
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite, location) {
     if (nivel_superado == true && controller.up.isPressed()) {
-        nivel += 1
+        nivel = 2
+        GenerarNivel()
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_2`, function (sprite, location) {
+    if (nivel_superado == true && controller.up.isPressed()) {
+        nivel = 3
         GenerarNivel()
     }
 })
