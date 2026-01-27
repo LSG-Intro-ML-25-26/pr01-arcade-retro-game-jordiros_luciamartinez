@@ -1055,6 +1055,63 @@ fcffcfffffffffffcaacccccccccffffffffffccccffffcffffff8cccffffffffffffcffffffffff
 ccfccfffffffffffcccacfcccfccffffffffffccccfffcbcfffff8cc8ffffffffffccfffffffffffcccffffffffff8fcccffffffffffffcccccffffffffffccccbbbbaaaacccffcccccf88cffccffff
 fccfcffffffffffccfcccccccfccffffffffffccccfffccffffff8cccfffffffffffccffffffffffffcccffffffff888ccffffffffffffcccccfffffffffffccccccccfffffffffcccccfffffffffff
 `;
+            case "image13":
+            case "miImagen":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`;
+            case "image15":
+            case "arana_derecha":return img`
+.........................
+.........................
+.........................
+..eeeeeee................
+..e.....e.....eeeeeeeee..
+..e.....e.....e.......e..
+..e...eeeeeee.e.......e..
+..e..e45e5555ee.......e..
+..e.e4455555555e......e..
+..e.e44455555555e.....e..
+..e.e44ee5ee555eeee...e..
+eeeeee4e445e55e5555eeeeee
+e.e.e44e444e5e552525e.e.e
+e.e..e4e444e4e552425e.e.e
+e.e...eeeeeeeee5555e..e.e
+e.e....e...e...eeee...e.e
+`;
+            case "image16":
+            case "arana_izquierda":return img`
+.........................
+.........................
+.........................
+................eeeeeee..
+..eeeeeeeee.....e.....e..
+..e.......e.....e.....e..
+..e.......e.eeeeeee...e..
+..e.......ee5555e54e..e..
+..e......e5555555544e.e..
+..e.....e55555555444e.e..
+..e...eeee555ee5ee44e.e..
+eeeeee5555e55e544e4eeeeee
+e.e.e525255e5e444e44e.e.e
+e.e.e524255e4e444e4e..e.e
+e.e..e5555eeeeeeeee...e.e
+e.e...eeee...e...e....e.e
+`;
         }
         return null;
     })

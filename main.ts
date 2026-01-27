@@ -93,7 +93,14 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
-    sprites.destroy(serpiente, effects.disintegrate, 500)
+    if (nivel == 1) {
+        boss_actual = serpiente
+    } else if (nivel == 2) {
+        boss_actual = arana
+    } else if (nivel == 3) {
+        boss_actual = serpiente
+    }
+    sprites.destroy(boss_actual, effects.disintegrate, 500)
     sprites.destroy(statusbar)
     boss_vivo = false
     info.setLife(3)
@@ -106,11 +113,11 @@ function GenerarNivel () {
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
-        prota.setPosition(400, 9)
+        prota.setPosition(20, 460)
     } else if (nivel == 2) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel0`)
-        prota.setPosition(20, 60)
+        prota.setPosition(500, 200)
     } else if (nivel == 3) {
         scene.setBackgroundImage(assets.image`fondo_nivel_3`)
         tiles.setCurrentTilemap(tilemap`nivel3`)
@@ -263,7 +270,16 @@ function BossNivel () {
         statusbar.setColor(7, 2, 0)
         statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
     } else if (nivel == 2) {
-    	
+        arana = sprites.create(assets.image`arana_derecha`, SpriteKind.Boss)
+        arana.setScale(2.5, ScaleAnchor.Middle)
+        tiles.placeOnTile(arana, tiles.getTileLocation(25, 13))
+        arana.ay = 200
+        boss_vivo = true
+        statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
+        statusbar.value = 20
+        statusbar.attachToSprite(arana)
+        statusbar.setColor(7, 2, 0)
+        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
     } else if (nivel == 3) {
     	
     }
@@ -300,7 +316,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite, otherSpr
         if (nivel == 1) {
             prota.setPosition(320, 9)
         } else if (nivel == 2) {
-            prota.setPosition(0, 0)
+            prota.setPosition(500, 150)
         } else if (nivel == 3) {
             prota.setPosition(0, 0)
         }
@@ -313,11 +329,13 @@ let murcielago: Sprite = null
 let fantasma: Sprite = null
 let salto = false
 let menu = false
-let nivel = 0
 let nivel_superado = false
 let boss_vivo = false
 let statusbar: StatusBarSprite = null
+let arana: Sprite = null
 let serpiente: Sprite = null
+let boss_actual: Sprite = null
+let nivel = 0
 let ataque_prota2 = 0
 let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
@@ -327,14 +345,28 @@ let partida = false
 Inicio()
 game.onUpdate(function () {
     if (boss_vivo) {
-        if (prota.x + 30 < serpiente.x) {
-            serpiente.vx = -20
-            serpiente.setImage(assets.image`serpiente_izquierda`)
-        } else if (prota.x - 30 > serpiente.x) {
-            serpiente.vx = 20
-            serpiente.setImage(assets.image`serpiente_derecha`)
-        } else {
-            serpiente.vx = 0
+        if (nivel == 1) {
+            if (prota.x + 30 < serpiente.x) {
+                serpiente.vx = -20
+                serpiente.setImage(assets.image`serpiente_izquierda`)
+            } else if (prota.x - 30 > serpiente.x) {
+                serpiente.vx = 20
+                serpiente.setImage(assets.image`serpiente_derecha`)
+            } else {
+                serpiente.vx = 0
+            }
+        } else if (nivel == 2) {
+            if (prota.x + 30 < arana.x) {
+                arana.vx = -20
+                arana.setImage(assets.image`arana_izquierda`)
+            } else if (prota.x - 30 > arana.x) {
+                arana.vx = 20
+                arana.setImage(assets.image`arana_derecha`)
+            } else {
+                arana.vx = 0
+            }
+        } else if (nivel == 3) {
+        	
         }
     }
 })
@@ -350,7 +382,7 @@ game.onUpdateInterval(1, function () {
             Inicio()
         }
     } else if (!(partida)) {
-        nivel = 1
+        nivel = 2
         MostrarInstrucciones()
         CreacionPersonajes()
         GenerarNivel()
