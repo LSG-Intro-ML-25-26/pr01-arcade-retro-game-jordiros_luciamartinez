@@ -106,7 +106,7 @@ function GenerarNivel () {
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
-        prota.setPosition(20, 460)
+        prota.setPosition(400, 9)
     } else if (nivel == 2) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel0`)
@@ -185,14 +185,14 @@ function SistemaDeDobleSalto () {
         prota.setVelocity(0, -125)
         salto = true
         music.play(music.createSong(hex`
-                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                                        `), music.PlaybackMode.InBackground)
+                                                                                                    00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                                                                                                    `), music.PlaybackMode.InBackground)
     } else if (salto == true) {
         prota.setVelocity(0, -125)
         salto = false
         music.play(music.createSong(hex`
-                                        00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                                        `), music.PlaybackMode.InBackground)
+                                                                                                    00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                                                                                                    `), music.PlaybackMode.InBackground)
     }
 }
 function MostrarLore () {
@@ -294,9 +294,16 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite, otherSprite) {
     if (sprite.vy > 0 && sprite.y < otherSprite.y) {
         sprite.vy = -70
-        statusbar.value += -20
+        statusbar.value += -200
     } else {
         info.changeLifeBy(-1)
+        if (nivel == 1) {
+            prota.setPosition(320, 9)
+        } else if (nivel == 2) {
+            prota.setPosition(0, 0)
+        } else if (nivel == 3) {
+            prota.setPosition(0, 0)
+        }
     }
     pause(1000)
 })
@@ -333,7 +340,7 @@ game.onUpdate(function () {
 })
 game.onUpdateInterval(1, function () {
     if (menu) {
-        scene.setBackgroundImage(assets.image`fondo_menu`)
+        scene.setBackgroundImage(assets.image`fondo_menu2`)
         if (controller.A.isPressed()) {
             menu = false
         }
