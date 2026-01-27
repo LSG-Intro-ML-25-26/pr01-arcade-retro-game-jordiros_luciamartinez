@@ -67,12 +67,12 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_3`, function (
     if (nivel_superado) {
         prota_en_puerta += 1
         MostrarFlecha()
-    }
-    if (controller.up.isPressed()) {
-        music.stopAllSounds()
-        game.gameOver(true)
-        pause(1000)
-        Inicio()
+        if (controller.up.isPressed()) {
+            music.stopAllSounds()
+            game.gameOver(true)
+            pause(1000)
+            Inicio()
+        }
     }
 })
 function GenerarMinimapa () {
@@ -120,7 +120,6 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             100,
             false
             )
-            music.setVolume(255)
             music.play(music.createSoundEffect(WaveShape.Noise, 1364, 1, 255, 255, 100, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
         } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
             animation.runImageAnimation(
@@ -129,7 +128,6 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             100,
             false
             )
-            music.setVolume(255)
             music.play(music.createSoundEffect(WaveShape.Noise, 1364, 1, 255, 255, 100, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
         }
         ataque_prota2 += 1
@@ -146,12 +144,12 @@ statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
         boss_actual = leviatan
         flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel3`, SpriteKind.indicador)
     }
+    music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.InBackground)
     sprites.destroy(boss_actual, effects.disintegrate, 500)
     sprites.destroy(statusbar)
-    boss_vivo = false
-    music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.InBackground)
     info.setLife(3)
     nivel_superado = true
+    boss_vivo = false
 })
 function YouLost () {
     game.gameOver(false)
@@ -160,20 +158,21 @@ function YouLost () {
 function GenerarNivel () {
     nivel_superado = false
     prota_en_puerta = 0
+    sprites.destroyAllSpritesOfKind(SpriteKind.indicador)
     sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel1`)
-        prota.setPosition(600, 8)
+        prota.setPosition(20, 460)
     } else if (nivel == 2) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel0`)
-        prota.setPosition(500, 200)
+        prota.setPosition(20, 60)
     } else if (nivel == 3) {
         scene.setBackgroundImage(assets.image`fondo_nivel_3`)
         tiles.setCurrentTilemap(tilemap`nivel3`)
-        prota.setPosition(600, 450)
+        prota.setPosition(20, 11)
     }
     CrearEnemigos()
     BossNivel()
@@ -244,24 +243,24 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (
     if (nivel_superado) {
         prota_en_puerta += 1
         MostrarFlecha()
-    }
-    if (controller.up.isPressed()) {
-        nivel = 2
-        music.play(music.createSoundEffect(WaveShape.Noise, 1, 452, 255, 255, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
-        boss_vivo = true
-        GenerarNivel()
+        if (controller.up.isPressed()) {
+            nivel = 2
+            music.play(music.createSoundEffect(WaveShape.Noise, 1, 452, 255, 255, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+            boss_vivo = true
+            GenerarNivel()
+        }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_2`, function (sprite, location) {
     if (nivel_superado) {
         prota_en_puerta += 1
         MostrarFlecha()
-    }
-    if (controller.up.isPressed()) {
-        nivel = 3
-        music.play(music.createSoundEffect(WaveShape.Noise, 1, 452, 255, 255, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
-        boss_vivo = true
-        GenerarNivel()
+        if (controller.up.isPressed()) {
+            nivel = 3
+            music.play(music.createSoundEffect(WaveShape.Noise, 1, 452, 255, 255, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+            boss_vivo = true
+            GenerarNivel()
+        }
     }
 })
 function MostrarInstrucciones () {
@@ -271,36 +270,28 @@ function MostrarInstrucciones () {
 }
 function BossNivel () {
     if (boss_vivo == true) {
+        statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
+        statusbar.max = 9
+        statusbar.setColor(7, 2, 0)
+        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
         if (nivel == 1) {
             serpiente = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
             serpiente.setScale(3, ScaleAnchor.Middle)
             tiles.placeOnTile(serpiente, tiles.getTileLocation(40, 5))
             serpiente.ay = 200
-            statusbar = statusbars.create(50, 4, StatusBarKind.EnemyHealth)
-            statusbar.value = 20
             statusbar.attachToSprite(serpiente)
-            statusbar.setColor(7, 2, 0)
-            statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
         } else if (nivel == 2) {
             arana = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
             arana.setScale(2.5, ScaleAnchor.Middle)
             tiles.placeOnTile(arana, tiles.getTileLocation(25, 13))
             arana.ay = 200
-            statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
-            statusbar.value = 20
             statusbar.attachToSprite(arana)
-            statusbar.setColor(7, 2, 0)
-            statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
         } else if (nivel == 3) {
             leviatan = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
             leviatan.setScale(2.5, ScaleAnchor.Middle)
             tiles.placeOnTile(leviatan, tiles.getTileLocation(44, 22))
             leviatan.ay = 200
-            statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
-            statusbar.value = 20
             statusbar.attachToSprite(leviatan)
-            statusbar.setColor(7, 2, 0)
-            statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
         }
     }
 }
@@ -322,7 +313,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         sprite.startEffect(effects.ashes, 1000)
         scene.cameraShake(5, 500)
         info.changeLifeBy(-1)
-        music.play(music.createSong(hex`0090010408020104001c00100500640000041e000004000000000000000000000000000a040004120000000800011d080010000119100018000119`), music.PlaybackMode.InBackground)
+        music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
         sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
         GenerarNivel()
     }
@@ -330,17 +321,18 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite, otherSprite) {
     if (sprite.vy > 0 && sprite.y < otherSprite.y) {
         sprite.vy = -70
-        statusbar.value += -200
+        statusbar.value += -3
+        music.play(music.createSoundEffect(WaveShape.Noise, 1259, 0, 255, 255, 100, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.UntilDone)
     } else {
         info.changeLifeBy(-1)
-        music.play(music.createSong(hex`0090010408020104001c00100500640000041e000004000000000000000000000000000a040004120000000800011d080010000119100018000119`), music.PlaybackMode.InBackground)
-        if (nivel == 1) {
-            prota.setPosition(320, 9)
-        } else if (nivel == 2) {
-            prota.setPosition(360, 150)
-        } else if (nivel == 3) {
-            prota.setPosition(0, 0)
-        }
+        music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
+    }
+    if (nivel == 1 && statusbar.value > 1) {
+        sprite.x = otherSprite.x - 50
+    } else if (nivel == 2 && statusbar.value > 1) {
+        sprite.x = otherSprite.x - 50
+    } else if (nivel == 3 && statusbar.value > 1) {
+        sprite.x = otherSprite.x - 50
     }
     pause(1000)
 })
