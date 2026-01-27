@@ -69,8 +69,10 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_3`, function (
         MostrarFlecha()
     }
     if (controller.up.isPressed()) {
-        scene.setBackgroundImage(assets.image`fondo_ganador`)
-        tiles.setCurrentTilemap(tilemap`fondo_transparente_final`)
+        music.stopAllSounds()
+        game.gameOver(true)
+        pause(1000)
+        Inicio()
     }
 })
 function GenerarMinimapa () {
@@ -118,6 +120,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             100,
             false
             )
+            music.setVolume(255)
             music.play(music.createSoundEffect(WaveShape.Noise, 1364, 1, 255, 255, 100, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
         } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
             animation.runImageAnimation(
@@ -146,9 +149,14 @@ statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
     sprites.destroy(boss_actual, effects.disintegrate, 500)
     sprites.destroy(statusbar)
     boss_vivo = false
+    music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.InBackground)
     info.setLife(3)
     nivel_superado = true
 })
+function YouLost () {
+    game.gameOver(false)
+    game.setGameOverEffect(false, effects.melt)
+}
 function GenerarNivel () {
     nivel_superado = false
     prota_en_puerta = 0
@@ -171,10 +179,13 @@ function GenerarNivel () {
     BossNivel()
 }
 function Inicio () {
+    music.setVolume(70)
+    music.play(music.createSong(assets.song`background_song`), music.PlaybackMode.LoopingInBackground)
     menu = true
     partida = false
     mostrar_minimapa = true
-    scene.setBackgroundImage(assets.image`volver_menu`)
+    boss_vivo = true
+    scene.setBackgroundImage(assets.image`fondo_menu2`)
 }
 function SistemaDeDobleSalto () {
     if (prota.isHittingTile(CollisionDirection.Bottom)) {
@@ -224,10 +235,10 @@ function CrearEnemigos () {
     }
 }
 info.onLifeZero(function () {
-    game.gameOver(false)
-    game.setGameOverEffect(false, effects.melt)
-    pause(1000)
-    Inicio()
+    music.stopAllSounds()
+    menu = true
+    scene.setBackgroundImage(assets.image`fondo_perdedor`)
+    tiles.setCurrentTilemap(tilemap`nivel4`)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite, location) {
     if (nivel_superado) {
@@ -236,6 +247,8 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (
     }
     if (controller.up.isPressed()) {
         nivel = 2
+        music.play(music.createSoundEffect(WaveShape.Noise, 1, 452, 255, 255, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+        boss_vivo = true
         GenerarNivel()
     }
 })
@@ -246,6 +259,8 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_2`, function (
     }
     if (controller.up.isPressed()) {
         nivel = 3
+        music.play(music.createSoundEffect(WaveShape.Noise, 1, 452, 255, 255, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+        boss_vivo = true
         GenerarNivel()
     }
 })
@@ -255,39 +270,38 @@ function MostrarInstrucciones () {
     game.showLongText("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa", DialogLayout.Full)
 }
 function BossNivel () {
-    if (nivel == 1) {
-        serpiente = sprites.create(assets.image`serpiente_derecha`, SpriteKind.Boss)
-        serpiente.setScale(3, ScaleAnchor.Middle)
-        tiles.placeOnTile(serpiente, tiles.getTileLocation(40, 5))
-        serpiente.ay = 200
-        boss_vivo = true
-        statusbar = statusbars.create(50, 4, StatusBarKind.EnemyHealth)
-        statusbar.value = 20
-        statusbar.attachToSprite(serpiente)
-        statusbar.setColor(7, 2, 0)
-        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
-    } else if (nivel == 2) {
-        arana = sprites.create(assets.image`arana_derecha`, SpriteKind.Boss)
-        arana.setScale(2.5, ScaleAnchor.Middle)
-        tiles.placeOnTile(arana, tiles.getTileLocation(25, 13))
-        arana.ay = 200
-        boss_vivo = true
-        statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
-        statusbar.value = 20
-        statusbar.attachToSprite(arana)
-        statusbar.setColor(7, 2, 0)
-        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
-    } else if (nivel == 3) {
-        leviatan = sprites.create(assets.image`arana_derecha`, SpriteKind.Boss)
-        leviatan.setScale(2.5, ScaleAnchor.Middle)
-        tiles.placeOnTile(leviatan, tiles.getTileLocation(44, 22))
-        leviatan.ay = 200
-        boss_vivo = true
-        statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
-        statusbar.value = 20
-        statusbar.attachToSprite(leviatan)
-        statusbar.setColor(7, 2, 0)
-        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
+    if (boss_vivo == true) {
+        if (nivel == 1) {
+            serpiente = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
+            serpiente.setScale(3, ScaleAnchor.Middle)
+            tiles.placeOnTile(serpiente, tiles.getTileLocation(40, 5))
+            serpiente.ay = 200
+            statusbar = statusbars.create(50, 4, StatusBarKind.EnemyHealth)
+            statusbar.value = 20
+            statusbar.attachToSprite(serpiente)
+            statusbar.setColor(7, 2, 0)
+            statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
+        } else if (nivel == 2) {
+            arana = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
+            arana.setScale(2.5, ScaleAnchor.Middle)
+            tiles.placeOnTile(arana, tiles.getTileLocation(25, 13))
+            arana.ay = 200
+            statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
+            statusbar.value = 20
+            statusbar.attachToSprite(arana)
+            statusbar.setColor(7, 2, 0)
+            statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
+        } else if (nivel == 3) {
+            leviatan = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
+            leviatan.setScale(2.5, ScaleAnchor.Middle)
+            tiles.placeOnTile(leviatan, tiles.getTileLocation(44, 22))
+            leviatan.ay = 200
+            statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
+            statusbar.value = 20
+            statusbar.attachToSprite(leviatan)
+            statusbar.setColor(7, 2, 0)
+            statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
+        }
     }
 }
 function CreacionPersonajes () {
@@ -319,10 +333,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite, otherSpr
         statusbar.value += -200
     } else {
         info.changeLifeBy(-1)
+        music.play(music.createSong(hex`0090010408020104001c00100500640000041e000004000000000000000000000000000a040004120000000800011d080010000119100018000119`), music.PlaybackMode.InBackground)
         if (nivel == 1) {
             prota.setPosition(320, 9)
         } else if (nivel == 2) {
-            prota.setPosition(500, 150)
+            prota.setPosition(360, 150)
         } else if (nivel == 3) {
             prota.setPosition(0, 0)
         }
@@ -357,30 +372,30 @@ game.onUpdate(function () {
         if (nivel == 1) {
             if (prota.x + 30 < serpiente.x) {
                 serpiente.vx = -20
-                serpiente.setImage(assets.image`serpiente_izquierda`)
+                serpiente.setImage(assets.image`leviatan_izquierda`)
             } else if (prota.x - 30 > serpiente.x) {
                 serpiente.vx = 20
-                serpiente.setImage(assets.image`serpiente_derecha`)
+                serpiente.setImage(assets.image`leviatan_derecha`)
             } else {
                 serpiente.vx = 0
             }
         } else if (nivel == 2) {
             if (prota.x + 30 < arana.x) {
                 arana.vx = -20
-                arana.setImage(assets.image`arana_izquierda`)
+                arana.setImage(assets.image`faraon_izquierda`)
             } else if (prota.x - 30 > arana.x) {
                 arana.vx = 20
-                arana.setImage(assets.image`arana_derecha`)
+                arana.setImage(assets.image`faraon_derecha`)
             } else {
                 arana.vx = 0
             }
         } else if (nivel == 3) {
             if (prota.x + 30 < leviatan.x) {
                 leviatan.vx = -20
-                leviatan.setImage(assets.image`arana_izquierda`)
+                leviatan.setImage(assets.image`faraon_izquierda`)
             } else if (prota.x - 30 > leviatan.x) {
                 leviatan.vx = 20
-                leviatan.setImage(assets.image`arana_derecha`)
+                leviatan.setImage(assets.image`faraon_derecha`)
             } else {
                 leviatan.vx = 0
             }
@@ -396,10 +411,11 @@ game.onUpdateInterval(1, function () {
         if (controller.B.isPressed()) {
             menu = false
             MostrarLore()
-            Inicio()
+            scene.setBackgroundImage(assets.image`fondo_menu2`)
+            menu = true
         }
     } else if (!(partida)) {
-        nivel = 3
+        nivel = 1
         MostrarInstrucciones()
         CreacionPersonajes()
         GenerarNivel()
