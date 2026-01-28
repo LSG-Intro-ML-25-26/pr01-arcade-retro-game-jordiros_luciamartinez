@@ -386,7 +386,7 @@ function CrearEnemigos () {
     }
 }
 info.onLifeZero(function () {
-    if (!(win)) {
+    if (!(win) && !(end_game)) {
         EndGame()
     }
 })
@@ -436,6 +436,7 @@ function BossNivel () {
     }
 }
 function EndGame () {
+    end_game = true
     partida = false
     boss_vivo = false
     final = true
@@ -447,6 +448,7 @@ function EndGame () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Map)
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
 }
+let end_game = false
 let fantasma: Sprite = null
 let salto = false
 let boss_vivo = false
@@ -503,6 +505,7 @@ game.onUpdateInterval(1, function () {
         CreacionPersonaje()
         nivel = 1
         win = false
+        end_game = false
         GenerarNivel()
         partida = true
     } else if (mostrar_minimapa) {
