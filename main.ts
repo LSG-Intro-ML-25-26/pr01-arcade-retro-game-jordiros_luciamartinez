@@ -302,8 +302,8 @@ function NextLevel () {
         pause(10)
         if (controller.up.isPressed()) {
             if (nivel == 3) {
-                EndGame()
                 win = true
+                EndGame()
             } else {
                 music.play(music.createSoundEffect(WaveShape.Noise, 1, 452, 255, 255, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
                 nivel += 1
@@ -386,7 +386,9 @@ function CrearEnemigos () {
     }
 }
 info.onLifeZero(function () {
-    EndGame()
+    if (!(win)) {
+        EndGame()
+    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite4, otherSprite) {
     if (ataque_prota < ataque_prota2) {
@@ -438,6 +440,7 @@ function EndGame () {
     boss_vivo = false
     final = true
     mostrar_minimapa = false
+    info.setLife(0)
     sprites.destroy(mapStripe)
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
@@ -498,7 +501,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         CreacionPersonaje()
-        nivel = 1
+        nivel = 3
         win = false
         GenerarNivel()
         partida = true
