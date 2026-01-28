@@ -15,26 +15,6 @@ function Boss2 () {
         arana.vx = 0
     }
 }
-controller.right.onEvent(ControllerButtonEvent.Released, function () {
-    if (partida) {
-        animation.runImageAnimation(
-        prota,
-        assets.animation`player_right_animated`,
-        200,
-        false
-        )
-    }
-})
-controller.left.onEvent(ControllerButtonEvent.Released, function () {
-    if (partida) {
-        animation.runImageAnimation(
-        prota,
-        assets.animation`player_left_animated`,
-        200,
-        false
-        )
-    }
-})
 function MostrarFlecha () {
     if (!(jugador_en_puerta)) {
         if (nivel == 1) {
@@ -64,6 +44,16 @@ function MostrarFlecha () {
         }
     }
 }
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingRight))) {
+            AtaqueDerecha()
+        } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
+            AtaqueIzquierda()
+        }
+        ataque_prota2 += 1
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_2`, function (sprite3, location3) {
     NextLevel()
 })
@@ -77,16 +67,6 @@ function CreacionPersonaje () {
     ataque_prota = 0
     ataque_prota2 = 0
 }
-controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida) {
-        if (mostrar_minimapa) {
-            mostrar_minimapa = false
-            sprites.destroy(mapStripe)
-        } else {
-            mostrar_minimapa = true
-        }
-    }
-})
 function EnemigoNivel2 () {
     for (let valor2 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         murcielago = sprites.create(assets.image`muercielago_izquierda`, SpriteKind.Enemy)
@@ -110,6 +90,11 @@ function EnemigoNivel2 () {
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_3`, function (sprite, location) {
     NextLevel()
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        SistemaDeDobleSalto()
+    }
 })
 function GenerarMinimapa () {
     sprites.destroy(mapStripe)
@@ -143,15 +128,15 @@ function Boss3 () {
         leviatan.vx = 0
     }
 }
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
         animation.runImageAnimation(
         prota,
-        assets.animation`player_right_animated`,
+        assets.animation`player_left_animated`,
         200,
         true
         )
-        characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
+        characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingLeft))
         ataque_prota2 = 0
     }
 })
@@ -176,18 +161,6 @@ function EnemigoNivel3 () {
         tiburon.follow(prota, 30)
     }
 }
-controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida) {
-        animation.runImageAnimation(
-        prota,
-        assets.animation`player_left_animated`,
-        200,
-        true
-        )
-        characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingLeft))
-        ataque_prota2 = 0
-    }
-})
 function ShowFinal () {
     tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     if (win) {
@@ -202,19 +175,24 @@ function ShowFinal () {
         pause(1000)
     }
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.right.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
-        SistemaDeDobleSalto()
+        animation.runImageAnimation(
+        prota,
+        assets.animation`player_right_animated`,
+        200,
+        false
+        )
     }
 })
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.left.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
-        if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingRight))) {
-            AtaqueDerecha()
-        } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
-            AtaqueIzquierda()
-        }
-        ataque_prota2 += 1
+        animation.runImageAnimation(
+        prota,
+        assets.animation`player_left_animated`,
+        200,
+        false
+        )
     }
 })
 statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
@@ -284,6 +262,18 @@ function SistemaDeDobleSalto () {
                             `), music.PlaybackMode.InBackground)
     }
 }
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        animation.runImageAnimation(
+        prota,
+        assets.animation`player_right_animated`,
+        200,
+        true
+        )
+        characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
+        ataque_prota2 = 0
+    }
+})
 function AtaqueIzquierda () {
     animation.runImageAnimation(
     prota,
@@ -340,6 +330,16 @@ function AtaqueDerecha () {
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite2, location2) {
     NextLevel()
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (partida) {
+        if (mostrar_minimapa) {
+            mostrar_minimapa = false
+            sprites.destroy(mapStripe)
+        } else {
+            mostrar_minimapa = true
+        }
+    }
 })
 function EnemigoNivel1 () {
     for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
@@ -463,10 +463,10 @@ let tiburon: Sprite = null
 let leviatan: Sprite = null
 let statusbar: StatusBarSprite = null
 let myMinimap: minimap.Minimap = null
-let murcielago: Sprite = null
 let mapStripe: Sprite = null
-let ataque_prota2 = 0
+let murcielago: Sprite = null
 let ataque_prota = 0
+let ataque_prota2 = 0
 let flecha_puerta_nivel: Sprite = null
 let nivel = 0
 let jugador_en_puerta = false
@@ -507,7 +507,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         CreacionPersonaje()
-        nivel = 2
+        nivel = 1
         win = false
         end_game = false
         GenerarNivel()

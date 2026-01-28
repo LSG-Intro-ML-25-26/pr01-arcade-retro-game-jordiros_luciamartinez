@@ -1,4 +1,4 @@
-// Código generado automáticamente. No editar.
+// Auto-generated code. Do not edit.
 namespace myImages {
 
     helpers._registerFactory("image", function(name: string) {
@@ -732,44 +732,6 @@ e.e.e524255e4e444e4e..e.e
 e.e..e5555eeeeeeeee...e.e
 e.e...eeee...e...e....e.e
 `;
-            case "image15":
-            case "faraon_derecha":return img`
-.........................
-.........................
-.........................
-..eeeeeee................
-..e.....e.....eeeeeeeee..
-..e.....e.....e.......e..
-..e...eeeeeee.e.......e..
-..e..e45e5555ee.......e..
-..e.e4455555555e......e..
-..e.e44455555555e.....e..
-..e.e44ee5ee555eeee...e..
-eeeeee4e445e55e5555eeeeee
-e.e.e44e444e5e552525e.e.e
-e.e..e4e444e4e552425e.e.e
-e.e...eeeeeeeee5555e..e.e
-e.e....e...e...eeee...e.e
-`;
-            case "image12":
-            case "caracol_izquierda":return img`
-.............ccfff..............
-...........ccddbcf..............
-..........ccddbbf...............
-..........fccbbcf...............
-.....fffffccccccff.........ccc..
-...ffbbbbbbbcbbbbcfff....ccbbc..
-..fbbbbbbbbcbcbbbbcccff.cdbbc...
-ffbbbbbbffbbcbcbbbcccccfcdbbf...
-fbcbbb11ff1bcbbbbbcccccffbbf....
-fbbb11111111bbbbbcccccccbbcf....
-.fb11133cc11bbbbcccccccccccf....
-..fccc31c111bbbcccccbdbffbbcf...
-...fc13c111cbbbfcddddcc..fbbf...
-....fccc111fbdbbccdcc.....fbbf..
-........ccccfcdbbcc........fff..
-.............fffff..............
-`;
             case "image8":
             case "fondo_perdedor":return img`
 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -832,20 +794,20 @@ bbbbbccccbbbeebeeeeeeebeccccccbccbbcbbbbbbbbbccccbbbeebeeeeeeebeccccccbccbbcbbbb
 bbbbbcccbbeebbeeeeeebebbccccccbccbcbbbbbbbbbbcccbbeebbeeeeeebebbccccccbccbcbbbbbbbbbbcccbbeebbeeeeeebebbccccccbccbcbbbbbbbbbbcccbbeebbeeeeeebebbccccccbccbcbbbbb
 bbbbbcccbbbbbeebbeebbebbccccccbcccbbbbbbbbbbbcccbbbbbeebbeebbebbccccccbcccbbbbbbbbbbbcccbbbbbeebbeebbebbccccccbcccbbbbbbbbbbbcccbbbbbeebbeebbebbccccccbcccbbbbbb
 bbbbbcccbbbcbebbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbebbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbebbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbebbbbbbbbbbbcccccccbbbbbbbb
-bbbbbcccbbbcbbbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbbbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbbbbbbbbbbbbbcccccccbbbbbbbbb222bcccbbbcbbbbbbbbbbbbbcccccccbbbbbbbb
-bbbbbcccbbbcbcbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccccbbbbbbb2244422ccbbbcbcbbbbbbbbbbbcccccccbbbbbbbb
-bbbbbcccbbbcbcbbbbbbbbbbbccccccbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbccccccbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbccccccbbbbbbb244444442cbbbcbcbbbbbbbbbbbccccccbbbbbbbbb
-bbbbbcccbbbcbcbbbbbbbbbbbcccccbbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccbbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccbbbbbbb24442224442bbbcbcbbbbbbbbbbbcccccbbbbbbbbbb
-bbbbbccbbbbcccbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbbcccbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbbcccbbbbbbbbbbbcccccbbbbbb2444244424442bbcccbbbbbbbbbbbcccccbbbbbbbbbb
-bbbbbccbbbcccbbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbcccbbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbcccbbbbbbbbbbbbcccccbbbbbb2444244424442bcccbbbbbbbbbbbbcccccbbbbbbbbbb
-bbbbcccbbbcbbbbbbbbbffbbbcccccbfbbbbbbbbbbbbcccbbbcbbbbbbbbbffbbbcccccbfbbbbbbbbbbbbcccbbbcbbbbbbbbbffbbbcccccbfbbbb2444222224442bcbbbbbbbbbffbbbcccccbfbbbbbbbb
-bbbbcccbbbcbbbbbbbbbbffbccccccbbffbbbbfbbbbbcccbbbcbbbbbbbbbbffbccccccbbffbbbbfbbbbbcccbbbcbbbbbbbbbbffbccccccbbffbb2444244424442bcbbbbbbbbbbffbccccccbbffbbbbfb
-bbbbcccbcccbbbbbbbbbbbbbcccccccbbfbbbffbbbbbcccbcccbbbbbbbbbbbbbcccccccbbfbbbffbbbbbcccbcccbbbbbbbbbbbbbcccccccbbfbb2444244424442ccbbbbbbbbbbbbbcccccccbbfbbbffb
-ffbbccccccbbbbbbbbfbbbbbcccccccbbbbbbfbbffbbccccccbbbbbbbbfbbbbbcccccccbbbbbbfbbffbbccccccbbbbbbbbfbbbbbcccccccbbbbb2444244424442cbbbbbbbbfbbbbbcccccccbbbbbbfbb
-bffbcccccbbffbbbbffbbbbfcccccccfbbbbbbbbbffbcccccbbffbbbbffbbbbfcccccccfbbbbbbbbbffbcccccbbffbbbbffbbbbfcccccccfbbbbb24444444442cbbffbbbbffbbbbfcccccccfbbbbbbbb
-bfffcccccbbbffbbffbbfbffcccccccfbbbfbbbbbfffcccccbbbffbbffbbfbffcccccccfbbbfbbbbbfffcccccbbbffbbffbbfbffcccccccfbbbfbb244444442ccbbbffbbffbbfbffcccccccfbbbfbbbb
-bfffcccbbbbbbbbbfbbfffffcccccccffbffbbfbbfffcccbbbbbbbbbfbbfffffcccccccffbffbbfbbfffcccbbbbbbbbbfbbfffffcccccccffbffbbf2244422cbbbbbbbbbfbbfffffcccccccffbffbbfb
-ffffcccfbbbbbbbbbbbfffffcccccccffffbbfffffffcccfbbbbbbbbbbbfffffcccccccffffbbfffffffcccfbbbbbbbbbbbfffffcccccccffffbbffff222cccfbbbbbbbbbbbfffffcccccccffffbbfff
+bbbbbcccbbbcbbbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbbbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbbbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbbbbbbbbbbbbbcccccccbbbbbbbb
+bbbbbcccbbbcbcbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccccbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccccbbbbbbbb
+bbbbbcccbbbcbcbbbbbbbbbbbccccccbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbccccccbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbccccccbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbccccccbbbbbbbbb
+bbbbbcccbbbcbcbbbbbbbbbbbcccccbbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccbbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccbbbbbbbbbbbbbbbcccbbbcbcbbbbbbbbbbbcccccbbbbbbbbbb
+bbbbbccbbbbcccbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbbcccbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbbcccbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbbcccbbbbbbbbbbbcccccbbbbbbbbbb
+bbbbbccbbbcccbbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbcccbbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbcccbbbbbbbbbbbbcccccbbbbbbbbbbbbbbbccbbbcccbbbbbbbbbbbbcccccbbbbbbbbbb
+bbbbcccbbbcbbbbbbbbbffbbbcccccbfbbbbbbbbbbbbcccbbbcbbbbbbbbbffbbbcccccbfbbbbbbbbbbbbcccbbbcbbbbbbbbbffbbbcccccbfbbbbbbbbbbbbcccbbbcbbbbbbbbbffbbbcccccbfbbbbbbbb
+bbbbcccbbbcbbbbbbbbbbffbccccccbbffbbbbfbbbbbcccbbbcbbbbbbbbbbffbccccccbbffbbbbfbbbbbcccbbbcbbbbbbbbbbffbccccccbbffbbbbfbbbbbcccbbbcbbbbbbbbbbffbccccccbbffbbbbfb
+bbbbcccbcccbbbbbbbbbbbbbcccccccbbfbbbffbbbbbcccbcccbbbbbbbbbbbbbcccccccbbfbbbffbbbbbcccbcccbbbbbbbbbbbbbcccccccbbfbbbffbbbbbcccbcccbbbbbbbbbbbbbcccccccbbfbbbffb
+ffbbccccccbbbbbbbbfbbbbbcccccccbbbbbbfbbffbbccccccbbbbbbbbfbbbbbcccccccbbbbbbfbbffbbccccccbbbbbbbbfbbbbbcccccccbbbbbbfbbffbbccccccbbbbbbbbfbbbbbcccccccbbbbbbfbb
+bffbcccccbbffbbbbffbbbbfcccccccfbbbbbbbbbffbcccccbbffbbbbffbbbbfcccccccfbbbbbbbbbffbcccccbbffbbbbffbbbbfcccccccfbbbbbbbbbffbcccccbbffbbbbffbbbbfcccccccfbbbbbbbb
+bfffcccccbbbffbbffbbfbffcccccccfbbbfbbbbbfffcccccbbbffbbffbbfbffcccccccfbbbfbbbbbfffcccccbbbffbbffbbfbffcccccccfbbbfbbbbbfffcccccbbbffbbffbbfbffcccccccfbbbfbbbb
+bfffcccbbbbbbbbbfbbfffffcccccccffbffbbfbbfffcccbbbbbbbbbfbbfffffcccccccffbffbbfbbfffcccbbbbbbbbbfbbfffffcccccccffbffbbfbbfffcccbbbbbbbbbfbbfffffcccccccffbffbbfb
+ffffcccfbbbbbbbbbbbfffffcccccccffffbbfffffffcccfbbbbbbbbbbbfffffcccccccffffbbfffffffcccfbbbbbbbbbbbfffffcccccccffffbbfffffffcccfbbbbbbbbbbbfffffcccccccffffbbfff
 ffffcccfbbbfbbfffbbfffffcccccccfffffffffffffcccfbbbfbbfffbbfffffcccccccfffffffffffffcccfbbbfbbfffbbfffffcccccccfffffffffffffcccfbbbfbbfffbbfffffcccccccfffffffff
 ffffcccfbbfffbffffbfffffcccccccfffffffffffffcccfbbfffbffffbfffffcccccccfffffffffffffcccfbbfffbffffbfffffcccccccfffffffffffffcccfbbfffbffffbfffffcccccccfffffffff
 ffffcccfffffffffffffffffcccccccfffffffffffffcccfffffffffffffffffcccccccfffffffffffffcccfffffffffffffffffcccccccfffffffffffffcccfffffffffffffffffcccccccfffffffff
@@ -958,20 +920,20 @@ bb333333333333333333b3333bbb3b333333333bbb33333333d8888addb3b3333bbb3b333333333b
 33333bbb333b3333333333333bbbbbbb3333333333333bbb333b3333333333333bbbbbbb3333333333333bbb333b3333333333333bbbbbbb3333333333333bbb333b3333333333333bbbbbbb33333333
 33333bbb333b3b33333333333bbbbbbb3333333333333bbb333b3b33333333333bbbbbbb3333333333333bbb333b3b33333333333bbbbbbb3333333333333bbb333b3b33333333333bbbbbbb33333333
 33333bbb333b3b33333333333bbbbbb33333333333333bbb333b3b33333333333bbbbbb33333333333333bbb333b3b33333333333bbbbbb33333333333333bbb333b3b33333333333bbbbbb333333333
-33333bbb333b3b33333333333bbbbb333333333333333bbb333b3b33333333333bbbbb333333333333333bbb333b3b33333333333bbbbb333333333322233bbb333b3b33333333333bbbbb3333333333
-33333bb3333bbb33333333333bbbbb333333333333333bb3333bbb33333333333bbbbb333333333333333bb3333bbb33333333333bbbbb333333332244422bb3333bbb33333333333bbbbb3333333333
-33333bb333bbb333333333333bbbbb333333333333333bb333bbb333333333333bbbbb333333333333333bb333bbb333333333333bbbbb3333333244444442b333bbb333333333333bbbbb3333333333
-3333bbb333b333333333dd333bbbbb3d333333333333bbb333b333333333dd333bbbbb3d333333333333bbb333b333333333dd333bbbbb3d333324442224442333b333333333dd333bbbbb3d33333333
-3333bbb333b3333333333dd3bbbbbb33dd3333d33333bbb333b3333333333dd3bbbbbb33dd3333d33333bbb333b3333333333dd3bbbbbb33dd3244424442444233b3333333333dd3bbbbbb33dd3333d3
-3333bbb3bbb3333333333333bbbbbbb33d333dd33333bbb3bbb3333333333333bbbbbbb33d333dd33333bbb3bbb3333333333333bbbbbbb33d32444244424442bbb3333333333333bbbbbbb33d333dd3
-dd33bbbbbb33333333d33333bbbbbbb333333d33dd33bbbbbb33333333d33333bbbbbbb333333d33dd33bbbbbb33333333d33333bbbbbbb33332444222224442bb33333333d33333bbbbbbb333333d33
-3dd3bbbbb33dd3333dd3333dbbbbbbbd333333333dd3bbbbb33dd3333dd3333dbbbbbbbd333333333dd3bbbbb33dd3333dd3333dbbbbbbbd3332444244424442b33dd3333dd3333dbbbbbbbd33333333
-3dddbbbbb333dd33dd33d3ddbbbbbbbd333d33333dddbbbbb333dd33dd33d3ddbbbbbbbd333d33333dddbbbbb333dd33dd33d3ddbbbbbbbd3332444244424442b333dd33dd33d3ddbbbbbbbd333d3333
-3dddbbb333333333d33dddddbbbbbbbdd3dd33d33dddbbb333333333d33dddddbbbbbbbdd3dd33d33dddbbb333333333d33dddddbbbbbbbdd3d244424442444233333333d33dddddbbbbbbbdd3dd33d3
-ddddbbbd33333333333dddddbbbbbbbdddd33dddddddbbbd33333333333dddddbbbbbbbdddd33dddddddbbbd33333333333dddddbbbbbbbdddd324444444442d33333333333dddddbbbbbbbdddd33ddd
-ddddbbbd333d33ddd33dddddbbbbbbbdddddddddddddbbbd333d33ddd33dddddbbbbbbbdddddddddddddbbbd333d33ddd33dddddbbbbbbbdddddd244444442bd333d33ddd33dddddbbbbbbbddddddddd
-ddddbbbd33ddd3dddd3dddddbbbbbbbdddddddddddddbbbd33ddd3dddd3dddddbbbbbbbdddddddddddddbbbd33ddd3dddd3dddddbbbbbbbddddddd2244422bbd33ddd3dddd3dddddbbbbbbbddddddddd
-ddddbbbdddddddddddddddddbbbbbbbdddddddddddddbbbdddddddddddddddddbbbbbbbdddddddddddddbbbdddddddddddddddddbbbbbbbddddddddd222dbbbdddddddddddddddddbbbbbbbddddddddd
+33333bbb333b3b33333333333bbbbb333333333333333bbb333b3b33333333333bbbbb333333333333333bbb333b3b33333333333bbbbb333333333333333bbb333b3b33333333333bbbbb3333333333
+33333bb3333bbb33333333333bbbbb333333333333333bb3333bbb33333333333bbbbb333333333333333bb3333bbb33333333333bbbbb333333333333333bb3333bbb33333333333bbbbb3333333333
+33333bb333bbb333333333333bbbbb333333333333333bb333bbb333333333333bbbbb333333333333333bb333bbb333333333333bbbbb333333333333333bb333bbb333333333333bbbbb3333333333
+3333bbb333b333333333dd333bbbbb3d333333333333bbb333b333333333dd333bbbbb3d333333333333bbb333b333333333dd333bbbbb3d333333333333bbb333b333333333dd333bbbbb3d33333333
+3333bbb333b3333333333dd3bbbbbb33dd3333d33333bbb333b3333333333dd3bbbbbb33dd3333d33333bbb333b3333333333dd3bbbbbb33dd3333d33333bbb333b3333333333dd3bbbbbb33dd3333d3
+3333bbb3bbb3333333333333bbbbbbb33d333dd33333bbb3bbb3333333333333bbbbbbb33d333dd33333bbb3bbb3333333333333bbbbbbb33d333dd33333bbb3bbb3333333333333bbbbbbb33d333dd3
+dd33bbbbbb33333333d33333bbbbbbb333333d33dd33bbbbbb33333333d33333bbbbbbb333333d33dd33bbbbbb33333333d33333bbbbbbb333333d33dd33bbbbbb33333333d33333bbbbbbb333333d33
+3dd3bbbbb33dd3333dd3333dbbbbbbbd333333333dd3bbbbb33dd3333dd3333dbbbbbbbd333333333dd3bbbbb33dd3333dd3333dbbbbbbbd333333333dd3bbbbb33dd3333dd3333dbbbbbbbd33333333
+3dddbbbbb333dd33dd33d3ddbbbbbbbd333d33333dddbbbbb333dd33dd33d3ddbbbbbbbd333d33333dddbbbbb333dd33dd33d3ddbbbbbbbd333d33333dddbbbbb333dd33dd33d3ddbbbbbbbd333d3333
+3dddbbb333333333d33dddddbbbbbbbdd3dd33d33dddbbb333333333d33dddddbbbbbbbdd3dd33d33dddbbb333333333d33dddddbbbbbbbdd3dd33d33dddbbb333333333d33dddddbbbbbbbdd3dd33d3
+ddddbbbd33333333333dddddbbbbbbbdddd33dddddddbbbd33333333333dddddbbbbbbbdddd33dddddddbbbd33333333333dddddbbbbbbbdddd33dddddddbbbd33333333333dddddbbbbbbbdddd33ddd
+ddddbbbd333d33ddd33dddddbbbbbbbdddddddddddddbbbd333d33ddd33dddddbbbbbbbdddddddddddddbbbd333d33ddd33dddddbbbbbbbdddddddddddddbbbd333d33ddd33dddddbbbbbbbddddddddd
+ddddbbbd33ddd3dddd3dddddbbbbbbbdddddddddddddbbbd33ddd3dddd3dddddbbbbbbbdddddddddddddbbbd33ddd3dddd3dddddbbbbbbbdddddddddddddbbbd33ddd3dddd3dddddbbbbbbbddddddddd
+ddddbbbdddddddddddddddddbbbbbbbdddddddddddddbbbdddddddddddddddddbbbbbbbdddddddddddddbbbdddddddddddddddddbbbbbbbdddddddddddddbbbdddddddddddddddddbbbbbbbddddddddd
 ddddbbb3ddddddddddddddddbbbbbbbdddddddddddddbbb3ddddddddddddddddbbbbbbbdddddddddddddbbb3ddddddddddddddddbbbbbbbdddddddddddddbbb3ddddddddddddddddbbbbbbbddddddddd
 ddddbbb3ddddddddddddddddbbbbbbbdddddddddddddbbb3ddddddddddddddddbbbbbbbdddddddddddddbbb3ddddddddddddddddbbbbbbbdddddddddddddbbb3ddddddddddddddddbbbbbbbddddddddd
 ddddbbbbddddddddddddddddbbbbbbbdddddddddddddbbbbddddddddddddddddbbbbbbbdddddddddddddbbbbddddddddddddddddbbbbbbbdddddddddddddbbbbddddddddddddddddbbbbbbbddddddddd
@@ -1016,39 +978,75 @@ ddd3bbbbbbdddddddddddd3bbbbbbbbbddddddddddd3bbbbbbdddddddddddd3bbbbbbbbbdddffeee
 4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
 4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
 `;
+            case "image11":
+            case "muercielago_izquierda":return img`
+. . f f f . . . . . . . . . . . 
+f f f c c . . . . . . . . f f f 
+f f c c . . c c . . . f c b b c 
+f f c 3 c c 3 c c f f b b b c . 
+f f b 3 b c 3 b c f b b c c c . 
+. c b b b b b b c f b c b c c . 
+. c b b b b b b c b b c b b c . 
+c b 1 b b b 1 b b b c c c b c . 
+c b b b b b b b b c c c c c . . 
+f b c b b b c b b b b f c . . . 
+f b 1 f f f 1 b b b b f c c . . 
+. f b b b b b b b b c f . . . . 
+. . f b b b b b b c f . . . . . 
+. . . f f f f f f f . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`;
+            case "image15":
+            case "faraon_derecha":return img`
+.........................
+.........................
+.........................
+..eeeeeee................
+..e.....e.....eeeeeeeee..
+..e.....e.....e.......e..
+..e...eeeeeee.e.......e..
+..e..e45e5555ee.......e..
+..e.e4455555555e......e..
+..e.e44455555555e.....e..
+..e.e44ee5ee555eeee...e..
+eeeeee4e445e55e5555eeeeee
+e.e.e44e444e5e552525e.e.e
+e.e..e4e444e4e552425e.e.e
+e.e...eeeeeeeee5555e..e.e
+e.e....e...e...eeee...e.e
+`;
             case "image20":
             case "myImage0":return img`
-.......fffff..................
-.....ff66cc6ff................
-.....fccccbcbcf...............
-...ff66cccbbc6f...............
-...fcfccbbbc6c6f........ff....
-.ffcf2cccbbcccc6f......f6bf...
-fcccb2cccbccccc6f.....f6b66f..
-fcbcc2ccccccccc6f...ffbbbb66f.
-.fcccccccccccc66f..f6bb6b66f..
-.1fccccccccccc6cf.fbbcf66ff...
-.1.fcccccccccccf..f6bf.ff.....
-f1fccccccccccccf.fcbbf........
-.fbbccccccccccf..fcbbf........
-..fbccffccccc6f..fccbcf.......
-...fffcccccc6f....f6bccff.....
-.....fcccccc6f....fbbcbccff...
-....fccbbcccf......fbc6bcccf..
-....fccbbc6f........f6cb6ccbf.
-...fbccbccf..........ff6ccbbbf
-...fcbccc66f...........fcbbbbf
-...fcbccccc6f.........f66cbbbf
-...fcbccccc66ff....fffbbbbbcbf
-...fcbccccc6bb6ffff66bbbccccf.
-...fccccccbbbb6bbbbb66ccccccf.
-....fcccccccbb66cccccccccccf..
-....fcccccccccc6cccccffffff...
-.....ffcccccccccccfff.........
-.......fffffffffff............
+........fffff.................
+......ff66cc6fff..............
+......fccccbcbcf..............
+....ff66cccbbc6f..............
+....fcccbbbbc66f.....ffffff...
+..ffccc2ccbbcccf...ffb6666f...
+.fcccb22ccbccccf..f6bb666f....
+.fcbcc22cccccc6f.fbbcf66f.....
+..ffcccccccccc6f.f6bf.ff......
+...dfccccccccccffcbbf.........
+..ffbccccccccccffcbbf.........
+..fcbccffccccc6ffccbcf........
+..fffffcccccc6f..f6bccff......
+......fcccccc6f..fbbcbccff....
+.....fccbbcccf....fbc6bcccf...
+.....fccbbc6f......f6cb6ccbf..
+....fbccbcc6f.......ff6ccbbbf.
+....fcbccc6f..........fcbbbbf.
+....fcbcccccf........f66cbbbf.
+....fcbccccc6ff....ffbbbbbcbf.
+....fcbccccc6bbffff6bbbccccf..
+....fccccccbbbb6bbb66ccccccf..
+.....fcccccccbb6ccccccccccf...
+.....fccccccccccccccffffff....
+......ffcccccccccfff..........
+........fffffffff.............
 `;
             case "image19":
-            case "myImage2":return img`
+            case "myImage":return img`
 .................fffff........
 ..............fff6cc66ff......
 ..............fcbcbccccf......
@@ -1076,55 +1074,24 @@ f1fccccccccccccf.fcbbf........
 ..........fffcccccccccff......
 .............fffffffff........
 `;
-            case "image7":
-            case "myImage":return img`
-..................fffff.......
-................ff6cc66ff.....
-...............fcbcbccccf.....
-...............f6cbbccc66ff...
-....ff........f6c6cbbbccfcf...
-...fb6f......f6ccccbbccc2fcff.
-..f66b6f.....f6cccccbccc2bcccf
-.f66bbbbff...f6ccccccccc2ccbcf
-..f66b6bb6f..f66ccccccccccccf.
-...ff66fcbbf.fc6cccccccccccf1.
-.....ff.fb6f..fcccccccccccf.1.
-........fbbcf.fccccccccccccf1f
-........fbbcf..fccccccccccbbf.
-.......fcbccf..f6cccccffccbf..
-.....ffccb6f....f6ccccccfff...
-...ffccbcbbf....f6ccccccf.....
-..fcccb6cbf......fcccbbccf....
-.fbcc6bc6f........f6cbbccf....
-fbbbcc6ff..........fccbccbf...
-fbbbbcf...........f66cccbcf...
-fbbbc66f.........f6cccccbcf...
-fbcbbbbbfff....ff66cccccbcf...
-.fccccbbb66ffff6bb6cccccbcf...
-.fcccccc66bbbbb6bbbbccccccf...
-..fccccccccccc66bbcccccccf....
-...ffffffccccc6ccccccccccf....
-.........fffcccccccccccff.....
-............fffffffffff.......
-`;
-            case "image11":
-            case "muercielago_izquierda":return img`
-. . f f f . . . . . . . . . . . 
-f f f c c . . . . . . . . f f f 
-f f c c . . c c . . . f c b b c 
-f f c 3 c c 3 c c f f b b b c . 
-f f b 3 b c 3 b c f b b c c c . 
-. c b b b b b b c f b c b c c . 
-. c b b b b b b c b b c b b c . 
-c b 1 b b b 1 b b b c c c b c . 
-c b 1 b b b 1 b b c c c c c . . 
-f b b b b b b b b b b f c . . . 
-f b 1 f f f 1 b b b b f c c . . 
-. f b b b b b b b b c f . . . . 
-. . f b b b b b b c f . . . . . 
-. . . f f f f f f f . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
+            case "image12":
+            case "caracol_izquierda":return img`
+.............ccfff..............
+...........ccddbcf..............
+..........ccddbbf...............
+..........fccbbcf...............
+.....fffffccccccff.........ccc..
+...ffbbbbbbbcbbbbcfff....ccbbc..
+..fbbbbbbbbcbcbbbbcccff.cdbbc...
+ffbbbbbbffbbcbcbbbcccccfcdbbf...
+fbcbbb11ff1bcbbbbbcccccffbbf....
+fbbb11111111bbbbbcccccccbbcf....
+.fb11133cc11bbbbcccccccccccf....
+..fccc31c111bbbcccccbdbffbbcf...
+...fc13c111cbbbfcddddcc..fbbf...
+....fccc111fbdbbccdcc.....fbbf..
+........ccccfcdbbcc........fff..
+.............fffff..............
 `;
         }
         return null;
@@ -1980,6 +1947,146 @@ f e e 4 d 4 1 f d d e f . . . . .
 . . . . f f f f f f . . . . . . . 
 . . . . . f f f . . . . . . . . . 
 `];
+            case "derecha_fantasma":
+            case "anim4":return [img`
+f f f . . . . . . . . f f f . . 
+c b b c f . . . . . . c c f f . 
+. c b b c f . . . . . . c c f f 
+. c c c b f . . . . . . c f c f 
+. c c b b c f . c c . c c f f f 
+. c b b c b f c c 3 c c 3 c f f 
+. c b c c b f c b 3 c b 3 b f f 
+. . c c c b b c b b b b b b c . 
+. . . c c c c b b 1 b b b 1 c . 
+. . . . c c b b b b b b b b b c 
+. . . . f b b b b c b b b c b c 
+. . . c f b b b b 1 f f f 1 b f 
+. . c c f b b b b b b b b b b f 
+. . . . f c b b b b b b b b f . 
+. . . . . f c b b b b b b f . . 
+. . . . . . f f f f f f f . . . 
+`, img`
+. . . . . . . . . . . f f f . . 
+f f f . . . . . . . . c c f f f 
+c b b c f . . . c c . . c c f f 
+. c b b b f f c c 3 c c 3 c f f 
+. c c c b b f c b 3 c b 3 b f f 
+. c c b c b f c b b b b b b c . 
+. c b b c b b c b b b b b b c . 
+. c b c c c b b b 1 b b b 1 b c 
+. . c c c c c b b b b b b b b c 
+. . . c f b b b b c b b b c b f 
+. . c c f b b b b 1 f f f 1 b f 
+. . . . f c b b b b b b b b f . 
+. . . . . f c b b b b b b f . . 
+. . . . . . f f f f f f f . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . c c . . c c . . 
+. . . . . . c c c 3 c c 3 c . . 
+. . . . . c c c b 3 c b 3 b c . 
+. . . . f f b b b b b b b b c . 
+. . . . f f b b b b b b b b c c 
+. . . f f f c b b 1 b b b 1 b c 
+. . . f f f f b b b b b b b b c 
+. . . b b b c c b c b b b c b f 
+. . . c c c c f b 1 f f f 1 b f 
+. . . c c b b f b b b b b b f . 
+. . . c b b c c b b b b b f c c 
+. . c b b c c f f f f f f c c c 
+. c c c c c . . . . . . c c c . 
+c c c c . . . . . . . c c c . . 
+. . . . . . . . . . . . . . . . 
+`, img`
+. f f f . . . . . . . . f f f . 
+. c b b c f . . . . . . . c f f 
+. . c b b c f . . . . . . c c f 
+. . c c c b f . . . . . . . f c 
+. . c c b b f f . . . . . f f c 
+. . c b b c b f c c . c c f f f 
+. . c b c c b f c c c c c f f f 
+. . . c c c b c b 3 c c 3 c f . 
+. . . c c c c b b 3 c b 3 b c . 
+. . . . c c b b b b b b b b c c 
+. . . c f b b b b 1 b b b 1 b c 
+. . c c f b b b b b b b b b b f 
+. . . . f b b b b c b b b c b f 
+. . . . f c b b b 1 f f f 1 f . 
+. . . . . f c b b b b b b f . . 
+. . . . . . f f f f f f f . . . 
+`];
+            case "murcielago_animacion_izquierda":
+            case "5w7xlNCgdfv4`JN}i(wS":return [img`
+. . f f f . . . . . . . . f f f 
+. f f c c . . . . . . f c b b c 
+f f c c . . . . . . f c b b c . 
+f c f c . . . . . . f b c c c . 
+f f f c c . c c . f c b b c c . 
+f f c 3 c c 3 c c f b c b b c . 
+f f b 3 b c 3 b c f b c c b c . 
+. c b b b b b b c b b c c c . . 
+. c 1 b b b 1 b b c c c c . . . 
+c b b b b b b b b b c c . . . . 
+c b c b b b c b b b b f . . . . 
+f b 1 f f f 1 b b b b f c . . . 
+f b b b b b b b b b b f c c . . 
+. f b b b b b b b b c f . . . . 
+. . f b b b b b b c f . . . . . 
+. . . f f f f f f f . . . . . . 
+`, img`
+. . f f f . . . . . . . . . . . 
+f f f c c . . . . . . . . f f f 
+f f c c . . c c . . . f c b b c 
+f f c 3 c c 3 c c f f b b b c . 
+f f b 3 b c 3 b c f b b c c c . 
+. c b b b b b b c f b c b c c . 
+. c b b b b b b c b b c b b c . 
+c b 1 b b b 1 b b b c c c b c . 
+c b b b b b b b b c c c c c . . 
+f b c b b b c b b b b f c . . . 
+f b 1 f f f 1 b b b b f c c . . 
+. f b b b b b b b b c f . . . . 
+. . f b b b b b b c f . . . . . 
+. . . f f f f f f f . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, img`
+. . . . . . . . . . . . . . . . 
+. . c c . . c c . . . . . . . . 
+. . c 3 c c 3 c c c . . . . . . 
+. c b 3 b c 3 b c c c . . . . . 
+. c b b b b b b b b f f . . . . 
+c c b b b b b b b b f f . . . . 
+c b 1 b b b 1 b b c f f f . . . 
+c b b b b b b b b f f f f . . . 
+f b c b b b c b c c b b b . . . 
+f b 1 f f f 1 b f c c c c . . . 
+. f b b b b b b f b b c c . . . 
+c c f b b b b b c c b b c . . . 
+c c c f f f f f f c c b b c . . 
+. c c c . . . . . . c c c c c . 
+. . c c c . . . . . . . c c c c 
+. . . . . . . . . . . . . . . . 
+`, img`
+. f f f . . . . . . . . f f f . 
+f f c . . . . . . . f c b b c . 
+f c c . . . . . . f c b b c . . 
+c f . . . . . . . f b c c c . . 
+c f f . . . . . f f b b c c . . 
+f f f c c . c c f b c b b c . . 
+f f f c c c c c f b c c b c . . 
+. f c 3 c c 3 b c b c c c . . . 
+. c b 3 b c 3 b b c c c c . . . 
+c c b b b b b b b b c c . . . . 
+c b 1 b b b 1 b b b b f c . . . 
+f b b b b b b b b b b f c c . . 
+f b c b b b c b b b b f . . . . 
+. f 1 f f f 1 b b b c f . . . . 
+. . f b b b b b b c f . . . . . 
+. . . f f f f f f f . . . . . . 
+`];
             case "pez_animacion_derecha":
             case "+}wN_07c04!k?#hzG[s]":return [img`
 ..............fffcc.............
@@ -2120,146 +2227,6 @@ fbbb1111ff1bcbcbbbcccccccbbbcf..
 .......cccccfbdbbfc.............
 .............fffff..............
 `];
-            case "derecha_fantasma":
-            case "anim4":return [img`
-f f f . . . . . . . . f f f . . 
-c b b c f . . . . . . c c f f . 
-. c b b c f . . . . . . c c f f 
-. c c c b f . . . . . . c f c f 
-. c c b b c f . c c . c c f f f 
-. c b b c b f c c 3 c c 3 c f f 
-. c b c c b f c b 3 c b 3 b f f 
-. . c c c b b c b b b b b b c . 
-. . . c c c c b b 1 b b b 1 c . 
-. . . . c c b b b 1 b b b 1 b c 
-. . . . f b b b b b b b b b b c 
-. . . c f b b b b 1 f f f 1 b f 
-. . c c f b b b b b b b b b b f 
-. . . . f c b b b b b b b b f . 
-. . . . . f c b b b b b b f . . 
-. . . . . . f f f f f f f . . . 
-`, img`
-. . . . . . . . . . . f f f . . 
-f f f . . . . . . . . c c f f f 
-c b b c f . . . c c . . c c f f 
-. c b b b f f c c 3 c c 3 c f f 
-. c c c b b f c b 3 c b 3 b f f 
-. c c b c b f c b b b b b b c . 
-. c b b c b b c b b b b b b c . 
-. c b c c c b b b 1 b b b 1 b c 
-. . c c c c c b b 1 b b b 1 b c 
-. . . c f b b b b b b b b b b f 
-. . c c f b b b b 1 f f f 1 b f 
-. . . . f c b b b b b b b b f . 
-. . . . . f c b b b b b b f . . 
-. . . . . . f f f f f f f . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`, img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . c c . . c c . . 
-. . . . . . c c c 3 c c 3 c . . 
-. . . . . c c c b 3 c b 3 b c . 
-. . . . f f b b b b b b b b c . 
-. . . . f f b b b b b b b b c c 
-. . . f f f c b b 1 b b b 1 b c 
-. . . f f f f b b 1 b b b 1 b c 
-. . . b b b c c b b b b b b b f 
-. . . c c c c f b 1 f f f 1 b f 
-. . . c c b b f b b b b b b f . 
-. . . c b b c c b b b b b f c c 
-. . c b b c c f f f f f f c c c 
-. c c c c c . . . . . . c c c . 
-c c c c . . . . . . . c c c . . 
-. . . . . . . . . . . . . . . . 
-`, img`
-. f f f . . . . . . . . f f f . 
-. c b b c f . . . . . . . c f f 
-. . c b b c f . . . . . . c c f 
-. . c c c b f . . . . . . . f c 
-. . c c b b f f . . . . . f f c 
-. . c b b c b f c c . c c f f f 
-. . c b c c b f c c c c c f f f 
-. . . c c c b c b 3 c c 3 c f . 
-. . . c c c c b b 3 c b 3 b c . 
-. . . . c c b b b b b b b b c c 
-. . . c f b b b b 1 b b b 1 b c 
-. . c c f b b b b 1 b b b 1 b f 
-. . . . f b b b b b b b b b b f 
-. . . . f c b b b 1 f f f 1 f . 
-. . . . . f c b b b b b b f . . 
-. . . . . . f f f f f f f . . . 
-`];
-            case "murcielago_animacion_izquierda":
-            case "5w7xlNCgdfv4`JN}i(wS":return [img`
-. . f f f . . . . . . . . f f f 
-. f f c c . . . . . . f c b b c 
-f f c c . . . . . . f c b b c . 
-f c f c . . . . . . f b c c c . 
-f f f c c . c c . f c b b c c . 
-f f c 3 c c 3 c c f b c b b c . 
-f f b 3 b c 3 b c f b c c b c . 
-. c b b b b b b c b b c c c . . 
-. c 1 b b b 1 b b c c c c . . . 
-c b 1 b b b 1 b b b c c . . . . 
-c b b b b b b b b b b f . . . . 
-f b 1 f f f 1 b b b b f c . . . 
-f b b b b b b b b b b f c c . . 
-. f b b b b b b b b c f . . . . 
-. . f b b b b b b c f . . . . . 
-. . . f f f f f f f . . . . . . 
-`, img`
-. . f f f . . . . . . . . . . . 
-f f f c c . . . . . . . . f f f 
-f f c c . . c c . . . f c b b c 
-f f c 3 c c 3 c c f f b b b c . 
-f f b 3 b c 3 b c f b b c c c . 
-. c b b b b b b c f b c b c c . 
-. c b b b b b b c b b c b b c . 
-c b 1 b b b 1 b b b c c c b c . 
-c b 1 b b b 1 b b c c c c c . . 
-f b b b b b b b b b b f c . . . 
-f b 1 f f f 1 b b b b f c c . . 
-. f b b b b b b b b c f . . . . 
-. . f b b b b b b c f . . . . . 
-. . . f f f f f f f . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`, img`
-. . . . . . . . . . . . . . . . 
-. . c c . . c c . . . . . . . . 
-. . c 3 c c 3 c c c . . . . . . 
-. c b 3 b c 3 b c c c . . . . . 
-. c b b b b b b b b f f . . . . 
-c c b b b b b b b b f f . . . . 
-c b 1 b b b 1 b b c f f f . . . 
-c b 1 b b b 1 b b f f f f . . . 
-f b b b b b b b c c b b b . . . 
-f b 1 f f f 1 b f c c c c . . . 
-. f b b b b b b f b b c c . . . 
-c c f b b b b b c c b b c . . . 
-c c c f f f f f f c c b b c . . 
-. c c c . . . . . . c c c c c . 
-. . c c c . . . . . . . c c c c 
-. . . . . . . . . . . . . . . . 
-`, img`
-. f f f . . . . . . . . f f f . 
-f f c . . . . . . . f c b b c . 
-f c c . . . . . . f c b b c . . 
-c f . . . . . . . f b c c c . . 
-c f f . . . . . f f b b c c . . 
-f f f c c . c c f b c b b c . . 
-f f f c c c c c f b c c b c . . 
-. f c 3 c c 3 b c b c c c . . . 
-. c b 3 b c 3 b b c c c c . . . 
-c c b b b b b b b b c c . . . . 
-c b 1 b b b 1 b b b b f c . . . 
-f b 1 b b b 1 b b b b f c c . . 
-f b b b b b b b b b b f . . . . 
-. f 1 f f f 1 b b b c f . . . . 
-. . f b b b b b b c f . . . . . 
-. . . f f f f f f f . . . . . . 
-`];
         }
         return null;
     })
@@ -2277,4 +2244,4 @@ f b b b b b b b b b b f . . . .
     })
 
 }
-// Código generado automáticamente. No editar.
+// Auto-generated code. Do not edit.
