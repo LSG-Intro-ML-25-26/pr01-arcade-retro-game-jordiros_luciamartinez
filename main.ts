@@ -47,21 +47,9 @@ function MostrarFlecha () {
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
         if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingRight))) {
-            animation.runImageAnimation(
-            prota,
-            assets.animation`atacar_derecha`,
-            100,
-            false
-            )
-            music.play(music.createSoundEffect(WaveShape.Noise, 1364, 1, 255, 255, 100, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
+            AtaqueDerecha()
         } else if (characterAnimations.matchesRule(prota, characterAnimations.rule(Predicate.FacingLeft))) {
-            animation.runImageAnimation(
-            prota,
-            assets.animation`atacar_izquierda`,
-            100,
-            false
-            )
-            music.play(music.createSoundEffect(WaveShape.Noise, 1364, 1, 255, 255, 100, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
+            AtaqueIzquierda()
         }
         ataque_prota2 += 1
     }
@@ -177,6 +165,19 @@ function EnemigoNivel3 () {
         caracol.follow(prota, 30)
     }
 }
+function ShowFinal () {
+    tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    if (win) {
+        scene.setBackgroundImage(assets.image`fondo_ganador`)
+    } else {
+        scene.setBackgroundImage(assets.image`fondo_perdedor`)
+    }
+    if (controller.A.isPressed()) {
+        menu = true
+        final = false
+        pause(1000)
+    }
+}
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
         animation.runImageAnimation(
@@ -276,6 +277,24 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         ataque_prota2 = 0
     }
 })
+function AtaqueIzquierda () {
+    animation.runImageAnimation(
+    prota,
+    assets.animation`atacar_izquierda`,
+    100,
+    false
+    )
+    music.play(music.createSoundEffect(WaveShape.Noise, 1364, 1, 255, 255, 100, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
+    if (controller.left.isPressed()) {
+        pause(100)
+        animation.runImageAnimation(
+        prota,
+        assets.animation`player_left_animated`,
+        200,
+        true
+        )
+    }
+}
 function NextLevel () {
     if (nivel_superado) {
         MostrarFlecha()
@@ -292,6 +311,24 @@ function NextLevel () {
                 GenerarNivel()
             }
         }
+    }
+}
+function AtaqueDerecha () {
+    animation.runImageAnimation(
+    prota,
+    assets.animation`atacar_derecha`,
+    100,
+    false
+    )
+    music.play(music.createSoundEffect(WaveShape.Noise, 1364, 1, 255, 255, 100, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
+    if (controller.right.isPressed()) {
+        pause(100)
+        animation.runImageAnimation(
+        prota,
+        assets.animation`player_right_animated`,
+        200,
+        true
+        )
     }
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite2, location2) {
@@ -333,7 +370,7 @@ function MostrarLore () {
     game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("Hace mucho tiempo existia un reino pacífico que, un triste dia, fue conquistado por un ejercito demoniaco.", DialogLayout.Full)
     game.showLongText("Tras mucho tiempo de batalla, este ejercito termino conquistando el reino y rebautizandolo como \"Reino Nochesfera\", controlado por 3 reyes.", DialogLayout.Full)
-    game.showLongText("El 1r rey de es Sssiniestro, lider de los fantasmas, quien ha conquistado gran parte del territorio por sus estrategias militares.", DialogLayout.Full)
+    game.showLongText("El 1r rey es Sssiniestro, lider de los fantasmas, quien ha conquistado gran parte del territorio por sus estrategias militares.", DialogLayout.Full)
     game.showLongText("El 2o rey es Aracno, lider de los murcielagos, quien es responsable de grandes robos de suministros en las aldeas vecinas.", DialogLayout.Full)
     game.showLongText("El ultimo rey es Anguilo, lider de los tiburones, quien es quien crea el veneno que fluye en los rios de los territorios vecinos.", DialogLayout.Full)
     game.showLongText("Parecia que no habia esperanza, pero entonces apareció el caballero End, quien juro que derrotaria a los 3 reyes de la Nochesfera.", DialogLayout.Full)
@@ -364,19 +401,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite4, otherS
         GenerarNivel()
     }
 })
-function showFinal () {
-    tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
-    if (win) {
-        scene.setBackgroundImage(assets.image`fondo_ganador`)
-    } else {
-        scene.setBackgroundImage(assets.image`fondo_perdedor`)
-    }
-    if (controller.A.isPressed()) {
-        menu = true
-        final = false
-        pause(1000)
-    }
-}
 function MostrarInstrucciones () {
     game.setDialogTextColor(2)
     game.setDialogFrame(assets.image`fondo_1`)
@@ -482,6 +506,6 @@ game.onUpdateInterval(1, function () {
         GenerarMinimapa()
     }
     if (final) {
-        showFinal()
+        ShowFinal()
     }
 })
