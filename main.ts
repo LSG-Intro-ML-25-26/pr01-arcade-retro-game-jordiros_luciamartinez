@@ -501,7 +501,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         CreacionPersonaje()
-        nivel = 3
+        nivel = 1
         win = false
         GenerarNivel()
         partida = true

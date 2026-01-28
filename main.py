@@ -4,8 +4,20 @@ class SpriteKind:
     Map = SpriteKind.create()
     Boss = SpriteKind.create()
     indicador = SpriteKind.create()
+def Boss2():
+    if prota.x + 30 < arana.x:
+        arana.vx = -20
+        arana.set_image(assets.image("""
+            faraon_izquierda
+            """))
+    elif prota.x - 30 > arana.x:
+        arana.vx = 20
+        arana.set_image(assets.image("""
+            faraon_derecha
+            """))
+    else:
+        arana.vx = 0
 def MostrarFlecha():
-    global nivel
     if not (jugador_en_puerta):
         if nivel == 1:
             tiles.place_on_random_tile(flecha_puerta_nivel,
@@ -45,37 +57,9 @@ def on_b_pressed():
     global ataque_prota2
     if partida:
         if characterAnimations.matches_rule(prota, characterAnimations.rule(Predicate.FACING_RIGHT)):
-            animation.run_image_animation(prota,
-                assets.animation("""
-                    atacar_derecha
-                    """),
-                100,
-                False)
-            music.play(music.create_sound_effect(WaveShape.NOISE,
-                    1364,
-                    1,
-                    255,
-                    255,
-                    100,
-                    SoundExpressionEffect.VIBRATO,
-                    InterpolationCurve.LOGARITHMIC),
-                music.PlaybackMode.IN_BACKGROUND)
+            AtaqueDerecha()
         elif characterAnimations.matches_rule(prota, characterAnimations.rule(Predicate.FACING_LEFT)):
-            animation.run_image_animation(prota,
-                assets.animation("""
-                    atacar_izquierda
-                    """),
-                100,
-                False)
-            music.play(music.create_sound_effect(WaveShape.NOISE,
-                    1364,
-                    1,
-                    255,
-                    255,
-                    100,
-                    SoundExpressionEffect.VIBRATO,
-                    InterpolationCurve.LOGARITHMIC),
-                music.PlaybackMode.IN_BACKGROUND)
+            AtaqueIzquierda()
         ataque_prota2 += 1
 controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
 
@@ -115,83 +99,14 @@ def EnemigoNivel2():
             500,
             characterAnimations.rule(Predicate.MOVING_RIGHT))
         characterAnimations.run_frames(murcielago,
-            [img("""
-                    . . f f f . . . . . . . . f f f
-                    . f f c c . . . . . . f c b b c
-                    f f c c . . . . . . f c b b c .
-                    f c f c . . . . . . f b c c c .
-                    f f f c c . c c . f c b b c c .
-                    f f c 3 c c 3 c c f b c b b c .
-                    f f b 3 b c 3 b c f b c c b c .
-                    . c b b b b b b c b b c c c . .
-                    . c 1 b b b 1 b b c c c c . . .
-                    c b b b b b b b b b c c . . . .
-                    c b c b b b c b b b b f . . . .
-                    f b 1 f f f 1 b b b b f c . . .
-                    f b b b b b b b b b b f c c . .
-                    . f b b b b b b b b c f . . . .
-                    . . f b b b b b b c f . . . . .
-                    . . . f f f f f f f . . . . . .
-                    """),
-                img("""
-                    . . f f f . . . . . . . . . . .
-                    f f f c c . . . . . . . . f f f
-                    f f c c . . c c . . . f c b b c
-                    f f c 3 c c 3 c c f f b b b c .
-                    f f b 3 b c 3 b c f b b c c c .
-                    . c b b b b b b c f b c b c c .
-                    . c b b b b b b c b b c b b c .
-                    c b 1 b b b 1 b b b c c c b c .
-                    c b b b b b b b b c c c c c . .
-                    f b c b b b c b b b b f c . . .
-                    f b 1 f f f 1 b b b b f c c . .
-                    . f b b b b b b b b c f . . . .
-                    . . f b b b b b b c f . . . . .
-                    . . . f f f f f f f . . . . . .
-                    . . . . . . . . . . . . . . . .
-                    . . . . . . . . . . . . . . . .
-                    """),
-                img("""
-                    . . . . . . . . . . . . . . . .
-                    . . c c . . c c . . . . . . . .
-                    . . c 3 c c 3 c c c . . . . . .
-                    . c b 3 b c 3 b c c c . . . . .
-                    . c b b b b b b b b f f . . . .
-                    c c b b b b b b b b f f . . . .
-                    c b 1 b b b 1 b b c f f f . . .
-                    c b b b b b b b b f f f f . . .
-                    f b c b b b c b c c b b b . . .
-                    f b 1 f f f 1 b f c c c c . . .
-                    . f b b b b b b f b b c c . . .
-                    c c f b b b b b c c b b c . . .
-                    c c c f f f f f f c c b b c . .
-                    . c c c . . . . . . c c c c c .
-                    . . c c c . . . . . . . c c c c
-                    . . . . . . . . . . . . . . . .
-                    """),
-                img("""
-                    . f f f . . . . . . . . f f f .
-                    f f c . . . . . . . f c b b c .
-                    f c c . . . . . . f c b b c . .
-                    c f . . . . . . . f b c c c . .
-                    c f f . . . . . f f b b c c . .
-                    f f f c c . c c f b c b b c . .
-                    f f f c c c c c f b c c b c . .
-                    . f c 3 c c 3 b c b c c c . . .
-                    . c b 3 b c 3 b b c c c c . . .
-                    c c b b b b b b b b c c . . . .
-                    c b 1 b b b 1 b b b b f c . . .
-                    f b b b b b b b b b b f c c . .
-                    f b c b b b c b b b b f . . . .
-                    . f 1 f f f 1 b b b c f . . . .
-                    . . f b b b b b b c f . . . . .
-                    . . . f f f f f f f . . . . . .
-                    """)],
+            assets.animation("""
+                murcielago_animacion_izquierda
+                """),
             500,
             characterAnimations.rule(Predicate.NOT_MOVING))
         tiles.place_on_tile(murcielago, valor2)
         tiles.set_tile_at(valor2, assets.tile("""
-            ubi_flecha_nivel2
+            pared_nivel_2
             """))
         murcielago.ay = 200
         murcielago.follow(prota, 30)
@@ -246,6 +161,20 @@ def on_on_overlap(sprite5, otherSprite2):
     pause(1000)
 sprites.on_overlap(SpriteKind.player, SpriteKind.Boss, on_on_overlap)
 
+def Boss3():
+    if prota.x + 30 < leviatan.x:
+        leviatan.vx = -20
+        leviatan.set_image(assets.image("""
+            myImage0
+            """))
+    elif prota.x - 30 > leviatan.x:
+        leviatan.vx = 20
+        leviatan.set_image(assets.image("""
+            myImage
+            """))
+    else:
+        leviatan.vx = 0
+
 def on_left_pressed():
     global ataque_prota2
     if partida:
@@ -269,161 +198,40 @@ def EnemigoNivel3():
                 """),
             SpriteKind.enemy)
         characterAnimations.loop_frames(caracol,
-            [img("""
-                    . . . . . . . . . . . . . . . .
-                    . . . . c c c c . . . . . . . .
-                    . . . c d d d d c c . . . . . .
-                    . . . c d c c c c c c . . . . .
-                    . . . c c d 4 4 4 4 c c . . . .
-                    c c . c 1 4 4 4 4 4 d 4 c . . .
-                    c 4 c 1 d 4 4 4 4 1 4 4 4 c . .
-                    c 4 c 1 4 4 4 4 4 1 4 4 4 4 c .
-                    f 4 4 1 4 4 4 4 4 1 4 4 4 4 4 f
-                    f 4 f 1 4 4 4 c c 1 4 f 4 4 4 f
-                    f 4 f d 4 4 f 4 4 1 4 4 4 4 4 f
-                    f f f f d 4 f 4 c 1 4 4 4 4 f .
-                    . . c f c 4 f f 4 4 d 4 f f . .
-                    . . c b d c 4 4 4 4 f f . . . .
-                    . . c d d d f f f f . . . . . .
-                    . . . c c c . . . . . . . . . .
-                    """),
-                img("""
-                    . . . . . . . . . . . . . . . .
-                    . . . . c c c c c . . . . . . .
-                    . . . c d d d d d c . . . . . .
-                    . . . c d c c c c c . . . . . .
-                    . . . c c d 4 4 4 4 c . . . . .
-                    . . . c 1 4 4 4 4 4 d c . . . .
-                    . . c 1 4 4 4 4 4 1 4 4 c . . .
-                    c c c 1 4 4 4 4 1 4 4 4 4 c . .
-                    c 4 4 1 4 4 c c 1 4 4 4 4 4 c .
-                    f 4 f 1 4 f 4 4 1 4 4 4 4 4 c .
-                    f 4 f d 4 f 4 c 1 4 f 4 4 4 4 f
-                    f 4 f f 4 f f 4 1 4 4 4 4 4 4 f
-                    f f c b c 4 4 4 4 1 4 4 4 4 f .
-                    . . c d d c 4 4 4 4 d f f f . .
-                    . . . c c c f f f f f . . . . .
-                    . . . . . . . . . . . . . . . .
-                    """),
-                img("""
-                    . . . . c c c c . . . . . . . .
-                    . . . c d d d d c c . . . . . .
-                    . . . c d c c c c c c . . . . .
-                    c c . c c d 4 4 4 4 c c . . . .
-                    c 4 c c 1 4 4 4 4 4 d 4 c . . .
-                    f 4 c 1 d 4 4 4 4 1 4 4 4 c . .
-                    f 4 4 1 4 4 4 4 4 1 4 4 4 4 c .
-                    f 4 f 1 4 4 f c 1 1 4 4 4 4 4 f
-                    f 4 f 1 4 4 f 4 c 1 4 f 4 4 4 f
-                    f f f d 4 4 f 4 4 1 4 4 4 4 4 f
-                    . . f f d 4 4 c c 1 4 4 4 4 f .
-                    . . . f c 4 4 4 4 4 d 4 f f . .
-                    . . c b d c 4 4 4 4 f f . . . .
-                    . . c d d d f f f f . . . . . .
-                    . . . c c c . . . . . . . . . .
-                    . . . . . . . . . . . . . . . .
-                    """),
-                img("""
-                    . . . . . . . . . . . . . . . .
-                    . . . c c c c . . . . . . . . .
-                    . . c d d d d c c . . . . . . .
-                    . . c d d c c c c c c . . . . .
-                    c c c c c d 4 4 4 4 c c c . . .
-                    f 4 c c 1 4 4 4 4 4 1 4 4 c . .
-                    f 4 f 1 d 4 4 4 4 1 4 4 4 4 c .
-                    f 4 f 1 4 4 4 4 4 1 4 4 4 4 4 f
-                    f 4 4 1 4 4 f c 4 1 4 4 f 4 4 f
-                    f f f 1 4 4 f 4 c 1 4 4 4 4 4 f
-                    . . f d 4 4 f 4 4 1 4 4 4 4 f .
-                    . . . f d 4 4 c c 4 1 4 4 f . .
-                    . . . f c 4 4 4 4 4 4 d f . . .
-                    . . c b d c 4 4 4 4 f f . . . .
-                    . . c d d d f f f f . . . . . .
-                    . . . c c c . . . . . . . . . .
-                    """)],
+            assets.animation("""
+                pez_animacion_derecha
+                """),
             500,
             characterAnimations.rule(Predicate.MOVING_RIGHT))
         characterAnimations.loop_frames(caracol,
-            [img("""
-                    . . . . . . . . . . . . . . . .
-                    . . . . . . . . c c c c . . . .
-                    . . . . . . c c d d d d c . . .
-                    . . . . . c c c c c c d c . . .
-                    . . . . c c 4 4 4 4 d c c . . .
-                    . . . c 4 d 4 4 4 4 4 1 c . c c
-                    . . c 4 4 4 1 4 4 4 4 d 1 c 4 c
-                    . c 4 4 4 4 1 4 4 4 4 4 1 c 4 c
-                    f 4 4 4 4 4 1 4 4 4 4 4 1 4 4 f
-                    f 4 4 4 f 4 1 c c 4 4 4 1 f 4 f
-                    f 4 4 4 4 4 1 4 4 f 4 4 d f 4 f
-                    . f 4 4 4 4 1 c 4 f 4 d f f f f
-                    . . f f 4 d 4 4 f f 4 c f c . .
-                    . . . . f f 4 4 4 4 c d b c . .
-                    . . . . . . f f f f d d d c . .
-                    . . . . . . . . . . c c c . . .
-                    """),
-                img("""
-                    . . . . . . . . . . . . . . . .
-                    . . . . . . . c c c c c . . . .
-                    . . . . . . c d d d d d c . . .
-                    . . . . . . c c c c c d c . . .
-                    . . . . . c 4 4 4 4 d c c . . .
-                    . . . . c d 4 4 4 4 4 1 c . . .
-                    . . . c 4 4 1 4 4 4 4 4 1 c . .
-                    . . c 4 4 4 4 1 4 4 4 4 1 c c c
-                    . c 4 4 4 4 4 1 c c 4 4 1 4 4 c
-                    . c 4 4 4 4 4 1 4 4 f 4 1 f 4 f
-                    f 4 4 4 4 f 4 1 c 4 f 4 d f 4 f
-                    f 4 4 4 4 4 4 1 4 f f 4 f f 4 f
-                    . f 4 4 4 4 1 4 4 4 4 c b c f f
-                    . . f f f d 4 4 4 4 c d d c . .
-                    . . . . . f f f f f c c c . . .
-                    . . . . . . . . . . . . . . . .
-                    """),
-                img("""
-                    . . . . . . . . c c c c . . . .
-                    . . . . . . c c d d d d c . . .
-                    . . . . . c c c c c c d c . . .
-                    . . . . c c 4 4 4 4 d c c . c c
-                    . . . c 4 d 4 4 4 4 4 1 c c 4 c
-                    . . c 4 4 4 1 4 4 4 4 d 1 c 4 f
-                    . c 4 4 4 4 1 4 4 4 4 4 1 4 4 f
-                    f 4 4 4 4 4 1 1 c f 4 4 1 f 4 f
-                    f 4 4 4 f 4 1 c 4 f 4 4 1 f 4 f
-                    f 4 4 4 4 4 1 4 4 f 4 4 d f f f
-                    . f 4 4 4 4 1 c c 4 4 d f f . .
-                    . . f f 4 d 4 4 4 4 4 c f . . .
-                    . . . . f f 4 4 4 4 c d b c . .
-                    . . . . . . f f f f d d d c . .
-                    . . . . . . . . . . c c c . . .
-                    . . . . . . . . . . . . . . . .
-                    """),
-                img("""
-                    . . . . . . . . . . . . . . . .
-                    . . . . . . . . . c c c c . . .
-                    . . . . . . . c c d d d d c . .
-                    . . . . . c c c c c c d d c . .
-                    . . . c c c 4 4 4 4 d c c c c c
-                    . . c 4 4 1 4 4 4 4 4 1 c c 4 f
-                    . c 4 4 4 4 1 4 4 4 4 d 1 f 4 f
-                    f 4 4 4 4 4 1 4 4 4 4 4 1 f 4 f
-                    f 4 4 f 4 4 1 4 c f 4 4 1 4 4 f
-                    f 4 4 4 4 4 1 c 4 f 4 4 1 f f f
-                    . f 4 4 4 4 1 4 4 f 4 4 d f . .
-                    . . f 4 4 1 4 c c 4 4 d f . . .
-                    . . . f d 4 4 4 4 4 4 c f . . .
-                    . . . . f f 4 4 4 4 c d b c . .
-                    . . . . . . f f f f d d d c . .
-                    . . . . . . . . . . c c c . . .
-                    """)],
+            assets.animation("""
+                pez_animacion_izquierda
+                """),
             500,
             characterAnimations.rule(Predicate.MOVING_LEFT))
         tiles.place_on_tile(caracol, valor3)
         tiles.set_tile_at(valor3, assets.tile("""
-            ubi_flecha_nivel3
+            pared_nivel_3
             """))
         caracol.ay = 200
         caracol.follow(prota, 30)
+def ShowFinal():
+    global menu, final
+    tiles.set_current_tilemap(tilemap("""
+        tilemap_vacio
+        """))
+    if win:
+        scene.set_background_image(assets.image("""
+            fondo_ganador
+            """))
+    else:
+        scene.set_background_image(assets.image("""
+            fondo_perdedor
+            """))
+    if controller.A.is_pressed():
+        menu = True
+        final = False
+        pause(1000)
 
 def on_right_released():
     if partida:
@@ -481,9 +289,9 @@ def GenerarNivel():
     jugador_en_puerta = False
     nivel_superado = False
     boss_vivo = True
-    sprites.destroy_all_sprites_of_kind(SpriteKind.indicador)
     sprites.destroy_all_sprites_of_kind(SpriteKind.Boss)
     sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.indicador)
     if nivel == 1:
         scene.set_background_image(assets.image("""
             fondo_nivel_1
@@ -491,7 +299,7 @@ def GenerarNivel():
         tiles.set_current_tilemap(tilemap("""
             nivel1
             """))
-        prota.set_position(700, 20)
+        prota.set_position(40, 460)
     elif nivel == 2:
         scene.set_background_image(assets.image("""
             fondo_nivel_2
@@ -499,7 +307,7 @@ def GenerarNivel():
         tiles.set_current_tilemap(tilemap("""
             nivel0
             """))
-        prota.set_position(400, 230)
+        prota.set_position(40, 20)
     elif nivel == 3:
         scene.set_background_image(assets.image("""
             fondo_nivel_3
@@ -507,21 +315,22 @@ def GenerarNivel():
         tiles.set_current_tilemap(tilemap("""
             nivel3
             """))
-        prota.set_position(700, 460)
+        prota.set_position(40, 460)
     CrearEnemigos()
     BossNivel()
-def Inicio():
-    global menu, partida, final, win, mostrar_minimapa
-    music.set_volume(70)
-    music.play(music.create_song(assets.song("""
-            background_song
-            """)),
-        music.PlaybackMode.LOOPING_IN_BACKGROUND)
-    menu = True
-    partida = False
-    final = False
-    win = False
-    mostrar_minimapa = True
+def Boss1():
+    if prota.x + 30 < serpiente.x:
+        serpiente.vx = -20
+        serpiente.set_image(assets.image("""
+            leviatan_izquierda
+            """))
+    elif prota.x - 30 > serpiente.x:
+        serpiente.vx = 20
+        serpiente.set_image(assets.image("""
+            leviatan_derecha
+            """))
+    else:
+        serpiente.vx = 0
 def SistemaDeDobleSalto():
     global salto
     if prota.is_hitting_tile(CollisionDirection.BOTTOM):
@@ -552,13 +361,41 @@ def on_right_pressed():
         ataque_prota2 = 0
 controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
+def AtaqueIzquierda():
+    animation.run_image_animation(prota,
+        assets.animation("""
+            atacar_izquierda
+            """),
+        100,
+        False)
+    music.play(music.create_sound_effect(WaveShape.NOISE,
+            1364,
+            1,
+            255,
+            255,
+            100,
+            SoundExpressionEffect.VIBRATO,
+            InterpolationCurve.LOGARITHMIC),
+        music.PlaybackMode.IN_BACKGROUND)
+    if controller.left.is_pressed():
+        pause(100)
+        animation.run_image_animation(prota,
+            assets.animation("""
+                player_left_animated
+                """),
+            200,
+            True)
 def NextLevel():
-    global jugador_en_puerta, nivel, boss_vivo, win
+    global jugador_en_puerta, win, nivel, boss_vivo
     if nivel_superado:
         MostrarFlecha()
         jugador_en_puerta = True
+        pause(10)
         if controller.up.is_pressed():
-            if nivel < 3:
+            if nivel == 3:
+                win = True
+                EndGame()
+            else:
                 music.play(music.create_sound_effect(WaveShape.NOISE,
                         1,
                         452,
@@ -571,9 +408,30 @@ def NextLevel():
                 nivel += 1
                 boss_vivo = True
                 GenerarNivel()
-            else:
-                EndGame()
-                win = True
+def AtaqueDerecha():
+    animation.run_image_animation(prota,
+        assets.animation("""
+            atacar_derecha
+            """),
+        100,
+        False)
+    music.play(music.create_sound_effect(WaveShape.NOISE,
+            1364,
+            1,
+            255,
+            255,
+            100,
+            SoundExpressionEffect.VIBRATO,
+            InterpolationCurve.LOGARITHMIC),
+        music.PlaybackMode.IN_BACKGROUND)
+    if controller.right.is_pressed():
+        pause(100)
+        animation.run_image_animation(prota,
+            assets.animation("""
+                player_right_animated
+                """),
+            200,
+            True)
 
 def on_overlap_tile3(sprite2, location2):
     NextLevel()
@@ -625,7 +483,19 @@ def MostrarLore():
     game.set_dialog_frame(assets.image("""
         fondo_1
         """))
-    game.show_long_text("El caballero End debe adentrarse al castillo oscuro y derrotar a los 3 reyes que gobiernan el reino Nochesfera, restaurando así la paz.",
+    game.show_long_text("Hace mucho tiempo existia un reino pacífico que, un triste dia, fue conquistado por un ejercito demoniaco.",
+        DialogLayout.FULL)
+    game.show_long_text("Tras mucho tiempo de batalla, este ejercito termino conquistando el reino y rebautizandolo como \"Reino Nochesfera\", controlado por 3 reyes.",
+        DialogLayout.FULL)
+    game.show_long_text("El 1r rey es Sssiniestro, lider de los fantasmas, quien ha conquistado gran parte del territorio por sus estrategias militares.",
+        DialogLayout.FULL)
+    game.show_long_text("El 2o rey es Aracno, lider de los murcielagos, quien es responsable de grandes robos de suministros en las aldeas vecinas.",
+        DialogLayout.FULL)
+    game.show_long_text("El ultimo rey es Anguilo, lider de los tiburones, quien es quien crea el veneno que fluye en los rios de los territorios vecinos.",
+        DialogLayout.FULL)
+    game.show_long_text("Parecia que no habia esperanza, pero entonces apareció el caballero End, quien juro que derrotaria a los 3 reyes de la Nochesfera.",
+        DialogLayout.FULL)
+    game.show_long_text("Y asi, End se adentro al castillo de la Nochesfera para derrotar a los 3 reyes malignos.",
         DialogLayout.FULL)
 def CrearEnemigos():
     if nivel == 1:
@@ -636,7 +506,8 @@ def CrearEnemigos():
         EnemigoNivel3()
 
 def on_life_zero():
-    EndGame()
+    if not (win):
+        EndGame()
 info.on_life_zero(on_life_zero)
 
 def on_on_overlap2(sprite4, otherSprite):
@@ -658,23 +529,6 @@ def on_on_overlap2(sprite4, otherSprite):
         GenerarNivel()
 sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap2)
 
-def showFinal():
-    global menu, final
-    tiles.set_current_tilemap(tilemap("""
-        level3
-        """))
-    if win:
-        scene.set_background_image(assets.image("""
-            fondo_ganador
-            """))
-    else:
-        scene.set_background_image(assets.image("""
-            fondo_perdedor
-            """))
-    if controller.A.is_pressed():
-        menu = True
-        final = False
-        pause(1000)
 def MostrarInstrucciones():
     game.set_dialog_text_color(2)
     game.set_dialog_frame(assets.image("""
@@ -721,6 +575,7 @@ def EndGame():
     boss_vivo = False
     final = True
     mostrar_minimapa = False
+    info.set_life(0)
     sprites.destroy(mapStripe)
     sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
     sprites.destroy_all_sprites_of_kind(SpriteKind.Boss)
@@ -728,71 +583,47 @@ def EndGame():
     sprites.destroy_all_sprites_of_kind(SpriteKind.player)
 fantasma: Sprite = None
 salto = False
-mostrar_minimapa = False
-win = False
-final = False
-menu = False
 boss_vivo = False
 nivel_superado = False
-leviatan: Sprite = None
-arana: Sprite = None
 serpiente: Sprite = None
 boss_actual: Sprite = None
 caracol: Sprite = None
+leviatan: Sprite = None
 statusbar: StatusBarSprite = None
 myMinimap: minimap.Minimap = None
 mapStripe: Sprite = None
 murcielago: Sprite = None
 ataque_prota = 0
 ataque_prota2 = 0
-prota: Sprite = None
-partida = False
 flecha_puerta_nivel: Sprite = None
 nivel = 0
 jugador_en_puerta = False
-Inicio()
+arana: Sprite = None
+prota: Sprite = None
+mostrar_minimapa = False
+win = False
+final = False
+partida = False
+menu = False
+music.set_volume(70)
+music.play(music.create_song(assets.song("""
+        background_song
+        """)),
+    music.PlaybackMode.LOOPING_IN_BACKGROUND)
+menu = True
+partida = False
+final = False
+win = False
+mostrar_minimapa = True
 
 def on_on_update():
     if boss_vivo:
         if nivel == 1:
-            if prota.x + 30 < serpiente.x:
-                serpiente.vx = -20
-                serpiente.set_image(assets.image("""
-                    leviatan_izquierda
-                    """))
-            elif prota.x - 30 > serpiente.x:
-                serpiente.vx = 20
-                serpiente.set_image(assets.image("""
-                    leviatan_derecha
-                    """))
-            else:
-                serpiente.vx = 0
+            Boss1()
         elif nivel == 2:
-            if prota.x + 30 < arana.x:
-                arana.vx = -20
-                arana.set_image(assets.image("""
-                    faraon_izquierda
-                    """))
-            elif prota.x - 30 > arana.x:
-                arana.vx = 20
-                arana.set_image(assets.image("""
-                    faraon_derecha
-                    """))
-            else:
-                arana.vx = 0
+            Boss2()
         elif nivel == 3:
-            if prota.x + 30 < leviatan.x:
-                leviatan.vx = -20
-                leviatan.set_image(assets.image("""
-                    myImage
-                    """))
-            elif prota.x - 30 > leviatan.x:
-                leviatan.vx = 20
-                leviatan.set_image(assets.image("""
-                    myImage0
-                    """))
-            else:
-                leviatan.vx = 0
+            Boss3()
 game.on_update(on_on_update)
 
 def on_update_interval():
@@ -809,12 +640,12 @@ def on_update_interval():
     elif not (partida) and not (final):
         MostrarInstrucciones()
         CreacionPersonaje()
-        nivel = 1
+        nivel = 3
         win = False
         GenerarNivel()
         partida = True
     elif mostrar_minimapa:
         GenerarMinimapa()
     if final:
-        showFinal()
+        ShowFinal()
 game.on_update_interval(1, on_update_interval)
