@@ -93,13 +93,13 @@ function EnemigoNivel2 () {
         characterAnimations.loopFrames(
         murcielago,
         assets.animation`derecha_fantasma`,
-        500,
+        300,
         characterAnimations.rule(Predicate.MovingRight)
         )
         characterAnimations.runFrames(
         murcielago,
         assets.animation`murcielago_animacion_izquierda`,
-        500,
+        300,
         characterAnimations.rule(Predicate.NotMoving)
         )
         tiles.placeOnTile(murcielago, valor2)
@@ -161,13 +161,13 @@ function EnemigoNivel3 () {
         characterAnimations.loopFrames(
         tiburon,
         assets.animation`pez_animacion_derecha`,
-        500,
+        300,
         characterAnimations.rule(Predicate.MovingRight)
         )
         characterAnimations.loopFrames(
         tiburon,
         assets.animation`pez_animacion_izquierda`,
-        500,
+        300,
         characterAnimations.rule(Predicate.MovingLeft)
         )
         tiles.placeOnTile(tiburon, valor3)
@@ -507,7 +507,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         CreacionPersonaje()
-        nivel = 1
+        nivel = 2
         win = false
         end_game = false
         GenerarNivel()
