@@ -33,24 +33,24 @@ Los enemigos básicos són eliminados en un golpe efectuado con el botón B (ata
 * **Enemigos básicos:** Fantasmas
 * **Jefe final:** SSsiniestro, el espíritu arcaico de un Leviatán.
 
-![Enemigo Nivel 1](assets/fantasma.png)
-![Boss Nivel 1](assets/boss_nivel2.png)
+![Enemigo Nivel 1](assets/enemigo1.png)
+![Boss Nivel 1](assets/boss2.png)
 
 ### 🕸️ Nivel 2
 * **Ambientación:** Tonos dorados
 * **Enemigos básicos:** Murciélagos
 * **Jefe final:** Aracno, una araña gigante.
 
-![Enemigo Nivel 2](assets/fantasma.png)
-![Boss Nivel 2](assets/boss_nivel2.png)
+![Enemigo Nivel 2](assets/enemigo2.png)
+![Boss Nivel 2](assets/boss2.png)
 
 ### 🌊 Nivel 3
 * **Ambientación:** Tonos azulados y verdosos
 * **Enemigos básicos:** Tiburones
 * **Jefe final:** Anguilo, una invocación prohibida en forma de anguila.
 
-![Enemigo Nivel 3](assets/fantasma.png)
-![Boss Nivel 3](assets/boss_final.png)
+![Enemigo Nivel 3](assets/enemigo3.png)
+![Boss Nivel 3](assets/boss3.png)
 
 ## 🕹️ Controles del juego
 * **A:** Saltar
