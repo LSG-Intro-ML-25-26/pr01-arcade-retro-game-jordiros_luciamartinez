@@ -127,12 +127,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite5, otherSp
         info.changeLifeBy(-1)
         music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
     }
-    if (nivel == 1 && statusbar.value > 1) {
-        sprite5.x = otherSprite2.x - 50
-    } else if (nivel == 2 && statusbar.value > 1) {
-        sprite5.x = otherSprite2.x - 50
-    } else if (nivel == 3 && statusbar.value > 1) {
-        sprite5.x = otherSprite2.x - 50
+    if (statusbar.value > 1) {
+        sprite5.setPosition(otherSprite2.x - 50, sprite5.y - 10)
     }
     pause(1000)
 })
@@ -161,23 +157,23 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function EnemigoNivel3 () {
     for (let valor3 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
-        caracol = sprites.create(assets.image`caracol_izquierda`, SpriteKind.Enemy)
+        tiburon = sprites.create(assets.image`caracol_izquierda`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
-        caracol,
+        tiburon,
         assets.animation`pez_animacion_derecha`,
         500,
         characterAnimations.rule(Predicate.MovingRight)
         )
         characterAnimations.loopFrames(
-        caracol,
+        tiburon,
         assets.animation`pez_animacion_izquierda`,
         500,
         characterAnimations.rule(Predicate.MovingLeft)
         )
-        tiles.placeOnTile(caracol, valor3)
+        tiles.placeOnTile(tiburon, valor3)
         tiles.setTileAt(valor3, assets.tile`pared_nivel_3`)
-        caracol.ay = 200
-        caracol.follow(prota, 30)
+        tiburon.ay = 200
+        tiburon.follow(prota, 30)
     }
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -387,6 +383,7 @@ function CrearEnemigos () {
 }
 info.onLifeZero(function () {
     if (!(win) && !(end_game)) {
+        sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
         EndGame()
     }
 })
@@ -455,7 +452,7 @@ let boss_vivo = false
 let nivel_superado = false
 let serpiente: Sprite = null
 let boss_actual: Sprite = null
-let caracol: Sprite = null
+let tiburon: Sprite = null
 let leviatan: Sprite = null
 let statusbar: StatusBarSprite = null
 let myMinimap: minimap.Minimap = null
