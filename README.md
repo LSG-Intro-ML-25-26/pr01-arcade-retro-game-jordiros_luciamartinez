@@ -80,7 +80,7 @@ Todo el código generado automáticamente por bloques ha sido*revisado, adaptado
 Las funciones principales del proyecto están documentadas mediante comentarios, explicando su uso.
 
 ## 🎞️ Demo del juego (Speed-run)
-Insertar video de la demo.
+[![Demo Dark Fantasy Castle](assets/miniatura.png)](assets/demo.mp4)
 
 ## 👥 Autores
 Jordi Ros López <br>
