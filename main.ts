@@ -90,75 +90,7 @@ function EnemigoNivel2 () {
         )
         characterAnimations.runFrames(
         murcielago,
-        [img`
-            . . f f f . . . . . . . . f f f 
-            . f f c c . . . . . . f c b b c 
-            f f c c . . . . . . f c b b c . 
-            f c f c . . . . . . f b c c c . 
-            f f f c c . c c . f c b b c c . 
-            f f c 3 c c 3 c c f b c b b c . 
-            f f b 3 b c 3 b c f b c c b c . 
-            . c b b b b b b c b b c c c . . 
-            . c 1 b b b 1 b b c c c c . . . 
-            c b b b b b b b b b c c . . . . 
-            c b c b b b c b b b b f . . . . 
-            f b 1 f f f 1 b b b b f c . . . 
-            f b b b b b b b b b b f c c . . 
-            . f b b b b b b b b c f . . . . 
-            . . f b b b b b b c f . . . . . 
-            . . . f f f f f f f . . . . . . 
-            `,img`
-            . . f f f . . . . . . . . . . . 
-            f f f c c . . . . . . . . f f f 
-            f f c c . . c c . . . f c b b c 
-            f f c 3 c c 3 c c f f b b b c . 
-            f f b 3 b c 3 b c f b b c c c . 
-            . c b b b b b b c f b c b c c . 
-            . c b b b b b b c b b c b b c . 
-            c b 1 b b b 1 b b b c c c b c . 
-            c b b b b b b b b c c c c c . . 
-            f b c b b b c b b b b f c . . . 
-            f b 1 f f f 1 b b b b f c c . . 
-            . f b b b b b b b b c f . . . . 
-            . . f b b b b b b c f . . . . . 
-            . . . f f f f f f f . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . c c . . c c . . . . . . . . 
-            . . c 3 c c 3 c c c . . . . . . 
-            . c b 3 b c 3 b c c c . . . . . 
-            . c b b b b b b b b f f . . . . 
-            c c b b b b b b b b f f . . . . 
-            c b 1 b b b 1 b b c f f f . . . 
-            c b b b b b b b b f f f f . . . 
-            f b c b b b c b c c b b b . . . 
-            f b 1 f f f 1 b f c c c c . . . 
-            . f b b b b b b f b b c c . . . 
-            c c f b b b b b c c b b c . . . 
-            c c c f f f f f f c c b b c . . 
-            . c c c . . . . . . c c c c c . 
-            . . c c c . . . . . . . c c c c 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . f f f . . . . . . . . f f f . 
-            f f c . . . . . . . f c b b c . 
-            f c c . . . . . . f c b b c . . 
-            c f . . . . . . . f b c c c . . 
-            c f f . . . . . f f b b c c . . 
-            f f f c c . c c f b c b b c . . 
-            f f f c c c c c f b c c b c . . 
-            . f c 3 c c 3 b c b c c c . . . 
-            . c b 3 b c 3 b b c c c c . . . 
-            c c b b b b b b b b c c . . . . 
-            c b 1 b b b 1 b b b b f c . . . 
-            f b b b b b b b b b b f c c . . 
-            f b c b b b c b b b b f . . . . 
-            . f 1 f f f 1 b b b c f . . . . 
-            . . f b b b b b b c f . . . . . 
-            . . . f f f f f f f . . . . . . 
-            `],
+        assets.animation`murcielago_animacion_izquierda`,
         500,
         characterAnimations.rule(Predicate.NotMoving)
         )
@@ -229,149 +161,13 @@ function EnemigoNivel3 () {
         caracol = sprites.create(assets.image`caracol_izquierda`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
         caracol,
-        [img`
-            . . . . . . . . . . . . . . . . 
-            . . . . c c c c . . . . . . . . 
-            . . . c d d d d c c . . . . . . 
-            . . . c d c c c c c c . . . . . 
-            . . . c c d 4 4 4 4 c c . . . . 
-            c c . c 1 4 4 4 4 4 d 4 c . . . 
-            c 4 c 1 d 4 4 4 4 1 4 4 4 c . . 
-            c 4 c 1 4 4 4 4 4 1 4 4 4 4 c . 
-            f 4 4 1 4 4 4 4 4 1 4 4 4 4 4 f 
-            f 4 f 1 4 4 4 c c 1 4 f 4 4 4 f 
-            f 4 f d 4 4 f 4 4 1 4 4 4 4 4 f 
-            f f f f d 4 f 4 c 1 4 4 4 4 f . 
-            . . c f c 4 f f 4 4 d 4 f f . . 
-            . . c b d c 4 4 4 4 f f . . . . 
-            . . c d d d f f f f . . . . . . 
-            . . . c c c . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . c c c c c . . . . . . . 
-            . . . c d d d d d c . . . . . . 
-            . . . c d c c c c c . . . . . . 
-            . . . c c d 4 4 4 4 c . . . . . 
-            . . . c 1 4 4 4 4 4 d c . . . . 
-            . . c 1 4 4 4 4 4 1 4 4 c . . . 
-            c c c 1 4 4 4 4 1 4 4 4 4 c . . 
-            c 4 4 1 4 4 c c 1 4 4 4 4 4 c . 
-            f 4 f 1 4 f 4 4 1 4 4 4 4 4 c . 
-            f 4 f d 4 f 4 c 1 4 f 4 4 4 4 f 
-            f 4 f f 4 f f 4 1 4 4 4 4 4 4 f 
-            f f c b c 4 4 4 4 1 4 4 4 4 f . 
-            . . c d d c 4 4 4 4 d f f f . . 
-            . . . c c c f f f f f . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . c c c c . . . . . . . . 
-            . . . c d d d d c c . . . . . . 
-            . . . c d c c c c c c . . . . . 
-            c c . c c d 4 4 4 4 c c . . . . 
-            c 4 c c 1 4 4 4 4 4 d 4 c . . . 
-            f 4 c 1 d 4 4 4 4 1 4 4 4 c . . 
-            f 4 4 1 4 4 4 4 4 1 4 4 4 4 c . 
-            f 4 f 1 4 4 f c 1 1 4 4 4 4 4 f 
-            f 4 f 1 4 4 f 4 c 1 4 f 4 4 4 f 
-            f f f d 4 4 f 4 4 1 4 4 4 4 4 f 
-            . . f f d 4 4 c c 1 4 4 4 4 f . 
-            . . . f c 4 4 4 4 4 d 4 f f . . 
-            . . c b d c 4 4 4 4 f f . . . . 
-            . . c d d d f f f f . . . . . . 
-            . . . c c c . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . c c c c . . . . . . . . . 
-            . . c d d d d c c . . . . . . . 
-            . . c d d c c c c c c . . . . . 
-            c c c c c d 4 4 4 4 c c c . . . 
-            f 4 c c 1 4 4 4 4 4 1 4 4 c . . 
-            f 4 f 1 d 4 4 4 4 1 4 4 4 4 c . 
-            f 4 f 1 4 4 4 4 4 1 4 4 4 4 4 f 
-            f 4 4 1 4 4 f c 4 1 4 4 f 4 4 f 
-            f f f 1 4 4 f 4 c 1 4 4 4 4 4 f 
-            . . f d 4 4 f 4 4 1 4 4 4 4 f . 
-            . . . f d 4 4 c c 4 1 4 4 f . . 
-            . . . f c 4 4 4 4 4 4 d f . . . 
-            . . c b d c 4 4 4 4 f f . . . . 
-            . . c d d d f f f f . . . . . . 
-            . . . c c c . . . . . . . . . . 
-            `],
+        assets.animation`pez_animacion_derecha`,
         500,
         characterAnimations.rule(Predicate.MovingRight)
         )
         characterAnimations.loopFrames(
         caracol,
-        [img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . c c c c . . . . 
-            . . . . . . c c d d d d c . . . 
-            . . . . . c c c c c c d c . . . 
-            . . . . c c 4 4 4 4 d c c . . . 
-            . . . c 4 d 4 4 4 4 4 1 c . c c 
-            . . c 4 4 4 1 4 4 4 4 d 1 c 4 c 
-            . c 4 4 4 4 1 4 4 4 4 4 1 c 4 c 
-            f 4 4 4 4 4 1 4 4 4 4 4 1 4 4 f 
-            f 4 4 4 f 4 1 c c 4 4 4 1 f 4 f 
-            f 4 4 4 4 4 1 4 4 f 4 4 d f 4 f 
-            . f 4 4 4 4 1 c 4 f 4 d f f f f 
-            . . f f 4 d 4 4 f f 4 c f c . . 
-            . . . . f f 4 4 4 4 c d b c . . 
-            . . . . . . f f f f d d d c . . 
-            . . . . . . . . . . c c c . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . c c c c c . . . . 
-            . . . . . . c d d d d d c . . . 
-            . . . . . . c c c c c d c . . . 
-            . . . . . c 4 4 4 4 d c c . . . 
-            . . . . c d 4 4 4 4 4 1 c . . . 
-            . . . c 4 4 1 4 4 4 4 4 1 c . . 
-            . . c 4 4 4 4 1 4 4 4 4 1 c c c 
-            . c 4 4 4 4 4 1 c c 4 4 1 4 4 c 
-            . c 4 4 4 4 4 1 4 4 f 4 1 f 4 f 
-            f 4 4 4 4 f 4 1 c 4 f 4 d f 4 f 
-            f 4 4 4 4 4 4 1 4 f f 4 f f 4 f 
-            . f 4 4 4 4 1 4 4 4 4 c b c f f 
-            . . f f f d 4 4 4 4 c d d c . . 
-            . . . . . f f f f f c c c . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . c c c c . . . . 
-            . . . . . . c c d d d d c . . . 
-            . . . . . c c c c c c d c . . . 
-            . . . . c c 4 4 4 4 d c c . c c 
-            . . . c 4 d 4 4 4 4 4 1 c c 4 c 
-            . . c 4 4 4 1 4 4 4 4 d 1 c 4 f 
-            . c 4 4 4 4 1 4 4 4 4 4 1 4 4 f 
-            f 4 4 4 4 4 1 1 c f 4 4 1 f 4 f 
-            f 4 4 4 f 4 1 c 4 f 4 4 1 f 4 f 
-            f 4 4 4 4 4 1 4 4 f 4 4 d f f f 
-            . f 4 4 4 4 1 c c 4 4 d f f . . 
-            . . f f 4 d 4 4 4 4 4 c f . . . 
-            . . . . f f 4 4 4 4 c d b c . . 
-            . . . . . . f f f f d d d c . . 
-            . . . . . . . . . . c c c . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . c c c c . . . 
-            . . . . . . . c c d d d d c . . 
-            . . . . . c c c c c c d d c . . 
-            . . . c c c 4 4 4 4 d c c c c c 
-            . . c 4 4 1 4 4 4 4 4 1 c c 4 f 
-            . c 4 4 4 4 1 4 4 4 4 d 1 f 4 f 
-            f 4 4 4 4 4 1 4 4 4 4 4 1 f 4 f 
-            f 4 4 f 4 4 1 4 c f 4 4 1 4 4 f 
-            f 4 4 4 4 4 1 c 4 f 4 4 1 f f f 
-            . f 4 4 4 4 1 4 4 f 4 4 d f . . 
-            . . f 4 4 1 4 c c 4 4 d f . . . 
-            . . . f d 4 4 4 4 4 4 c f . . . 
-            . . . . f f 4 4 4 4 c d b c . . 
-            . . . . . . f f f f d d d c . . 
-            . . . . . . . . . . c c c . . . 
-            `],
+        assets.animation`pez_animacion_izquierda`,
         500,
         characterAnimations.rule(Predicate.MovingLeft)
         )
@@ -563,7 +359,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite4, otherS
     }
 })
 function showFinal () {
-    tiles.setCurrentTilemap(tilemap`level3`)
+    tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     if (win) {
         scene.setBackgroundImage(assets.image`fondo_ganador`)
     } else {
