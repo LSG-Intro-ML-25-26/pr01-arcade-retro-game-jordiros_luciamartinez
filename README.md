@@ -1,27 +1,67 @@
-[![Work in MakeCode](https://classroom.github.com/assets/work-in-make-code-8824cc13a1a3f34ffcd245c82f0ae96fdae6b7d554b6539aec3a03a70825519c.svg)](https://classroom.github.com/online_ide?assignment_repo_id=22091229&assignment_repo_type=AssignmentRepo)
- 
+# NOMBRE DEL JUEGO
 
+> Videojuego desarrollado con **Microsoft MakeCode Arcade** siguiendo la **programación modular**.
 
-> Open this page at [https://raimonizard.github.io/makecode-arcade-template-nena-mov/](https://raimonizard.github.io/makecode-arcade-template-nena-mov/)
+El jugador controla a un héroe que deberá superar 3 distintos niveles con enemigos, obstáculos y un Boss final por nivel hasta alcanzar el objetivo final del juego.
+Teniendo cada nivel una estética propia, tanto la gama cromática como los enemigos.
 
-## Use as Extension
+El juego cuenta con:
+ - Menú principal interactivo
+ - Sistema de vidas
+ - Navegación entre niveles
+ - Mapas de nivel detallados
+ - Jefes finales por nivel
+ - Pantallas de victoria y derrota
+ - Uso de efectos de sonido
 
-This repository can be added as an **extension** in MakeCode.
+## Lore del videojuego
+Insertar lore.
 
-* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* click on **New Project**
-* click on **Extensions** under the gearwheel menu
-* search for **https://github.com/raimonizard/makecode-arcade-template-nena-mov** and import
+## Niveles y enemigos
 
-## Edit this project
+### Nivel 1
+* **Ambientación:** Tonos morados
+* **Enemigos básicos:**
+* **Jefe final:**
 
-To edit this repository in MakeCode.
+![Enemigo Nivel 1](assets/fantasma.png)
+![Boss Nivel 1](assets/boss_nivel2.png)
 
-* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* click on **Import** then click on **Import URL**
-* paste **https://github.com/raimonizard/makecode-arcade-template-nena-mov** and click import
+### Nivel 2
+* **Ambientación:** Tonos dorados
+* **Enemigos básicos:**
+* **Jefe final:**
 
-#### Metadata (used for search, rendering)
+![Enemigo Nivel 2](assets/fantasma.png)
+![Boss Nivel 2](assets/boss_nivel2.png)
 
-* for PXT/arcade
-<script src="https://makecode.com/gh-pages-embed.js"></script><script>makeCodeRender("{{ site.makecode.home_url }}", "{{ site.github.owner_name }}/{{ site.github.repository_name }}");</script>
+### Nivel 3
+* **Ambientación:** Tonos azulados y verdosos
+* **Enemigos básicos:**
+* **Jefe final:**
+
+![Enemigo Nivel 3](assets/fantasma.png)
+![Boss Nivel 3](assets/boss_final.png)
+
+## Controles del juego
+
+* **A:** Saltar
+* **A+A:** Doble salto
+* **B:** Atacar
+* **Arriba:** Movimiento del personaje
+
+## Documentación del código
+Todo el código generado automáticamente por bloques ha sido*revisado, adaptado y modularizado manualmente.
+Las funciones principales del proyecto están documentadas mediante comentarios, explicando su uso.
+
+## Demo del juego (Speed-run)
+Insertar video de la demo.
+
+## Autores
+Jordi Ros López <br>
+Lucía Martínez Gutiérrez <br>
+
+**Módulo Optativo: Machine Learning**
+
+## Licencia
+Este proyecto es para fines educativos del ciclo formativo de DAM2 del centro La Salle Gràcia.
