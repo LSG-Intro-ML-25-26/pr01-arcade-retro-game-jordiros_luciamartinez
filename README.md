@@ -31,26 +31,41 @@ Los enemigos básicos són eliminados en un golpe efectuado con el botón B (ata
 ### 👻 Nivel 1
 * **Ambientación:** Tonos morados
 * **Enemigos básicos:** Fantasmas
-* **Jefe final:** SSsiniestro, el espíritu arcaico de un Leviatán.
+* **Jefe final:** **SSsiniestro**, el espíritu arcaico de un Leviatán.
 
-![Enemigo Nivel 1](assets/enemigo1.png)
-![Boss Nivel 1](assets/boss2.png)
+<div align="center">
+ 
+|                Enemigo básico                |                 Jefe final                |
+| :------------------------------------------: | :---------------------------------------: |
+| ![Enemigo Nivel 1](assets/enemigo1.png) | ![Boss Nivel 1](assets/boss1.png) |
+
+</div>
 
 ### 🕸️ Nivel 2
 * **Ambientación:** Tonos dorados
 * **Enemigos básicos:** Murciélagos
-* **Jefe final:** Aracno, una araña gigante.
+* **Jefe final:** **Aracno**, una araña gigante.
 
-![Enemigo Nivel 2](assets/enemigo2.png)
-![Boss Nivel 2](assets/boss2.png)
+<div align="center">
+ 
+|                Enemigo básico                |                 Jefe final                |
+| :------------------------------------------: | :---------------------------------------: |
+| ![Enemigo Nivel 2](assets/enemigo2.png) | ![Boss Nivel 2](assets/boss2.png) |
+
+</div>
 
 ### 🌊 Nivel 3
 * **Ambientación:** Tonos azulados y verdosos
 * **Enemigos básicos:** Tiburones
-* **Jefe final:** Anguilo, una invocación prohibida en forma de anguila.
+* **Jefe final:** **Anguilo**, una invocación prohibida en forma de anguila.
 
-![Enemigo Nivel 3](assets/enemigo3.png)
-![Boss Nivel 3](assets/boss3.png)
+<div align="center">
+ 
+|                Enemigo básico                |                 Jefe final                |
+| :------------------------------------------: | :---------------------------------------: |
+| ![Enemigo Nivel 3](assets/enemigo3.png) | ![Boss Nivel 3](assets/boss3.png) |
+
+</div>
 
 ## 🕹️ Controles del juego
 * **A:** Saltar
