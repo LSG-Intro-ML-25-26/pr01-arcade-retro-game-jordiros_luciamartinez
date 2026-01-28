@@ -198,6 +198,7 @@ function ShowFinal () {
     if (controller.A.isPressed()) {
         menu = true
         final = false
+        music.play(music.createSong(assets.song`background_song`), music.PlaybackMode.LoopingInBackground)
         pause(1000)
     }
 }
@@ -433,6 +434,7 @@ function BossNivel () {
     }
 }
 function EndGame () {
+    music.stopAllSounds()
     end_game = true
     partida = false
     boss_vivo = false
@@ -444,6 +446,11 @@ function EndGame () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
     sprites.destroyAllSpritesOfKind(SpriteKind.Map)
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    if (win) {
+        music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.InBackground)
+    } else {
+        music.play(music.melodyPlayable(music.wawawawaa), music.PlaybackMode.InBackground)
+    }
 }
 let end_game = false
 let fantasma: Sprite = null
