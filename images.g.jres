@@ -99,6 +99,16 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "caracol_izquierda"
     },
+    "image21": {
+        "data": "hwQJAA4AAADu7u4AAA7gAERERAAABEAA5ABOAAAEQABE7kTu7uROAAREQEREREQA5ERORERERABEAEQAAAAAAOTuTgAAAAAAREREAAAAAAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "myImage2"
+    },
+    "image7": {
+        "data": "hwQLAAoAAAAgIgIAAAAAACIiIgAAAAAAMiIiAgAAAAAyIiIiAAAAACAjIiICAAAAACIiIiIAAAAgIiIiAgAAACIiIiIAAAAAMiIiAgAAAAAyIiIAAAAAACAjAgAAAAAA",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "myImage1"
+    },
     "anim2": {
         "namespace": "myAnimations",
         "id": "anim2",

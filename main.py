@@ -96,13 +96,13 @@ def EnemigoNivel2():
             assets.animation("""
                 derecha_fantasma
                 """),
-            500,
+            300,
             characterAnimations.rule(Predicate.MOVING_RIGHT))
         characterAnimations.run_frames(murcielago,
             assets.animation("""
                 murcielago_animacion_izquierda
                 """),
-            500,
+            300,
             characterAnimations.rule(Predicate.NOT_MOVING))
         tiles.place_on_tile(murcielago, valor2)
         tiles.set_tile_at(valor2, assets.tile("""
@@ -152,12 +152,8 @@ def on_on_overlap(sprite5, otherSprite2):
                 muerte_prota
                 """)),
             music.PlaybackMode.IN_BACKGROUND)
-    if nivel == 1 and statusbar.value > 1:
-        sprite5.x = otherSprite2.x - 50
-    elif nivel == 2 and statusbar.value > 1:
-        sprite5.x = otherSprite2.x - 50
-    elif nivel == 3 and statusbar.value > 1:
-        sprite5.x = otherSprite2.x - 50
+    if statusbar.value > 1:
+        sprite5.set_position(otherSprite2.x - 50, sprite5.y - 10)
     pause(1000)
 sprites.on_overlap(SpriteKind.player, SpriteKind.Boss, on_on_overlap)
 
@@ -189,32 +185,32 @@ def on_left_pressed():
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def EnemigoNivel3():
-    global caracol
+    global tiburon
     for valor3 in tiles.get_tiles_by_type(assets.tile("""
         amarillo_enemigo
         """)):
-        caracol = sprites.create(assets.image("""
+        tiburon = sprites.create(assets.image("""
                 caracol_izquierda
                 """),
             SpriteKind.enemy)
-        characterAnimations.loop_frames(caracol,
+        characterAnimations.loop_frames(tiburon,
             assets.animation("""
                 pez_animacion_derecha
                 """),
-            500,
+            300,
             characterAnimations.rule(Predicate.MOVING_RIGHT))
-        characterAnimations.loop_frames(caracol,
+        characterAnimations.loop_frames(tiburon,
             assets.animation("""
                 pez_animacion_izquierda
                 """),
-            500,
+            300,
             characterAnimations.rule(Predicate.MOVING_LEFT))
-        tiles.place_on_tile(caracol, valor3)
+        tiles.place_on_tile(tiburon, valor3)
         tiles.set_tile_at(valor3, assets.tile("""
             pared_nivel_3
             """))
-        caracol.ay = 200
-        caracol.follow(prota, 30)
+        tiburon.ay = 200
+        tiburon.follow(prota, 30)
 def ShowFinal():
     global menu, final
     tiles.set_current_tilemap(tilemap("""
@@ -231,6 +227,10 @@ def ShowFinal():
     if controller.A.is_pressed():
         menu = True
         final = False
+        music.play(music.create_song(assets.song("""
+                background_song
+                """)),
+            music.PlaybackMode.LOOPING_IN_BACKGROUND)
         pause(1000)
 
 def on_right_released():
@@ -506,7 +506,8 @@ def CrearEnemigos():
         EnemigoNivel3()
 
 def on_life_zero():
-    if not (win):
+    if not (win) and not (end_game):
+        sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
         EndGame()
 info.on_life_zero(on_life_zero)
 
@@ -570,7 +571,9 @@ def BossNivel():
             leviatan.ay = 200
             statusbar.attach_to_sprite(leviatan)
 def EndGame():
-    global partida, boss_vivo, final, mostrar_minimapa
+    global end_game, partida, boss_vivo, final, mostrar_minimapa
+    music.stop_all_sounds()
+    end_game = True
     partida = False
     boss_vivo = False
     final = True
@@ -581,13 +584,20 @@ def EndGame():
     sprites.destroy_all_sprites_of_kind(SpriteKind.Boss)
     sprites.destroy_all_sprites_of_kind(SpriteKind.Map)
     sprites.destroy_all_sprites_of_kind(SpriteKind.player)
+    if win:
+        music.play(music.melody_playable(music.magic_wand),
+            music.PlaybackMode.IN_BACKGROUND)
+    else:
+        music.play(music.melody_playable(music.wawawawaa),
+            music.PlaybackMode.IN_BACKGROUND)
+end_game = False
 fantasma: Sprite = None
 salto = False
 boss_vivo = False
 nivel_superado = False
 serpiente: Sprite = None
 boss_actual: Sprite = None
-caracol: Sprite = None
+tiburon: Sprite = None
 leviatan: Sprite = None
 statusbar: StatusBarSprite = None
 myMinimap: minimap.Minimap = None
@@ -627,7 +637,7 @@ def on_on_update():
 game.on_update(on_on_update)
 
 def on_update_interval():
-    global menu, nivel, win, partida
+    global menu, nivel, win, end_game, partida
     if menu:
         scene.set_background_image(assets.image("""
             fondo_menu2
@@ -640,8 +650,9 @@ def on_update_interval():
     elif not (partida) and not (final):
         MostrarInstrucciones()
         CreacionPersonaje()
-        nivel = 3
+        nivel = 1
         win = False
+        end_game = False
         GenerarNivel()
         partida = True
     elif mostrar_minimapa:
