@@ -1,27 +1,96 @@
-[![Work in MakeCode](https://classroom.github.com/assets/work-in-make-code-8824cc13a1a3f34ffcd245c82f0ae96fdae6b7d554b6539aec3a03a70825519c.svg)](https://classroom.github.com/online_ide?assignment_repo_id=22091229&assignment_repo_type=AssignmentRepo)
+# 🏰 DARK FANTASY CASTLE
+> Videojuego desarrollado con **Microsoft MakeCode Arcade** siguiendo la **programación modular**.
+
+El jugador controla a un héroe que deberá superar 3 distintos niveles con enemigos, obstáculos y un Boss final por nivel hasta alcanzar el objetivo final del juego.
+Teniendo cada nivel una estética propia, tanto la gama cromática como los enemigos.
+
+El juego cuenta con:
+ - Menú principal interactivo
+ - Sistema de vidas
+ - Navegación entre niveles
+ - Mapas de nivel detallados
+ - Jefes finales por nivel con una lógica específica de boss
+ - Pantallas de victoria y derrota
+ - Uso de efectos de sonido
+
+## 📖 Lore del videojuego
+
+Hace mucho tiempo existía un reino pacífico y próspero que vivía en equilibrio. Sin embargo, un día fue invadido por un poderoso ejército demoníaco que desató el caos y la destrucción.
+
+Tras años de guerra, el ejército invasor logró conquistar el reino por completo, rebautizándolo como **Reino Nochesfera**. Desde entonces, el territorio es gobernado con puño de hierro por **tres reyes oscuros**, cada uno dominando una parte del reino.
+
+El primero es **Sssiniestro**, líder de los fantasmas, un estratega despiadado que ha conquistado gran parte del territorio gracias a su inteligencia militar. El segundo es **Aracno**, rey de los murciélagos, responsable de asaltar aldeas vecinas y robar sus suministros, sumiéndolas en la miseria. El último es **Anguilo**, señor de los tiburones, creador de un veneno mortal que contamina los ríos y se extiende por las tierras cercanas.
+
+Cuando toda esperanza parecía perdida, surgió un caballero conocido como **End**. Decidido a poner fin al reinado del terror, juró derrotar a los tres reyes de Nochesfera y devolver la paz al reino.
+
+Con su juramento sellado, End se adentra en el castillo de Nochesfera, dispuesto a enfrentarse a los tres reyes malignos y cambiar el destino del reino para siempre.
+
+## 🚪 Niveles y enemigos
+Los enemigos básicos són eliminados en un golpe efectuado con el botón B (atacar), pero para los Jefes finales se tiene que conseguir saltar 3 veces sobre su cabeza.
+
+### 👻 Nivel 1
+* **Ambientación:** Tonos morados
+* **Enemigos básicos:** Fantasmas
+* **Jefe final:** **SSsiniestro**, el espíritu arcaico de un Leviatán.
+
+<div align="center">
  
+|                Enemigo básico                |                 Jefe final                |
+| :------------------------------------------: | :---------------------------------------: |
+| ![Enemigo Nivel 1](assets/enemigo1.png) | ![Boss Nivel 1](assets/boss1.png) |
 
+</div>
 
-> Open this page at [https://raimonizard.github.io/makecode-arcade-template-nena-mov/](https://raimonizard.github.io/makecode-arcade-template-nena-mov/)
+### 🕸️ Nivel 2
+* **Ambientación:** Tonos dorados
+* **Enemigos básicos:** Murciélagos
+* **Jefe final:** **Aracno**, una araña gigante.
 
-## Use as Extension
+<div align="center">
+ 
+|                Enemigo básico                |                 Jefe final                |
+| :------------------------------------------: | :---------------------------------------: |
+| ![Enemigo Nivel 2](assets/enemigo2.png) | ![Boss Nivel 2](assets/boss2.png) |
 
-This repository can be added as an **extension** in MakeCode.
+</div>
 
-* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* click on **New Project**
-* click on **Extensions** under the gearwheel menu
-* search for **https://github.com/raimonizard/makecode-arcade-template-nena-mov** and import
+### 🌊 Nivel 3
+* **Ambientación:** Tonos azulados y verdosos
+* **Enemigos básicos:** Tiburones
+* **Jefe final:** **Anguilo**, una invocación prohibida en forma de anguila.
 
-## Edit this project
+<div align="center">
+ 
+|                Enemigo básico                |                 Jefe final                |
+| :------------------------------------------: | :---------------------------------------: |
+| ![Enemigo Nivel 3](assets/enemigo3.png) | ![Boss Nivel 3](assets/boss3.png) |
 
-To edit this repository in MakeCode.
+</div>
 
-* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* click on **Import** then click on **Import URL**
-* paste **https://github.com/raimonizard/makecode-arcade-template-nena-mov** and click import
+## 🕹️ Controles del juego
+* **A:** Saltar
+* **A+A:** Doble salto
+* **B:** Atacar
+* **DER./IZQ.:** Moverse
+* **ABAJO:** Mostrar o ocultar el minimapa
+* **ARRIBA:** Interactuar
 
-#### Metadata (used for search, rendering)
+## 📝 Documentación del código
+Todo el código generado automáticamente por bloques ha sido*revisado, adaptado y modularizado manualmente.
+Las funciones principales del proyecto están documentadas mediante comentarios, explicando su uso.
 
-* for PXT/arcade
-<script src="https://makecode.com/gh-pages-embed.js"></script><script>makeCodeRender("{{ site.makecode.home_url }}", "{{ site.github.owner_name }}/{{ site.github.repository_name }}");</script>
+## 🎞️ Demo del juego (Speed-run)
+<div align="center">
+ <a href="https://youtu.be/pDBBGTR8v_A">
+  <img src="assets/miniatura.png" width="240" alt="Demo Dark Fantasy Castle"/>
+ </a>
+</div>
+
+## 👥 Autores
+Jordi Ros López <br>
+Lucía Martínez Gutiérrez <br>
+
+**Módulo Optativo: Machine Learning**
+
+## 📜 Licencia
+Este proyecto es para fines educativos del ciclo formativo de DAM2 del centro La Salle Gràcia.
