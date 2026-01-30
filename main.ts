@@ -17,6 +17,10 @@ function Boss2 () {
         arana.vx = 0
     }
 }
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
+    prota.setPosition(spawn_x, spawn_y)
+    info.changeLifeBy(-1)
+})
 function MostrarFlecha () {
     if (!(jugador_en_puerta)) {
         if (nivel <= 10) {
@@ -246,21 +250,83 @@ function GenerarNivel () {
     sprites.destroyAllSpritesOfKind(SpriteKind.indicador)
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
-        tiles.setCurrentTilemap(tilemap`nivel0_1`)
+        tiles.setCurrentTilemap(tilemap`nivel5`)
         GenerarLlave()
         prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (nivel == 2) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
     } else if (nivel == 10) {
-        tiles.setCurrentTilemap(tilemap`nivel1`)
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (nivel == 20) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (nivel == 30) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (false) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (false) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (false) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (false) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (false) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (false) {
+        tiles.setCurrentTilemap(tilemap`nivel10`)
         BossNivel()
         prota.setPosition(40, 460)
-    } else if (nivel == 20) {
+        spawn_x = 40
+        spawn_y = 460
+    } else if (false) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
-        tiles.setCurrentTilemap(tilemap`nivel0`)
+        tiles.setCurrentTilemap(tilemap`nivel20`)
         prota.setPosition(40, 20)
-    } else if (nivel == 30) {
+        spawn_x = 40
+        spawn_y = 40
+    } else if (false) {
         scene.setBackgroundImage(assets.image`fondo_nivel_3`)
-        tiles.setCurrentTilemap(tilemap`nivel3`)
+        tiles.setCurrentTilemap(tilemap`nivel30`)
         prota.setPosition(40, 460)
+        spawn_x = 40
+        spawn_y = 40
     }
     GenerarCorazones()
     CrearEnemigos()
@@ -332,7 +398,7 @@ function NextLevel () {
                 EndGame()
             } else {
                 music.play(music.createSoundEffect(WaveShape.Noise, 1, 452, 255, 255, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
-                nivel += 9
+                nivel += 1
                 GenerarNivel()
             }
         }
@@ -511,6 +577,8 @@ let ataque_prota2 = 0
 let flecha_puerta_nivel: Sprite = null
 let nivel = 0
 let jugador_en_puerta = false
+let spawn_y = 0
+let spawn_x = 0
 let arana: Sprite = null
 let prota: Sprite = null
 let mostrar_minimapa = false
@@ -526,6 +594,7 @@ final = false
 win = false
 mostrar_minimapa = true
 let atacar = false
+let player_en_lava = false
 game.onUpdate(function () {
     if (boss_vivo) {
         if (nivel == 10) {
