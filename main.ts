@@ -262,9 +262,9 @@ function GenerarNivel () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     sprites.destroyAllSpritesOfKind(SpriteKind.indicador)
     if (nivel == 1) {
+        tipo_nivel = true
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel5`)
-        tipo_nivel = true
     } else if (nivel == 2) {
         tiles.setCurrentTilemap(tilemap`nivel0`)
     } else if (nivel == 3) {
@@ -272,11 +272,10 @@ function GenerarNivel () {
     } else if (nivel == 4) {
         tiles.setCurrentTilemap(tilemap`nivel9`)
     } else if (nivel == 5) {
-        scene.setBackgroundImage(assets.image`fondo_nivel_1`)
-        tipo_nivel = true
         tiles.setCurrentTilemap(tilemap`nivel12`)
     } else if (nivel == 6) {
-    	
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel14`)
     } else if (nivel == 7) {
     	
     } else if (nivel == 8) {
@@ -610,7 +609,7 @@ game.onUpdateInterval(1, function () {
         }
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
-        nivel = 5
+        nivel = 6
         win = false
         end_game = false
         GenerarNivel()
