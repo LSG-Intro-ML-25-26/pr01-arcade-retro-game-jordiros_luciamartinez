@@ -264,6 +264,7 @@ statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
     boss_vivo = false
 })
 function GenerarNivel () {
+    tipo_nivel = true
     jugador_en_puerta = false
     nivel_superado = false
     boss_vivo = true
@@ -296,39 +297,48 @@ function GenerarNivel () {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel10`)
     } else if (nivel == 11) {
-        tipo_nivel = true
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel23`)
     } else if (nivel == 12) {
-        tipo_nivel = true
         tiles.setCurrentTilemap(tilemap`nivel25`)
     } else if (nivel == 13) {
-        tipo_nivel = true
         tiles.setCurrentTilemap(tilemap`nivel27`)
     } else if (nivel == 14) {
-        tipo_nivel = true
         tiles.setCurrentTilemap(tilemap`nivel29`)
     } else if (nivel == 15) {
-        tipo_nivel = true
-        tiles.setCurrentTilemap(tilemap`nivel27`)
+        tiles.setCurrentTilemap(tilemap`nivel34`)
     } else if (nivel == 16) {
-        tipo_nivel = true
-        tiles.setCurrentTilemap(tilemap`nivel27`)
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 17) {
-        tipo_nivel = true
-        tiles.setCurrentTilemap(tilemap`nivel27`)
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 18) {
-        tipo_nivel = true
-        tiles.setCurrentTilemap(tilemap`nivel27`)
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 19) {
-        tipo_nivel = true
-        tiles.setCurrentTilemap(tilemap`nivel27`)
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 20) {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel20`)
+    } else if (nivel == 21) {
+        scene.setBackgroundImage(assets.image`fondo_nivel_3`)
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    } else if (nivel == 22) {
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    } else if (nivel == 23) {
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    } else if (nivel == 24) {
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    } else if (nivel == 25) {
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    } else if (nivel == 26) {
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    } else if (nivel == 27) {
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    } else if (nivel == 28) {
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    } else if (nivel == 29) {
+        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 30) {
         tipo_nivel = false
-        scene.setBackgroundImage(assets.image`fondo_nivel_3`)
         tiles.setCurrentTilemap(tilemap`nivel30`)
     }
     CreacionPersonaje()
@@ -599,8 +609,8 @@ function EndGame () {
 let end_game = false
 let fantasma: Sprite = null
 let salto = false
-let tipo_nivel = false
 let llama = 0
+let tipo_nivel = false
 let boss_vivo = false
 let nivel_superado = false
 let serpiente: Sprite = null
@@ -659,7 +669,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(3)
-        nivel = 1
+        nivel = 15
         win = false
         end_game = false
         GenerarNivel()
