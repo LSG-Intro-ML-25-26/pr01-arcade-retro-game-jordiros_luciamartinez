@@ -137,7 +137,9 @@ function GenerarMinimapa () {
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherSprite) {
     sprites.destroy(otherSprite)
-    info.changeLifeBy(1)
+    if (info.life() < 10) {
+        info.changeLifeBy(1)
+    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite5, otherSprite2) {
     if (sprite5.vy > 0 && sprite5.y < otherSprite2.y) {
@@ -280,9 +282,18 @@ function GenerarNivel () {
     } else if (nivel == 10) {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel10`)
+    } else if (nivel == 11) {
+        tipo_nivel = true
+        scene.setBackgroundImage(assets.image`fondo_nivel_2`)
+        tiles.setCurrentTilemap(tilemap`nivel23`)
+    } else if (nivel == 12) {
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel25`)
+    } else if (nivel == 13) {
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel27`)
     } else if (nivel == 20) {
         tipo_nivel = false
-        scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel20`)
     } else if (nivel == 30) {
         tipo_nivel = false
@@ -607,7 +618,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(3)
-        nivel = 1
+        nivel = 13
         win = false
         end_game = false
         GenerarNivel()
