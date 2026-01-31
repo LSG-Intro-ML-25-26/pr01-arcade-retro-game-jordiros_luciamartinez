@@ -136,8 +136,8 @@ function GenerarMinimapa () {
     mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherSprite) {
-    sprites.destroy(otherSprite)
     if (info.life() < 10) {
+        sprites.destroy(otherSprite)
         info.changeLifeBy(1)
     }
 })
