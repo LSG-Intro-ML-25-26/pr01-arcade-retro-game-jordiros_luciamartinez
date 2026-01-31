@@ -70,7 +70,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_2`, function (
 })
 function CreacionPersonaje () {
     prota = sprites.create(assets.image`player`, SpriteKind.Player)
-    info.setLife(3)
     characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
     controller.moveSprite(prota, 100, 0)
     scene.cameraFollowSprite(prota)
@@ -257,6 +256,7 @@ function GenerarNivel () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     sprites.destroyAllSpritesOfKind(SpriteKind.indicador)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Heart)
     if (nivel == 1) {
         tipo_nivel = true
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
@@ -274,20 +274,20 @@ function GenerarNivel () {
     } else if (nivel == 7) {
         tiles.setCurrentTilemap(tilemap`nivel16`)
     } else if (nivel == 8) {
-    	
+        tiles.setCurrentTilemap(tilemap`nivel18`)
     } else if (nivel == 9) {
-    	
+        tiles.setCurrentTilemap(tilemap`nivel21`)
     } else if (nivel == 10) {
-        tiles.setCurrentTilemap(tilemap`nivel10`)
         tipo_nivel = false
+        tiles.setCurrentTilemap(tilemap`nivel10`)
     } else if (nivel == 20) {
+        tipo_nivel = false
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel20`)
-        tipo_nivel = false
     } else if (nivel == 30) {
+        tipo_nivel = false
         scene.setBackgroundImage(assets.image`fondo_nivel_3`)
         tiles.setCurrentTilemap(tilemap`nivel30`)
-        tipo_nivel = false
     }
     CreacionPersonaje()
     CrearEnemigos()
@@ -606,7 +606,8 @@ game.onUpdateInterval(1, function () {
         }
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
-        nivel = 7
+        info.setLife(3)
+        nivel = 1
         win = false
         end_game = false
         GenerarNivel()
