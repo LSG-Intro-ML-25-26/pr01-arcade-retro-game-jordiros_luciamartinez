@@ -272,7 +272,9 @@ function GenerarNivel () {
     } else if (nivel == 4) {
         tiles.setCurrentTilemap(tilemap`nivel9`)
     } else if (nivel == 5) {
-    	
+        scene.setBackgroundImage(assets.image`fondo_nivel_1`)
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel12`)
     } else if (nivel == 6) {
     	
     } else if (nivel == 7) {
@@ -301,6 +303,7 @@ function GenerarNivel () {
         GenerarBoss()
     }
     GenerarCorazones()
+    MostrarNivel()
 }
 function Boss1 () {
     if (prota.x + 30 < serpiente.x) {
@@ -373,6 +376,10 @@ function NextLevel () {
                 sprites.destroyAllSpritesOfKind(SpriteKind.Player)
                 GenerarNivel()
             }
+        }
+    } else {
+        if (controller.up.isPressed()) {
+            game.splash("Necesitas la llave")
         }
     }
 }
@@ -520,6 +527,11 @@ function GenerarCorazones () {
         }
     }
 }
+function MostrarNivel () {
+    game.setDialogTextColor(2)
+    game.setDialogFrame(assets.image`fondo_1`)
+    game.showLongText("Nivel " + convertToText(nivel), DialogLayout.Full)
+}
 function EndGame () {
     music.stopAllSounds()
     end_game = true
@@ -598,7 +610,7 @@ game.onUpdateInterval(1, function () {
         }
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
-        nivel = 1
+        nivel = 5
         win = false
         end_game = false
         GenerarNivel()
