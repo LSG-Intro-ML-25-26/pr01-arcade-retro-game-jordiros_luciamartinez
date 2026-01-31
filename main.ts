@@ -144,6 +144,7 @@ function GenerarMinimapa () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherSprite) {
     if (info.life() < 10) {
         sprites.destroy(otherSprite)
+        music.play(music.createSong(hex`00f4010408020100001c00010a006400f4016400000400000000000000000000000000050000040c0000000400012704000800012a`), music.PlaybackMode.InBackground)
         info.changeLifeBy(1)
     } else {
         if (mensaje_corazon) {
@@ -542,6 +543,7 @@ info.onLifeZero(function () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite6, otherSprite3) {
     sprites.destroyAllSpritesOfKind(SpriteKind.Key)
     nivel_superado = true
+    music.play(music.createSong(hex`00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a`), music.PlaybackMode.UntilDone)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite22, location22) {
     NextLevel()
@@ -656,7 +658,7 @@ game.onUpdateInterval(1, function () {
         }
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
-        info.setLife(10)
+        info.setLife(3)
         nivel = 1
         win = false
         end_game = false
@@ -667,6 +669,9 @@ game.onUpdateInterval(1, function () {
     }
     if (final) {
         ShowFinal()
+        if (info.life() <= 9) {
+            mensaje_corazon = true
+        }
     }
 })
 game.onUpdateInterval(200, function () {
