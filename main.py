@@ -4,6 +4,8 @@ class SpriteKind:
     Map = SpriteKind.create()
     Boss = SpriteKind.create()
     indicador = SpriteKind.create()
+    Key = SpriteKind.create()
+    Heart = SpriteKind.create()
 def Boss2():
     if prota.x + 30 < arana.x:
         arana.vx = -20
@@ -17,41 +19,64 @@ def Boss2():
             """))
     else:
         arana.vx = 0
+
+def on_overlap_tile(sprite, location):
+    prota.set_position(spawn_x, spawn_y)
+    info.change_life_by(-1)
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        myTile1
+        """),
+    on_overlap_tile)
+
 def MostrarFlecha():
+    global flecha_puerta_nivel
     if not (jugador_en_puerta):
-        if nivel == 1:
-            tiles.place_on_random_tile(flecha_puerta_nivel,
-                assets.tile("""
-                    ubi_felcha_nivel1
-                    """))
+        if nivel <= 10:
+            flecha_puerta_nivel = sprites.create(assets.image("""
+                    flecha_nivel1
+                    """),
+                SpriteKind.indicador)
             animation.run_image_animation(flecha_puerta_nivel,
                 assets.animation("""
                     animacion_flecha_nivel1
                     """),
                 150,
                 True)
-        elif nivel == 2:
             tiles.place_on_random_tile(flecha_puerta_nivel,
                 assets.tile("""
-                    ubi_flecha_nivel2
+                    ubi_felcha_nivel1
                     """))
+        elif nivel > 10 and nivel <= 20:
+            flecha_puerta_nivel = sprites.create(assets.image("""
+                    flecha_nivel2
+                    """),
+                SpriteKind.indicador)
             animation.run_image_animation(flecha_puerta_nivel,
                 assets.animation("""
                     animacion_flecha_nivel2
                     """),
                 150,
                 True)
-        elif nivel == 3:
             tiles.place_on_random_tile(flecha_puerta_nivel,
                 assets.tile("""
-                    ubi_flecha_nivel3
+                    ubi_flecha_nivel2
                     """))
+        elif nivel > 20 and nivel <= 30:
+            flecha_puerta_nivel = sprites.create(assets.image("""
+                    flecha_nivel3
+                    """),
+                SpriteKind.indicador)
             animation.run_image_animation(flecha_puerta_nivel,
                 assets.animation("""
                     animacion_flecha_nivel3
                     """),
                 150,
                 True)
+            tiles.place_on_random_tile(flecha_puerta_nivel,
+                assets.tile("""
+                    ubi_flecha_nivel3
+                    """))
 
 def on_b_pressed():
     global ataque_prota2
@@ -61,22 +86,23 @@ def on_b_pressed():
         elif characterAnimations.matches_rule(prota, characterAnimations.rule(Predicate.FACING_LEFT)):
             AtaqueIzquierda()
         ataque_prota2 += 1
+        pause(100)
 controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
 
-def on_overlap_tile(sprite3, location3):
+def on_overlap_tile2(sprite3, location3):
     NextLevel()
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
         puerta_4_nivel_2
         """),
-    on_overlap_tile)
+    on_overlap_tile2)
 
 def CreacionPersonaje():
     global prota, ataque_prota, ataque_prota2
     prota = sprites.create(assets.image("""
         player
         """), SpriteKind.player)
-    info.set_life(5)
+    info.set_life(3)
     characterAnimations.set_character_state(prota, characterAnimations.rule(Predicate.FACING_RIGHT))
     controller.move_sprite(prota, 100, 0)
     scene.camera_follow_sprite(prota)
@@ -111,13 +137,35 @@ def EnemigoNivel2():
         murcielago.ay = 200
         murcielago.follow(prota, 30)
 
-def on_overlap_tile2(sprite, location):
+def on_overlap_tile3(sprite2, location2):
     NextLevel()
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
         puerta_4_nivel_3
         """),
-    on_overlap_tile2)
+    on_overlap_tile3)
+
+def GenerarLlave():
+    global llave
+    for valor in tiles.get_tiles_by_type(assets.tile("""
+        myTile
+        """)):
+        llave = sprites.create(assets.image("""
+            myImage2
+            """), SpriteKind.Key)
+        tiles.place_on_tile(llave, valor)
+        if nivel < 10:
+            tiles.set_tile_at(valor, assets.tile("""
+                pared_nivel_1
+                """))
+        elif nivel > 10 and nivel < 20:
+            tiles.set_tile_at(valor, assets.tile("""
+                pared_nivel_2
+                """))
+        elif nivel > 10 and nivel < 20:
+            tiles.set_tile_at(valor, assets.tile("""
+                pared_nivel_3
+                """))
 
 def on_a_pressed():
     if partida:
@@ -211,6 +259,12 @@ def EnemigoNivel3():
             """))
         tiburon.ay = 200
         tiburon.follow(prota, 30)
+
+def on_on_overlap2(sprite4, otherSprite):
+    sprites.destroy(otherSprite)
+    info.change_life_by(1)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Heart, on_on_overlap2)
+
 def ShowFinal():
     global menu, final
     tiles.set_current_tilemap(tilemap("""
@@ -253,26 +307,20 @@ def on_left_released():
             False)
 controller.left.on_event(ControllerButtonEvent.RELEASED, on_left_released)
 
+def on_on_overlap3(sprite6, otherSprite3):
+    global nivel_superado
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Key)
+    nivel_superado = True
+sprites.on_overlap(SpriteKind.player, SpriteKind.Key, on_on_overlap3)
+
 def on_on_zero(status):
-    global boss_actual, flecha_puerta_nivel, nivel_superado, boss_vivo
-    if nivel == 1:
+    global boss_actual, nivel_superado, boss_vivo
+    if nivel == 10:
         boss_actual = serpiente
-        flecha_puerta_nivel = sprites.create(assets.image("""
-                flecha_nivel1
-                """),
-            SpriteKind.indicador)
-    elif nivel == 2:
+    elif nivel == 20:
         boss_actual = arana
-        flecha_puerta_nivel = sprites.create(assets.image("""
-                flecha_nivel2
-                """),
-            SpriteKind.indicador)
-    elif nivel == 3:
+    elif nivel == 30:
         boss_actual = leviatan
-        flecha_puerta_nivel = sprites.create(assets.image("""
-                flecha_nivel3
-                """),
-            SpriteKind.indicador)
     music.play(music.create_song(assets.song("""
             ashes
             """)),
@@ -285,7 +333,7 @@ def on_on_zero(status):
 statusbars.on_zero(StatusBarKind.enemy_health, on_on_zero)
 
 def GenerarNivel():
-    global jugador_en_puerta, nivel_superado, boss_vivo
+    global jugador_en_puerta, nivel_superado, boss_vivo, spawn_x, spawn_y
     jugador_en_puerta = False
     nivel_superado = False
     boss_vivo = True
@@ -297,27 +345,114 @@ def GenerarNivel():
             fondo_nivel_1
             """))
         tiles.set_current_tilemap(tilemap("""
-            nivel1
+            nivel5
             """))
-        prota.set_position(40, 460)
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
     elif nivel == 2:
+        tiles.set_current_tilemap(tilemap("""
+            nivel0
+            """))
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    elif nivel == 10:
+        tiles.set_current_tilemap(tilemap("""
+            nivel0
+            """))
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    elif nivel == 20:
+        tiles.set_current_tilemap(tilemap("""
+            nivel0
+            """))
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    elif nivel == 30:
+        tiles.set_current_tilemap(tilemap("""
+            nivel0
+            """))
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    elif False:
+        tiles.set_current_tilemap(tilemap("""
+            nivel0
+            """))
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    elif False:
+        tiles.set_current_tilemap(tilemap("""
+            nivel0
+            """))
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    elif False:
+        tiles.set_current_tilemap(tilemap("""
+            nivel0
+            """))
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    elif False:
+        tiles.set_current_tilemap(tilemap("""
+            nivel0
+            """))
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    elif False:
+        tiles.set_current_tilemap(tilemap("""
+            nivel0
+            """))
+        GenerarLlave()
+        prota.set_position(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    elif False:
+        tiles.set_current_tilemap(tilemap("""
+            nivel10
+            """))
+        BossNivel()
+        prota.set_position(40, 460)
+        spawn_x = 40
+        spawn_y = 460
+    elif False:
         scene.set_background_image(assets.image("""
             fondo_nivel_2
             """))
         tiles.set_current_tilemap(tilemap("""
-            nivel0
+            nivel20
             """))
         prota.set_position(40, 20)
-    elif nivel == 3:
+        spawn_x = 40
+        spawn_y = 40
+    elif False:
         scene.set_background_image(assets.image("""
             fondo_nivel_3
             """))
         tiles.set_current_tilemap(tilemap("""
-            nivel3
+            nivel30
             """))
         prota.set_position(40, 460)
+        spawn_x = 40
+        spawn_y = 40
+    GenerarCorazones()
     CrearEnemigos()
-    BossNivel()
 def Boss1():
     if prota.x + 30 < serpiente.x:
         serpiente.vx = -20
@@ -386,13 +521,13 @@ def AtaqueIzquierda():
             200,
             True)
 def NextLevel():
-    global jugador_en_puerta, win, nivel, boss_vivo
+    global jugador_en_puerta, win, nivel
     if nivel_superado:
         MostrarFlecha()
         jugador_en_puerta = True
         pause(10)
         if controller.up.is_pressed():
-            if nivel == 3:
+            if nivel == 30:
                 win = True
                 EndGame()
             else:
@@ -406,7 +541,6 @@ def NextLevel():
                         InterpolationCurve.LINEAR),
                     music.PlaybackMode.UNTIL_DONE)
                 nivel += 1
-                boss_vivo = True
                 GenerarNivel()
 def AtaqueDerecha():
     animation.run_image_animation(prota,
@@ -433,13 +567,13 @@ def AtaqueDerecha():
             200,
             True)
 
-def on_overlap_tile3(sprite2, location2):
+def on_overlap_tile4(sprite22, location22):
     NextLevel()
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
         puerta_4_nivel_1
         """),
-    on_overlap_tile3)
+    on_overlap_tile4)
 
 def on_down_pressed():
     global mostrar_minimapa
@@ -453,7 +587,7 @@ controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
 def EnemigoNivel1():
     global fantasma
-    for valor in tiles.get_tiles_by_type(assets.tile("""
+    for valor4 in tiles.get_tiles_by_type(assets.tile("""
         amarillo_enemigo
         """)):
         fantasma = sprites.create(assets.image("""
@@ -472,8 +606,8 @@ def EnemigoNivel1():
                 """),
             500,
             characterAnimations.rule(Predicate.MOVING_LEFT))
-        tiles.place_on_tile(fantasma, valor)
-        tiles.set_tile_at(valor, assets.tile("""
+        tiles.place_on_tile(fantasma, valor4)
+        tiles.set_tile_at(valor4, assets.tile("""
             pared_nivel_1
             """))
         fantasma.ay = 200
@@ -498,11 +632,11 @@ def MostrarLore():
     game.show_long_text("Y asi, End se adentro al castillo de la Nochesfera para derrotar a los 3 reyes malignos.",
         DialogLayout.FULL)
 def CrearEnemigos():
-    if nivel == 1:
+    if nivel <= 10:
         EnemigoNivel1()
-    elif nivel == 2:
+    elif nivel > 10 and nivel <= 20:
         EnemigoNivel2()
-    elif nivel == 3:
+    elif nivel > 20 and nivel <= 30:
         EnemigoNivel3()
 
 def on_life_zero():
@@ -511,24 +645,23 @@ def on_life_zero():
         EndGame()
 info.on_life_zero(on_life_zero)
 
-def on_on_overlap2(sprite4, otherSprite):
+def on_on_overlap4(sprite42, otherSprite4):
     if ataque_prota < ataque_prota2:
-        sprites.destroy(otherSprite, effects.ashes, 200)
+        sprites.destroy(otherSprite4, effects.ashes, 200)
         music.play(music.create_song(assets.song("""
                 ashes
                 """)),
             music.PlaybackMode.UNTIL_DONE)
     else:
-        sprite4.start_effect(effects.ashes, 1000)
+        sprite42.start_effect(effects.ashes, 1000)
         scene.camera_shake(5, 500)
         info.change_life_by(-1)
         music.play(music.create_song(assets.song("""
                 muerte_prota
                 """)),
             music.PlaybackMode.IN_BACKGROUND)
-        sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
-        GenerarNivel()
-sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap2)
+        sprites.destroy(otherSprite4)
+sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap4)
 
 def MostrarInstrucciones():
     game.set_dialog_text_color(2)
@@ -544,7 +677,7 @@ def BossNivel():
         statusbar.max = 9
         statusbar.set_color(7, 2, 0)
         statusbar.set_status_bar_flag(StatusBarFlag.SMOOTH_TRANSITION, True)
-        if nivel == 1:
+        if nivel == 10:
             serpiente = sprites.create(assets.image("""
                     leviatan_derecha
                     """),
@@ -553,7 +686,7 @@ def BossNivel():
             tiles.place_on_tile(serpiente, tiles.get_tile_location(40, 5))
             serpiente.ay = 200
             statusbar.attach_to_sprite(serpiente)
-        elif nivel == 2:
+        elif nivel == 20:
             arana = sprites.create(assets.image("""
                     faraon_derecha
                     """),
@@ -562,7 +695,7 @@ def BossNivel():
             tiles.place_on_tile(arana, tiles.get_tile_location(25, 13))
             arana.ay = 200
             statusbar.attach_to_sprite(arana)
-        elif nivel == 3:
+        elif nivel == 30:
             leviatan = sprites.create(assets.image("""
                 myImage0
                 """), SpriteKind.Boss)
@@ -570,6 +703,27 @@ def BossNivel():
             tiles.place_on_tile(leviatan, tiles.get_tile_location(44, 22))
             leviatan.ay = 200
             statusbar.attach_to_sprite(leviatan)
+def GenerarCorazones():
+    global llave
+    for valor5 in tiles.get_tiles_by_type(assets.tile("""
+        myTile0
+        """)):
+        llave = sprites.create(assets.image("""
+            myImage1
+            """), SpriteKind.Heart)
+        tiles.place_on_tile(llave, valor5)
+        if nivel <= 10:
+            tiles.set_tile_at(valor5, assets.tile("""
+                pared_nivel_1
+                """))
+        elif nivel > 10 and nivel <= 20:
+            tiles.set_tile_at(valor5, assets.tile("""
+                pared_nivel_2
+                """))
+        elif nivel > 10 and nivel <= 20:
+            tiles.set_tile_at(valor5, assets.tile("""
+                pared_nivel_3
+                """))
 def EndGame():
     global end_game, partida, boss_vivo, final, mostrar_minimapa
     music.stop_all_sounds()
@@ -594,20 +748,23 @@ end_game = False
 fantasma: Sprite = None
 salto = False
 boss_vivo = False
-nivel_superado = False
 serpiente: Sprite = None
 boss_actual: Sprite = None
+nivel_superado = False
 tiburon: Sprite = None
 leviatan: Sprite = None
 statusbar: StatusBarSprite = None
 myMinimap: minimap.Minimap = None
 mapStripe: Sprite = None
+llave: Sprite = None
 murcielago: Sprite = None
 ataque_prota = 0
 ataque_prota2 = 0
 flecha_puerta_nivel: Sprite = None
 nivel = 0
 jugador_en_puerta = False
+spawn_y = 0
+spawn_x = 0
 arana: Sprite = None
 prota: Sprite = None
 mostrar_minimapa = False
@@ -625,14 +782,16 @@ partida = False
 final = False
 win = False
 mostrar_minimapa = True
+atacar = False
+player_en_lava = False
 
 def on_on_update():
     if boss_vivo:
-        if nivel == 1:
+        if nivel == 10:
             Boss1()
-        elif nivel == 2:
+        elif nivel == 20:
             Boss2()
-        elif nivel == 3:
+        elif nivel == 30:
             Boss3()
 game.on_update(on_on_update)
 

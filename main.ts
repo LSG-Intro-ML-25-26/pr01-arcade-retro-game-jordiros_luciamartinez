@@ -31,7 +31,7 @@ function MostrarFlecha () {
             150,
             true
             )
-            tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`ubi_felcha_nivel1`)
+            tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`puerta_1_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
             flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel2`, SpriteKind.indicador)
             animation.runImageAnimation(
@@ -40,7 +40,7 @@ function MostrarFlecha () {
             150,
             true
             )
-            tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`ubi_flecha_nivel2`)
+            tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`puerta_1_nivel_2`)
         } else if (nivel > 20 && nivel <= 30) {
             flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel3`, SpriteKind.indicador)
             animation.runImageAnimation(
@@ -49,8 +49,9 @@ function MostrarFlecha () {
             150,
             true
             )
-            tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`ubi_flecha_nivel3`)
+            tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`puerta_1_nivel_3`)
         }
+        flecha_puerta_nivel.y += -30
     }
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -258,6 +259,48 @@ function GenerarNivel () {
     } else if (nivel == 2) {
         tiles.setCurrentTilemap(tilemap`nivel0`)
         GenerarLlave()
+        prota.setPosition(150, 460)
+        spawn_x = 150
+        spawn_y = 460
+    } else if (nivel == 3) {
+        tiles.setCurrentTilemap(tilemap`nivel7`)
+        GenerarLlave()
+        prota.setPosition(40, 90)
+        spawn_x = 40
+        spawn_y = 90
+    } else if (nivel == 4) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (nivel == 5) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (nivel == 6) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (nivel == 7) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (nivel == 8) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
+        prota.setPosition(380, 460)
+        spawn_x = 380
+        spawn_y = 460
+    } else if (nivel == 9) {
+        tiles.setCurrentTilemap(tilemap`nivel0`)
+        GenerarLlave()
         prota.setPosition(380, 460)
         spawn_x = 380
         spawn_y = 460
@@ -268,60 +311,12 @@ function GenerarNivel () {
         spawn_x = 380
         spawn_y = 460
     } else if (nivel == 20) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
-    } else if (nivel == 30) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
-    } else if (false) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
-    } else if (false) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
-    } else if (false) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
-    } else if (false) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
-    } else if (false) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
-    } else if (false) {
-        tiles.setCurrentTilemap(tilemap`nivel10`)
-        BossNivel()
-        prota.setPosition(40, 460)
-        spawn_x = 40
-        spawn_y = 460
-    } else if (false) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel20`)
         prota.setPosition(40, 20)
         spawn_x = 40
-        spawn_y = 40
-    } else if (false) {
+        spawn_y = 20
+    } else if (nivel == 30) {
         scene.setBackgroundImage(assets.image`fondo_nivel_3`)
         tiles.setCurrentTilemap(tilemap`nivel30`)
         prota.setPosition(40, 460)
