@@ -282,13 +282,13 @@ function GenerarNivel () {
     } else if (nivel == 3) {
         tiles.setCurrentTilemap(tilemap`nivel7`)
     } else if (nivel == 4) {
-        tiles.setCurrentTilemap(tilemap`nivel9`)
+        tiles.setCurrentTilemap(tilemap`nivel16`)
     } else if (nivel == 5) {
         tiles.setCurrentTilemap(tilemap`nivel12`)
     } else if (nivel == 6) {
         tiles.setCurrentTilemap(tilemap`nivel14`)
     } else if (nivel == 7) {
-        tiles.setCurrentTilemap(tilemap`nivel16`)
+        tiles.setCurrentTilemap(tilemap`nivel9`)
     } else if (nivel == 8) {
         tiles.setCurrentTilemap(tilemap`nivel18`)
     } else if (nivel == 9) {
@@ -312,7 +312,7 @@ function GenerarNivel () {
     } else if (nivel == 17) {
         tiles.setCurrentTilemap(tilemap`nivel38`)
     } else if (nivel == 18) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel40`)
     } else if (nivel == 19) {
         tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 20) {
@@ -669,7 +669,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(3)
-        nivel = 17
+        nivel = 18
         win = false
         end_game = false
         GenerarNivel()
