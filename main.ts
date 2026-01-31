@@ -5,6 +5,7 @@ namespace SpriteKind {
     export const indicador = SpriteKind.create()
     export const Key = SpriteKind.create()
     export const Heart = SpriteKind.create()
+    export const Antorcha = SpriteKind.create()
 }
 function Boss2 () {
     if (prota.x + 30 < arana.x) {
@@ -211,6 +212,44 @@ function EnemigoNivel3 () {
         tiburon.follow(prota, 30)
     }
 }
+function GenerarAntorchas () {
+    for (let antorcha_value of tiles.getTilesByType(assets.tile`antorcha_nivel_1`)) {
+        antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
+        animation.runImageAnimation(
+        antorcha,
+        assets.animation`myAnim1`,
+        200,
+        true
+        )
+        tiles.placeOnTile(antorcha, antorcha_value)
+        tiles.setTileAt(antorcha_value, assets.tile`pared_nivel_1`)
+        antorcha.y += -1
+    }
+    for (let antorcha_value of tiles.getTilesByType(assets.tile`antorcha_nivel_2`)) {
+        antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
+        animation.runImageAnimation(
+        antorcha,
+        assets.animation`myAnim1`,
+        200,
+        true
+        )
+        tiles.placeOnTile(antorcha, antorcha_value)
+        tiles.setTileAt(antorcha_value, assets.tile`pared_nivel_2`)
+        antorcha.y += -1
+    }
+    for (let antorcha_value of tiles.getTilesByType(assets.tile`antorhca_nivel_3`)) {
+        antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
+        animation.runImageAnimation(
+        antorcha,
+        assets.animation`myAnim1`,
+        200,
+        true
+        )
+        tiles.placeOnTile(antorcha, antorcha_value)
+        tiles.setTileAt(antorcha_value, assets.tile`pared_nivel_3`)
+        antorcha.y += -1
+    }
+}
 function ShowFinal () {
     tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     if (win) {
@@ -273,6 +312,7 @@ function GenerarNivel () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     sprites.destroyAllSpritesOfKind(SpriteKind.indicador)
     sprites.destroyAllSpritesOfKind(SpriteKind.Heart)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Antorcha)
     if (nivel == 1) {
         tipo_nivel = true
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
@@ -314,13 +354,13 @@ function GenerarNivel () {
     } else if (nivel == 18) {
         tiles.setCurrentTilemap(tilemap`nivel40`)
     } else if (nivel == 19) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel42`)
     } else if (nivel == 20) {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel20`)
     } else if (nivel == 21) {
         scene.setBackgroundImage(assets.image`fondo_nivel_3`)
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel44`)
     } else if (nivel == 22) {
         tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 23) {
@@ -341,15 +381,16 @@ function GenerarNivel () {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel30`)
     }
-    CreacionPersonaje()
-    CrearEnemigos()
     if (tipo_nivel) {
         GenerarLlave()
     } else {
         GenerarBoss()
     }
     GenerarCorazones()
+    GenerarAntorchas()
     MostrarNivel()
+    CreacionPersonaje()
+    CrearEnemigos()
 }
 function Boss1 () {
     if (prota.x + 30 < serpiente.x) {
@@ -598,6 +639,7 @@ function EndGame () {
     sprites.destroy(mapStripe)
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Antorcha)
     sprites.destroyAllSpritesOfKind(SpriteKind.Map)
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
     if (win) {
@@ -615,6 +657,7 @@ let boss_vivo = false
 let nivel_superado = false
 let serpiente: Sprite = null
 let boss_actual: Sprite = null
+let antorcha: Sprite = null
 let tiburon: Sprite = null
 let leviatan: Sprite = null
 let statusbar: StatusBarSprite = null
@@ -669,7 +712,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(3)
-        nivel = 18
+        nivel = 21
         win = false
         end_game = false
         GenerarNivel()
@@ -683,65 +726,4 @@ game.onUpdateInterval(1, function () {
             mensaje_corazon = true
         }
     }
-})
-game.onUpdateInterval(200, function () {
-    if (nivel <= 10) {
-        if (llama == 1) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_1`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_5`)
-            }
-        } else if (llama == 2) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_5`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_6`)
-            }
-        } else if (llama == 3) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_6`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_5`)
-            }
-        } else if (llama == 4) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_5`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_1`)
-            }
-            llama = 0
-        }
-    } else if (nivel > 10 && nivel <= 20) {
-        if (llama == 1) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_2`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_4`)
-            }
-        } else if (llama == 2) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_4`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_3`)
-            }
-        } else if (llama == 3) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_3`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_4`)
-            }
-        } else if (llama == 4) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_4`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_2`)
-            }
-            llama = 0
-        }
-    } else if (nivel > 20 && nivel <= 30) {
-        if (llama == 1) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorhca_nivel_3`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_7`)
-            }
-        } else if (llama == 2) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_7`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_8`)
-            }
-        } else if (llama == 3) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_8`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_7`)
-            }
-        } else if (llama == 4) {
-            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_8`)) {
-                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_7`)
-            }
-            llama = 0
-        }
-    }
-    llama += 1
 })
