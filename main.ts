@@ -111,9 +111,6 @@ function EnemigoNivel2 () {
         murcielago.follow(prota, 30)
     }
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_3`, function (sprite, location) {
-    NextLevel()
-})
 function GenerarLlave () {
     for (let valor of tiles.getTilesByType(assets.tile`myTile`)) {
         llave = sprites.create(assets.image`myImage2`, SpriteKind.Key)
@@ -139,6 +136,10 @@ function GenerarMinimapa () {
     minimap.includeSprite(myMinimap, prota, MinimapSpriteScale.Double)
     mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherSprite) {
+    sprites.destroy(otherSprite)
+    info.changeLifeBy(1)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite5, otherSprite2) {
     if (sprite5.vy > 0 && sprite5.y < otherSprite2.y) {
         sprite5.vy = -70
@@ -197,10 +198,6 @@ function EnemigoNivel3 () {
         tiburon.follow(prota, 30)
     }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite)
-    info.changeLifeBy(1)
-})
 function ShowFinal () {
     tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     if (win) {
@@ -215,6 +212,9 @@ function ShowFinal () {
         pause(1000)
     }
 }
+scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_3`, function (sprite2, location2) {
+    NextLevel()
+})
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
         animation.runImageAnimation(
@@ -234,10 +234,6 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
         false
         )
     }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite, otherSprite) {
-    sprites.destroyAllSpritesOfKind(SpriteKind.Key)
-    nivel_superado = true
 })
 statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
     if (nivel == 10) {
@@ -274,10 +270,9 @@ function GenerarNivel () {
     } else if (nivel == 5) {
         tiles.setCurrentTilemap(tilemap`nivel12`)
     } else if (nivel == 6) {
-        tipo_nivel = true
         tiles.setCurrentTilemap(tilemap`nivel14`)
     } else if (nivel == 7) {
-    	
+        tiles.setCurrentTilemap(tilemap`nivel16`)
     } else if (nivel == 8) {
     	
     } else if (nivel == 9) {
@@ -360,6 +355,18 @@ function AtaqueIzquierda () {
         )
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite42, otherSprite4) {
+    if (ataque_prota < ataque_prota2) {
+        sprites.destroy(otherSprite4, effects.ashes, 200)
+        music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.UntilDone)
+    } else {
+        sprite42.startEffect(effects.ashes, 1000)
+        scene.cameraShake(5, 500)
+        info.changeLifeBy(-1)
+        music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
+        sprites.destroy(otherSprite4)
+    }
+})
 function NextLevel () {
     if (nivel_superado) {
         MostrarFlecha()
@@ -376,10 +383,8 @@ function NextLevel () {
                 GenerarNivel()
             }
         }
-    } else {
-        if (controller.up.isPressed()) {
-            game.splash("Necesitas la llave")
-        }
+    } else if (controller.up.isPressed()) {
+        game.splash("Necesitas la llave")
     }
 }
 function AtaqueDerecha () {
@@ -411,34 +416,31 @@ function GenerarBoss () {
             serpiente.setScale(3, ScaleAnchor.Middle)
             serpiente.ay = 200
             statusbar.attachToSprite(serpiente)
-            for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
-                tiles.placeOnTile(serpiente, valor)
-                tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+            for (let valor4 of tiles.getTilesByType(assets.tile`myTile3`)) {
+                tiles.placeOnTile(serpiente, valor4)
+                tiles.setTileAt(valor4, assets.tile`pared_nivel_1`)
             }
         } else if (nivel == 20) {
             arana = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
             arana.setScale(2.5, ScaleAnchor.Middle)
             arana.ay = 200
             statusbar.attachToSprite(arana)
-            for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
-                tiles.placeOnTile(arana, valor)
-                tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
+            for (let valor5 of tiles.getTilesByType(assets.tile`myTile3`)) {
+                tiles.placeOnTile(arana, valor5)
+                tiles.setTileAt(valor5, assets.tile`pared_nivel_2`)
             }
         } else if (nivel == 30) {
             leviatan = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
             leviatan.setScale(1.5, ScaleAnchor.Middle)
             leviatan.ay = 200
             statusbar.attachToSprite(leviatan)
-            for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
-                tiles.placeOnTile(leviatan, valor)
-                tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+            for (let valor6 of tiles.getTilesByType(assets.tile`myTile3`)) {
+                tiles.placeOnTile(leviatan, valor6)
+                tiles.setTileAt(valor6, assets.tile`pared_nivel_3`)
             }
         }
     }
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite2, location2) {
-    NextLevel()
-})
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida) {
         if (mostrar_minimapa) {
@@ -450,7 +452,7 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 function EnemigoNivel1 () {
-    for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
+    for (let valor7 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         fantasma = sprites.create(assets.image`fantasma_derecha`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
         fantasma,
@@ -464,8 +466,8 @@ function EnemigoNivel1 () {
         500,
         characterAnimations.rule(Predicate.MovingLeft)
         )
-        tiles.placeOnTile(fantasma, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+        tiles.placeOnTile(fantasma, valor7)
+        tiles.setTileAt(valor7, assets.tile`pared_nivel_1`)
         fantasma.ay = 200
         fantasma.follow(prota, 30)
     }
@@ -496,17 +498,12 @@ info.onLifeZero(function () {
         EndGame()
     }
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite4, otherSprite) {
-    if (ataque_prota < ataque_prota2) {
-        sprites.destroy(otherSprite, effects.ashes, 200)
-        music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.UntilDone)
-    } else {
-        sprite4.startEffect(effects.ashes, 1000)
-        scene.cameraShake(5, 500)
-        info.changeLifeBy(-1)
-        music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
-        sprites.destroy(otherSprite)
-    }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite6, otherSprite3) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Key)
+    nivel_superado = true
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite22, location22) {
+    NextLevel()
 })
 function MostrarInstrucciones () {
     game.setDialogTextColor(2)
@@ -514,15 +511,15 @@ function MostrarInstrucciones () {
     game.showLongText("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa\\nARRIBA    : Interactuar", DialogLayout.Full)
 }
 function GenerarCorazones () {
-    for (let valor of tiles.getTilesByType(assets.tile`myTile0`)) {
+    for (let valor8 of tiles.getTilesByType(assets.tile`myTile0`)) {
         llave = sprites.create(assets.image`myImage1`, SpriteKind.Heart)
-        tiles.placeOnTile(llave, valor)
+        tiles.placeOnTile(llave, valor8)
         if (nivel <= 10) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+            tiles.setTileAt(valor8, assets.tile`pared_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
+            tiles.setTileAt(valor8, assets.tile`pared_nivel_2`)
         } else if (nivel > 10 && nivel <= 20) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+            tiles.setTileAt(valor8, assets.tile`pared_nivel_3`)
         }
     }
 }
@@ -555,9 +552,9 @@ let fantasma: Sprite = null
 let salto = false
 let tipo_nivel = false
 let boss_vivo = false
+let nivel_superado = false
 let serpiente: Sprite = null
 let boss_actual: Sprite = null
-let nivel_superado = false
 let tiburon: Sprite = null
 let leviatan: Sprite = null
 let statusbar: StatusBarSprite = null
@@ -579,6 +576,7 @@ let win = false
 let final = false
 let partida = false
 let menu = false
+let atacar = false
 music.setVolume(70)
 music.play(music.createSong(assets.song`background_song`), music.PlaybackMode.LoopingInBackground)
 menu = true
@@ -586,7 +584,6 @@ partida = false
 final = false
 win = false
 mostrar_minimapa = true
-let atacar = false
 game.onUpdate(function () {
     if (boss_vivo) {
         if (nivel == 10) {
@@ -609,7 +606,7 @@ game.onUpdateInterval(1, function () {
         }
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
-        nivel = 6
+        nivel = 7
         win = false
         end_game = false
         GenerarNivel()
