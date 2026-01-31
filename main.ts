@@ -113,6 +113,12 @@ function EnemigoNivel2 () {
 function GenerarLlave () {
     for (let valor of tiles.getTilesByType(assets.tile`myTile`)) {
         llave = sprites.create(assets.image`myImage2`, SpriteKind.Key)
+        animation.runImageAnimation(
+        llave,
+        assets.animation`myAnim`,
+        200,
+        true
+        )
         tiles.placeOnTile(llave, valor)
         if (nivel <= 10) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
@@ -139,6 +145,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherS
     if (info.life() < 10) {
         sprites.destroy(otherSprite)
         info.changeLifeBy(1)
+    } else {
+        if (mensaje_corazon) {
+            game.splash("No puedes superar", "los 10 corazones")
+            mensaje_corazon = false
+        }
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite5, otherSprite2) {
@@ -255,6 +266,7 @@ function GenerarNivel () {
     jugador_en_puerta = false
     nivel_superado = false
     boss_vivo = true
+    llama = 1
     sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     sprites.destroyAllSpritesOfKind(SpriteKind.indicador)
@@ -290,6 +302,24 @@ function GenerarNivel () {
         tipo_nivel = true
         tiles.setCurrentTilemap(tilemap`nivel25`)
     } else if (nivel == 13) {
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel27`)
+    } else if (nivel == 14) {
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel29`)
+    } else if (nivel == 15) {
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel27`)
+    } else if (nivel == 16) {
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel27`)
+    } else if (nivel == 17) {
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel27`)
+    } else if (nivel == 18) {
+        tipo_nivel = true
+        tiles.setCurrentTilemap(tilemap`nivel27`)
+    } else if (nivel == 19) {
         tipo_nivel = true
         tiles.setCurrentTilemap(tilemap`nivel27`)
     } else if (nivel == 20) {
@@ -524,6 +554,12 @@ function MostrarInstrucciones () {
 function GenerarCorazones () {
     for (let valor8 of tiles.getTilesByType(assets.tile`myTile0`)) {
         llave = sprites.create(assets.image`myImage1`, SpriteKind.Heart)
+        animation.runImageAnimation(
+        llave,
+        assets.animation`myAnim0`,
+        200,
+        true
+        )
         tiles.placeOnTile(llave, valor8)
         if (nivel <= 10) {
             tiles.setTileAt(valor8, assets.tile`pared_nivel_1`)
@@ -562,6 +598,7 @@ let end_game = false
 let fantasma: Sprite = null
 let salto = false
 let tipo_nivel = false
+let llama = 0
 let boss_vivo = false
 let nivel_superado = false
 let serpiente: Sprite = null
@@ -582,6 +619,7 @@ let spawn_y = 0
 let spawn_x = 0
 let arana: Sprite = null
 let prota: Sprite = null
+let mensaje_corazon = false
 let mostrar_minimapa = false
 let win = false
 let final = false
@@ -595,6 +633,7 @@ partida = false
 final = false
 win = false
 mostrar_minimapa = true
+mensaje_corazon = true
 game.onUpdate(function () {
     if (boss_vivo) {
         if (nivel == 10) {
@@ -617,8 +656,8 @@ game.onUpdateInterval(1, function () {
         }
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
-        info.setLife(3)
-        nivel = 13
+        info.setLife(10)
+        nivel = 1
         win = false
         end_game = false
         GenerarNivel()
@@ -629,4 +668,65 @@ game.onUpdateInterval(1, function () {
     if (final) {
         ShowFinal()
     }
+})
+game.onUpdateInterval(200, function () {
+    if (nivel <= 10) {
+        if (llama == 1) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_1`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_5`)
+            }
+        } else if (llama == 2) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_5`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_6`)
+            }
+        } else if (llama == 3) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_6`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_5`)
+            }
+        } else if (llama == 4) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_5`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_1`)
+            }
+            llama = 0
+        }
+    } else if (nivel > 10 && nivel <= 20) {
+        if (llama == 1) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_2`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_4`)
+            }
+        } else if (llama == 2) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_4`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_3`)
+            }
+        } else if (llama == 3) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_3`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_4`)
+            }
+        } else if (llama == 4) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_4`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_2`)
+            }
+            llama = 0
+        }
+    } else if (nivel > 20 && nivel <= 30) {
+        if (llama == 1) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorhca_nivel_3`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_7`)
+            }
+        } else if (llama == 2) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_7`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_8`)
+            }
+        } else if (llama == 3) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_8`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_7`)
+            }
+        } else if (llama == 4) {
+            for (let llama_valor of tiles.getTilesByType(assets.tile`antorcha_nivel_8`)) {
+                tiles.setTileAt(llama_valor, assets.tile`antorcha_nivel_7`)
+            }
+            llama = 0
+        }
+    }
+    llama += 1
 })
