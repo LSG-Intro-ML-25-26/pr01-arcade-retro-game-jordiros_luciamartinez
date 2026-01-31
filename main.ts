@@ -310,7 +310,7 @@ function GenerarNivel () {
     } else if (nivel == 16) {
         tiles.setCurrentTilemap(tilemap`nivel36`)
     } else if (nivel == 17) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel38`)
     } else if (nivel == 18) {
         tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 19) {
@@ -669,7 +669,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(3)
-        nivel = 16
+        nivel = 17
         win = false
         end_game = false
         GenerarNivel()
