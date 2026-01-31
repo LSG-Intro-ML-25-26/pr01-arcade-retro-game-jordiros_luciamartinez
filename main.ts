@@ -77,6 +77,18 @@ function CreacionPersonaje () {
     prota.ay = 200
     ataque_prota = 0
     ataque_prota2 = 0
+    for (let set_player of tiles.getTilesByType(assets.tile`myTile2`)) {
+        tiles.placeOnTile(prota, set_player)
+        spawn_x = prota.x
+        spawn_y = prota.y
+        if (nivel <= 10) {
+            tiles.setTileAt(set_player, assets.tile`pared_nivel_1`)
+        } else if (nivel > 10 && nivel <= 20) {
+            tiles.setTileAt(set_player, assets.tile`pared_nivel_2`)
+        } else if (nivel > 10 && nivel <= 20) {
+            tiles.setTileAt(set_player, assets.tile`pared_nivel_3`)
+        }
+    }
 }
 function EnemigoNivel2 () {
     for (let valor2 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
@@ -106,11 +118,11 @@ function GenerarLlave () {
     for (let valor of tiles.getTilesByType(assets.tile`myTile`)) {
         llave = sprites.create(assets.image`myImage2`, SpriteKind.Key)
         tiles.placeOnTile(llave, valor)
-        if (nivel < 10) {
+        if (nivel <= 10) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
-        } else if (nivel > 10 && nivel < 20) {
+        } else if (nivel > 10 && nivel <= 20) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
-        } else if (nivel > 10 && nivel < 20) {
+        } else if (nivel > 10 && nivel <= 20) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
         }
     }
@@ -252,79 +264,43 @@ function GenerarNivel () {
     if (nivel == 1) {
         scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel5`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
+        tipo_nivel = true
     } else if (nivel == 2) {
         tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(150, 460)
-        spawn_x = 150
-        spawn_y = 460
     } else if (nivel == 3) {
         tiles.setCurrentTilemap(tilemap`nivel7`)
-        GenerarLlave()
-        prota.setPosition(40, 90)
-        spawn_x = 40
-        spawn_y = 90
     } else if (nivel == 4) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
+        tiles.setCurrentTilemap(tilemap`nivel9`)
     } else if (nivel == 5) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
+    	
     } else if (nivel == 6) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
+    	
     } else if (nivel == 7) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
+    	
     } else if (nivel == 8) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
+    	
     } else if (nivel == 9) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
+    	
     } else if (nivel == 10) {
-        tiles.setCurrentTilemap(tilemap`nivel0`)
-        GenerarLlave()
-        prota.setPosition(380, 460)
-        spawn_x = 380
-        spawn_y = 460
+        tiles.setCurrentTilemap(tilemap`nivel10`)
+        tipo_nivel = false
     } else if (nivel == 20) {
         scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel20`)
-        prota.setPosition(40, 20)
-        spawn_x = 40
-        spawn_y = 20
+        tipo_nivel = false
     } else if (nivel == 30) {
         scene.setBackgroundImage(assets.image`fondo_nivel_3`)
         tiles.setCurrentTilemap(tilemap`nivel30`)
-        prota.setPosition(40, 460)
-        spawn_x = 40
-        spawn_y = 40
+        tipo_nivel = false
+    }
+    CreacionPersonaje()
+    CrearEnemigos()
+    if (tipo_nivel) {
+        GenerarLlave()
+    } else {
+        GenerarBoss()
     }
     GenerarCorazones()
-    CrearEnemigos()
 }
 function Boss1 () {
     if (prota.x + 30 < serpiente.x) {
@@ -394,6 +370,7 @@ function NextLevel () {
             } else {
                 music.play(music.createSoundEffect(WaveShape.Noise, 1, 452, 255, 255, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
                 nivel += 1
+                sprites.destroyAllSpritesOfKind(SpriteKind.Player)
                 GenerarNivel()
             }
         }
@@ -415,6 +392,42 @@ function AtaqueDerecha () {
         200,
         true
         )
+    }
+}
+function GenerarBoss () {
+    if (boss_vivo == true) {
+        statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
+        statusbar.max = 9
+        statusbar.setColor(7, 2, 0)
+        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
+        if (nivel == 10) {
+            serpiente = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
+            serpiente.setScale(3, ScaleAnchor.Middle)
+            serpiente.ay = 200
+            statusbar.attachToSprite(serpiente)
+            for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
+                tiles.placeOnTile(serpiente, valor)
+                tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+            }
+        } else if (nivel == 20) {
+            arana = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
+            arana.setScale(2.5, ScaleAnchor.Middle)
+            arana.ay = 200
+            statusbar.attachToSprite(arana)
+            for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
+                tiles.placeOnTile(arana, valor)
+                tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
+            }
+        } else if (nivel == 30) {
+            leviatan = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
+            leviatan.setScale(1.5, ScaleAnchor.Middle)
+            leviatan.ay = 200
+            statusbar.attachToSprite(leviatan)
+            for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
+                tiles.placeOnTile(leviatan, valor)
+                tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+            }
+        }
     }
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite2, location2) {
@@ -494,33 +507,6 @@ function MostrarInstrucciones () {
     game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa\\nARRIBA    : Interactuar", DialogLayout.Full)
 }
-function BossNivel () {
-    if (boss_vivo == true) {
-        statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
-        statusbar.max = 9
-        statusbar.setColor(7, 2, 0)
-        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
-        if (nivel == 10) {
-            serpiente = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
-            serpiente.setScale(3, ScaleAnchor.Middle)
-            tiles.placeOnTile(serpiente, tiles.getTileLocation(40, 5))
-            serpiente.ay = 200
-            statusbar.attachToSprite(serpiente)
-        } else if (nivel == 20) {
-            arana = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
-            arana.setScale(2.5, ScaleAnchor.Middle)
-            tiles.placeOnTile(arana, tiles.getTileLocation(25, 13))
-            arana.ay = 200
-            statusbar.attachToSprite(arana)
-        } else if (nivel == 30) {
-            leviatan = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
-            leviatan.setScale(1.5, ScaleAnchor.Middle)
-            tiles.placeOnTile(leviatan, tiles.getTileLocation(44, 22))
-            leviatan.ay = 200
-            statusbar.attachToSprite(leviatan)
-        }
-    }
-}
 function GenerarCorazones () {
     for (let valor of tiles.getTilesByType(assets.tile`myTile0`)) {
         llave = sprites.create(assets.image`myImage1`, SpriteKind.Heart)
@@ -556,6 +542,7 @@ function EndGame () {
 let end_game = false
 let fantasma: Sprite = null
 let salto = false
+let tipo_nivel = false
 let boss_vivo = false
 let serpiente: Sprite = null
 let boss_actual: Sprite = null
@@ -589,7 +576,6 @@ final = false
 win = false
 mostrar_minimapa = true
 let atacar = false
-let player_en_lava = false
 game.onUpdate(function () {
     if (boss_vivo) {
         if (nivel == 10) {
@@ -612,7 +598,6 @@ game.onUpdateInterval(1, function () {
         }
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
-        CreacionPersonaje()
         nivel = 1
         win = false
         end_game = false
