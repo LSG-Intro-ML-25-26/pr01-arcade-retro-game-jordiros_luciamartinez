@@ -6,6 +6,7 @@ namespace SpriteKind {
     export const Key = SpriteKind.create()
     export const Heart = SpriteKind.create()
     export const Antorcha = SpriteKind.create()
+    export const SpecialKey = SpriteKind.create()
 }
 function Boss2 () {
     if (prota.x + 30 < arana.x) {
@@ -87,9 +88,17 @@ function CreacionPersonaje () {
             tiles.setTileAt(set_player, assets.tile`pared_nivel_2`)
         } else if (nivel > 20 && nivel <= 30) {
             tiles.setTileAt(set_player, assets.tile`pared_nivel_3`)
+        } else if (nivel <= 33) {
+            mostrar_minimapa = false
+            tiles.setTileAt(set_player, assets.tile`pared_aula`)
         }
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialKey, function (sprite, otherSprite) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Key)
+    llave_especial = true
+    music.play(music.createSong(hex`00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a`), music.PlaybackMode.UntilDone)
+})
 function EnemigoNivel2 () {
     for (let valor2 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         murcielago = sprites.create(assets.image`muercielago_izquierda`, SpriteKind.Enemy)
@@ -111,6 +120,16 @@ function EnemigoNivel2 () {
         murcielago.follow(prota, 30)
     }
 }
+scene.onOverlapTile(SpriteKind.Player, assets.tile`pared_nivel_6`, function (sprite2, location2) {
+    if (controller.up.isPressed()) {
+        if (llave_especial) {
+            nivel = 33
+            GenerarNivel()
+        } else {
+            game.splash("Necesitas la llave", "del aula A408")
+        }
+    }
+})
 function GenerarLlave () {
     for (let valor of tiles.getTilesByType(assets.tile`myTile`)) {
         llave = sprites.create(assets.image`myImage2`, SpriteKind.Key)
@@ -128,6 +147,17 @@ function GenerarLlave () {
         } else if (nivel > 20 && nivel <= 30) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
         }
+    }
+    for (let valor of tiles.getTilesByType(assets.tile`myTile4`)) {
+        llave = sprites.create(assets.image`myImage4`, SpriteKind.SpecialKey)
+        animation.runImageAnimation(
+        llave,
+        assets.animation`myAnim2`,
+        200,
+        true
+        )
+        tiles.placeOnTile(llave, valor)
+        tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
     }
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -313,9 +343,10 @@ function GenerarNivel () {
     sprites.destroyAllSpritesOfKind(SpriteKind.indicador)
     sprites.destroyAllSpritesOfKind(SpriteKind.Heart)
     sprites.destroyAllSpritesOfKind(SpriteKind.Antorcha)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Key)
+    scene.setBackgroundImage(assets.image`fondo_nivel_1`)
     if (nivel == 1) {
         tipo_nivel = true
-        scene.setBackgroundImage(assets.image`fondo_nivel_1`)
         tiles.setCurrentTilemap(tilemap`nivel5`)
     } else if (nivel == 2) {
         tiles.setCurrentTilemap(tilemap`nivel0`)
@@ -360,7 +391,7 @@ function GenerarNivel () {
     } else if (nivel == 21) {
         tiles.setCurrentTilemap(tilemap`nivel44`)
     } else if (nivel == 22) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel46`)
     } else if (nivel == 23) {
         tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 24) {
@@ -378,6 +409,9 @@ function GenerarNivel () {
     } else if (nivel == 30) {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel30`)
+    } else if (nivel == 33) {
+        scene.setBackgroundImage(assets.image`cityscape`)
+        tiles.setCurrentTilemap(tilemap`level`)
     }
     if (tipo_nivel) {
         GenerarLlave()
@@ -417,13 +451,13 @@ function SistemaDeDobleSalto () {
     }
 }
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    prota,
+    assets.animation`player_right_animated`,
+    200,
+    true
+    )
     if (partida) {
-        animation.runImageAnimation(
-        prota,
-        assets.animation`player_right_animated`,
-        200,
-        true
-        )
         characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
         ataque_prota2 = 0
     }
@@ -533,7 +567,7 @@ function GenerarBoss () {
     }
 }
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida) {
+    if (partida && nivel != 33) {
         if (mostrar_minimapa) {
             mostrar_minimapa = false
             sprites.destroy(mapStripe)
@@ -672,6 +706,7 @@ let spawn_y = 0
 let spawn_x = 0
 let arana: Sprite = null
 let prota: Sprite = null
+let llave_especial = false
 let mensaje_corazon = false
 let mostrar_minimapa = false
 let win = false
@@ -687,6 +722,7 @@ final = false
 win = false
 mostrar_minimapa = true
 mensaje_corazon = true
+llave_especial = true
 game.onUpdate(function () {
     if (boss_vivo) {
         if (nivel == 10) {
