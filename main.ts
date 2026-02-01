@@ -328,7 +328,7 @@ statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
     music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.InBackground)
     sprites.destroy(boss_actual, effects.disintegrate, 500)
     sprites.destroy(statusbar)
-    info.setLife(5)
+    info.changeLifeBy(10)
     nivel_superado = true
     boss_vivo = false
 })
@@ -398,9 +398,9 @@ function GenerarNivel () {
     } else if (nivel == 27) {
         tiles.setCurrentTilemap(tilemap`nivel32`)
     } else if (nivel == 28) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel56`)
     } else if (nivel == 29) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel58`)
     } else if (nivel == 30) {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel30`)
@@ -749,7 +749,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(3)
-        nivel = 26
+        nivel = 29
         win = false
         end_game = false
         GenerarNivel()
