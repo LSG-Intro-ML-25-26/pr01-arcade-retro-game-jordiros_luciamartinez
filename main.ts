@@ -95,7 +95,7 @@ function CreacionPersonaje () {
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialKey, function (sprite, otherSprite) {
-    sprites.destroyAllSpritesOfKind(SpriteKind.Key)
+    sprites.destroyAllSpritesOfKind(SpriteKind.SpecialKey)
     llave_especial = true
     music.play(music.createSong(hex`00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a`), music.PlaybackMode.UntilDone)
 })
@@ -157,7 +157,7 @@ function GenerarLlave () {
         true
         )
         tiles.placeOnTile(llave, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+        tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
     }
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -392,9 +392,9 @@ function GenerarNivel () {
     } else if (nivel == 24) {
         tiles.setCurrentTilemap(tilemap`nivel50`)
     } else if (nivel == 25) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel52`)
     } else if (nivel == 26) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel54`)
     } else if (nivel == 27) {
         tiles.setCurrentTilemap(tilemap`nivel32`)
     } else if (nivel == 28) {
@@ -749,7 +749,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(3)
-        nivel = 24
+        nivel = 26
         win = false
         end_game = false
         GenerarNivel()
