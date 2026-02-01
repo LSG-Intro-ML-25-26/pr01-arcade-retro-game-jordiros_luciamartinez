@@ -85,7 +85,7 @@ function CreacionPersonaje () {
             tiles.setTileAt(set_player, assets.tile`pared_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
             tiles.setTileAt(set_player, assets.tile`pared_nivel_2`)
-        } else if (nivel > 10 && nivel <= 20) {
+        } else if (nivel > 20 && nivel <= 30) {
             tiles.setTileAt(set_player, assets.tile`pared_nivel_3`)
         }
     }
@@ -125,7 +125,7 @@ function GenerarLlave () {
             tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
-        } else if (nivel > 10 && nivel <= 20) {
+        } else if (nivel > 20 && nivel <= 30) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
         }
     }
@@ -337,7 +337,6 @@ function GenerarNivel () {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel10`)
     } else if (nivel == 11) {
-        scene.setBackgroundImage(assets.image`fondo_nivel_2`)
         tiles.setCurrentTilemap(tilemap`nivel23`)
     } else if (nivel == 12) {
         tiles.setCurrentTilemap(tilemap`nivel25`)
@@ -359,7 +358,6 @@ function GenerarNivel () {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel20`)
     } else if (nivel == 21) {
-        scene.setBackgroundImage(assets.image`fondo_nivel_3`)
         tiles.setCurrentTilemap(tilemap`nivel44`)
     } else if (nivel == 22) {
         tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
@@ -618,7 +616,7 @@ function GenerarCorazones () {
             tiles.setTileAt(valor8, assets.tile`pared_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
             tiles.setTileAt(valor8, assets.tile`pared_nivel_2`)
-        } else if (nivel > 10 && nivel <= 20) {
+        } else if (nivel > 20 && nivel <= 30) {
             tiles.setTileAt(valor8, assets.tile`pared_nivel_3`)
         }
     }
@@ -712,7 +710,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(3)
-        nivel = 21
+        nivel = 1
         win = false
         end_game = false
         GenerarNivel()
