@@ -2,7 +2,7 @@ namespace SpriteKind {
     export const Decorativo = SpriteKind.create()
     export const Map = SpriteKind.create()
     export const Boss = SpriteKind.create()
-    export const indicador = SpriteKind.create()
+    export const Indicator = SpriteKind.create()
     export const Key = SpriteKind.create()
     export const Heart = SpriteKind.create()
     export const Antorcha = SpriteKind.create()
@@ -26,7 +26,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
 function MostrarFlecha () {
     if (!(jugador_en_puerta)) {
         if (nivel <= 10) {
-            flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel1`, SpriteKind.indicador)
+            flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel1`, SpriteKind.Indicator)
             animation.runImageAnimation(
             flecha_puerta_nivel,
             assets.animation`animacion_flecha_nivel1`,
@@ -35,7 +35,7 @@ function MostrarFlecha () {
             )
             tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`puerta_1_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
-            flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel2`, SpriteKind.indicador)
+            flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel2`, SpriteKind.Indicator)
             animation.runImageAnimation(
             flecha_puerta_nivel,
             assets.animation`animacion_flecha_nivel2`,
@@ -44,7 +44,7 @@ function MostrarFlecha () {
             )
             tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`puerta_1_nivel_2`)
         } else if (nivel > 20 && nivel <= 30) {
-            flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel3`, SpriteKind.indicador)
+            flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel3`, SpriteKind.Indicator)
             animation.runImageAnimation(
             flecha_puerta_nivel,
             assets.animation`animacion_flecha_nivel3`,
@@ -338,12 +338,7 @@ function GenerarNivel () {
     nivel_superado = false
     boss_vivo = true
     llama = 1
-    sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-    sprites.destroyAllSpritesOfKind(SpriteKind.indicador)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Heart)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Antorcha)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Key)
+    DestruirSprites()
     scene.setBackgroundImage(assets.image`fondo_nivel_1`)
     if (nivel == 1) {
         tipo_nivel = true
@@ -393,15 +388,15 @@ function GenerarNivel () {
     } else if (nivel == 22) {
         tiles.setCurrentTilemap(tilemap`nivel46`)
     } else if (nivel == 23) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel48`)
     } else if (nivel == 24) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel50`)
     } else if (nivel == 25) {
         tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 26) {
         tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 27) {
-        tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+        tiles.setCurrentTilemap(tilemap`nivel32`)
     } else if (nivel == 28) {
         tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
     } else if (nivel == 29) {
@@ -413,16 +408,16 @@ function GenerarNivel () {
         scene.setBackgroundImage(assets.image`cityscape`)
         tiles.setCurrentTilemap(tilemap`level`)
     }
+    GenerarAntorchas()
+    MostrarNivel()
+    CreacionPersonaje()
+    CrearEnemigos()
     if (tipo_nivel) {
         GenerarLlave()
     } else {
         GenerarBoss()
     }
     GenerarCorazones()
-    GenerarAntorchas()
-    MostrarNivel()
-    CreacionPersonaje()
-    CrearEnemigos()
 }
 function Boss1 () {
     if (prota.x + 30 < serpiente.x) {
@@ -631,6 +626,17 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite6, otherSpr
 scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite22, location22) {
     NextLevel()
 })
+function DestruirSprites () {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Indicator)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Heart)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Antorcha)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Key)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Map)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.SpecialKey)
+}
 function MostrarInstrucciones () {
     game.setDialogTextColor(2)
     game.setDialogFrame(assets.image`fondo_1`)
@@ -667,13 +673,10 @@ function EndGame () {
     boss_vivo = false
     final = true
     mostrar_minimapa = false
+    llave_especial = false
     info.setLife(0)
+    DestruirSprites()
     sprites.destroy(mapStripe)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Antorcha)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Map)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
     if (win) {
         music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.InBackground)
     } else {
@@ -722,7 +725,7 @@ final = false
 win = false
 mostrar_minimapa = true
 mensaje_corazon = true
-llave_especial = true
+llave_especial = false
 game.onUpdate(function () {
     if (boss_vivo) {
         if (nivel == 10) {
@@ -746,7 +749,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(3)
-        nivel = 1
+        nivel = 24
         win = false
         end_game = false
         GenerarNivel()
