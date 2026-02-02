@@ -205,13 +205,13 @@ function GenerarMinimapa () {
     mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherSprite) {
-    if (info.life() < MAX_CORAZONES) {
+    if (info.life() < max_corazones) {
         sprites.destroy(otherSprite)
         music.play(music.createSong(hex`00f4010408020100001c00010a006400f4016400000400000000000000000000000000050000040c0000000400012704000800012a`), music.PlaybackMode.InBackground)
         info.changeLifeBy(1)
     } else {
         if (mensaje_corazon) {
-            game.splash("No puedes superar", "los " + convertToText(MAX_CORAZONES) + " corazones")
+            game.splash("No puedes superar", "los " + convertToText(max_corazones) + " corazones")
             mensaje_corazon = false
         }
     }
@@ -360,7 +360,9 @@ statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
     music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.InBackground)
     sprites.destroy(boss_actual, effects.disintegrate, 500)
     sprites.destroy(statusbar)
-    info.changeLifeBy(10)
+    max_corazones += 10
+    game.splash("+10 corazones maximos")
+    mensaje_corazon = true
     nivel_superado = true
     boss_vivo = false
 })
@@ -749,11 +751,11 @@ let win = false
 let final = false
 let partida = false
 let menu = false
-let MAX_CORAZONES = 0
+let max_corazones = 0
 let atacar = false
 music.setVolume(70)
 music.play(music.createSong(assets.song`background_song`), music.PlaybackMode.LoopingInBackground)
-MAX_CORAZONES = 20
+max_corazones = 10
 menu = true
 partida = false
 final = false
@@ -789,6 +791,7 @@ game.onUpdateInterval(1, function () {
         MostrarInstrucciones()
         info.setLife(5)
         nivel = 1
+        max_corazones = 10
         win = false
         end_game = false
         GenerarNivel()
@@ -798,8 +801,5 @@ game.onUpdateInterval(1, function () {
     }
     if (final) {
         ShowFinal()
-        if (info.life() <= 9) {
-            mensaje_corazon = true
-        }
     }
 })
