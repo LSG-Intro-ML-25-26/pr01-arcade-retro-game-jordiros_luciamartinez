@@ -40,8 +40,8 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`pared_nivel_10`, function (sp
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
     prota.setPosition(spawn_x, spawn_y)
+    music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
     info.changeLifeBy(-1)
-    pause(100)
 })
 function MostrarFlecha () {
     if (!(jugador_en_puerta)) {
