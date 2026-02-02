@@ -108,7 +108,7 @@ function CreacionPersonaje () {
             tiles.setTileAt(set_player, assets.tile`pared_nivel_2`)
         } else if (nivel > 20 && nivel <= 30) {
             tiles.setTileAt(set_player, assets.tile`pared_nivel_3`)
-        } else if (nivel <= 99) {
+        } else if (nivel <= 408) {
             mostrar_minimapa = false
             tiles.setTileAt(set_player, assets.tile`pared_aula`)
         }
@@ -141,15 +141,6 @@ function EnemigoNivel2 () {
     }
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`pared_nivel_6`, function (sprite2, location2) {
-    if (controller.up.isPressed()) {
-        if (llave_especial) {
-            jugador_en_puerta_especial = false
-            nivel = 99
-            GenerarNivel()
-        } else {
-            game.splash("Necesitas la llave", "del aula A408")
-        }
-    }
     if (!(jugador_en_puerta_especial) && llave_especial) {
         jugador_en_puerta_especial = true
         flecha_puerta_nivel = sprites.create(assets.image`myImage5`, SpriteKind.Indicator)
@@ -161,6 +152,15 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`pared_nivel_6`, function (spr
         )
         tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`pared_nivel_0`)
         flecha_puerta_nivel.y += -30
+    }
+    if (controller.up.isPressed()) {
+        if (llave_especial) {
+            jugador_en_puerta_especial = false
+            nivel = 408
+            GenerarNivel()
+        } else {
+            game.splash("Necesitas la llave", "del aula A408")
+        }
     }
 })
 function GenerarLlave () {
@@ -440,7 +440,7 @@ function GenerarNivel () {
     } else if (nivel == 30) {
         tipo_nivel = false
         tiles.setCurrentTilemap(tilemap`nivel30`)
-    } else if (nivel == 99) {
+    } else if (nivel == 408) {
         scene.setBackgroundImage(assets.image`cityscape`)
         tiles.setCurrentTilemap(tilemap`level`)
     }
@@ -598,7 +598,7 @@ function GenerarBoss () {
     }
 }
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida && nivel != 99) {
+    if (partida && nivel != 408) {
         if (mostrar_minimapa) {
             mostrar_minimapa = false
             sprites.destroy(mapStripe)
