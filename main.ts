@@ -7,6 +7,8 @@ namespace SpriteKind {
     export const Heart = SpriteKind.create()
     export const Antorcha = SpriteKind.create()
     export const SpecialKey = SpriteKind.create()
+    export const Door = SpriteKind.create()
+    export const SpecialDoor = SpriteKind.create()
 }
 function Boss2 () {
     if (prota.x + 30 < arana.x) {
@@ -19,25 +21,19 @@ function Boss2 () {
         arana.vx = 0
     }
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`pared_nivel_10`, function (sprite2, location2) {
-    if (!(jugador_en_puerta_especial)) {
-        jugador_en_puerta_especial = true
-        flecha_puerta_nivel = sprites.create(assets.image`myImage5`, SpriteKind.Indicator)
-        animation.runImageAnimation(
-        flecha_puerta_nivel,
-        assets.animation`animacion_flecha_nivel0`,
-        150,
-        true
-        )
-        tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`pared_nivel_7`)
-        flecha_puerta_nivel.y += -30
+function GenerarPuerta () {
+    for (let value of tiles.getTilesByType(assets.tile`puerta_4_nivel_1`)) {
+        if (nivel <= 10) {
+            puerta = sprites.create(assets.image`myImage8`, SpriteKind.Door)
+        } else if (nivel > 10 && nivel <= 20) {
+            puerta = sprites.create(assets.image`myImage7`, SpriteKind.Door)
+        } else if (nivel > 20 && nivel <= 30) {
+            puerta = sprites.create(assets.image`myImage9`, SpriteKind.Door)
+        }
+        tiles.placeOnRandomTile(puerta, assets.tile`puerta_4_nivel_1`)
+        puerta.y += -7
     }
-    if (controller.up.isPressed()) {
-        jugador_en_puerta_especial = false
-        nivel = 9
-        GenerarNivel()
-    }
-})
+}
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
     prota.setPosition(spawn_x, spawn_y)
     music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
@@ -53,7 +49,6 @@ function MostrarFlecha () {
             150,
             true
             )
-            tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`puerta_1_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
             flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel2`, SpriteKind.Indicator)
             animation.runImageAnimation(
@@ -62,7 +57,6 @@ function MostrarFlecha () {
             150,
             true
             )
-            tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`puerta_1_nivel_2`)
         } else if (nivel > 20 && nivel <= 30) {
             flecha_puerta_nivel = sprites.create(assets.image`flecha_nivel3`, SpriteKind.Indicator)
             animation.runImageAnimation(
@@ -71,9 +65,16 @@ function MostrarFlecha () {
             150,
             true
             )
-            tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`puerta_1_nivel_3`)
+        } else if (nivel == 408) {
+            flecha_puerta_nivel = sprites.create(assets.image`myImage5`, SpriteKind.Indicator)
+            animation.runImageAnimation(
+            flecha_puerta_nivel,
+            assets.animation`animacion_flecha_nivel0`,
+            150,
+            true
+            )
         }
-        flecha_puerta_nivel.y += -30
+        flecha_puerta_nivel.setPosition(puerta.x - 8, puerta.y - 40)
     }
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -87,8 +88,24 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         pause(100)
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_2`, function (sprite3, location3) {
-    NextLevel()
+sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialDoor, function (sprite, otherSprite) {
+    if (!(jugador_en_puerta_especial) && llave_especial) {
+        MostrarFlecha()
+        jugador_en_puerta_especial = true
+    }
+    if (controller.up.isPressed()) {
+        if (llave_especial) {
+            jugador_en_puerta_especial = false
+            if (nivel == 9) {
+                nivel = 408
+            } else {
+                nivel = 9
+            }
+            GenerarNivel()
+        } else {
+            game.splash("Necesitas la llave", "del aula 408")
+        }
+    }
 })
 function CreacionPersonaje () {
     prota = sprites.create(assets.image`player`, SpriteKind.Player)
@@ -117,7 +134,8 @@ function CreacionPersonaje () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialKey, function (sprite, otherSprite) {
     sprites.destroyAllSpritesOfKind(SpriteKind.SpecialKey)
     llave_especial = true
-    music.play(music.createSong(hex`00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a`), music.PlaybackMode.UntilDone)
+    music.play(music.createSong(hex`00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a`), music.PlaybackMode.InBackground)
+    game.splash("Conseguiste la llave", "del aula 408")
 })
 function EnemigoNivel2 () {
     for (let valor2 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
@@ -140,29 +158,6 @@ function EnemigoNivel2 () {
         murcielago.follow(prota, 30)
     }
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`pared_nivel_6`, function (sprite2, location2) {
-    if (!(jugador_en_puerta_especial) && llave_especial) {
-        jugador_en_puerta_especial = true
-        flecha_puerta_nivel = sprites.create(assets.image`myImage5`, SpriteKind.Indicator)
-        animation.runImageAnimation(
-        flecha_puerta_nivel,
-        assets.animation`animacion_flecha_nivel0`,
-        150,
-        true
-        )
-        tiles.placeOnRandomTile(flecha_puerta_nivel, assets.tile`pared_nivel_0`)
-        flecha_puerta_nivel.y += -30
-    }
-    if (controller.up.isPressed()) {
-        if (llave_especial) {
-            jugador_en_puerta_especial = false
-            nivel = 408
-            GenerarNivel()
-        } else {
-            game.splash("Necesitas la llave", "del aula A408")
-        }
-    }
-})
 function GenerarLlave () {
     for (let valor of tiles.getTilesByType(assets.tile`myTile`)) {
         llave = sprites.create(assets.image`myImage2`, SpriteKind.Key)
@@ -173,11 +168,11 @@ function GenerarLlave () {
         true
         )
         tiles.placeOnTile(llave, valor)
-        if (nivel <= 10) {
+        if (nivel < 10) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
-        } else if (nivel > 10 && nivel <= 20) {
+        } else if (nivel > 10 && nivel < 20) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
-        } else if (nivel > 20 && nivel <= 30) {
+        } else if (nivel > 20 && nivel < 30) {
             tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
         }
     }
@@ -254,6 +249,9 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         ataque_prota2 = 0
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, function (sprite, otherSprite) {
+    NextLevel()
+})
 function EnemigoNivel3 () {
     for (let valor3 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         tiburon = sprites.create(assets.image`caracol_izquierda`, SpriteKind.Enemy)
@@ -327,9 +325,6 @@ function ShowFinal () {
         pause(1000)
     }
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_3`, function (sprite2, location2) {
-    NextLevel()
-})
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     if (partida) {
         animation.runImageAnimation(
@@ -373,11 +368,10 @@ function GenerarNivel () {
     jugador_en_puerta_especial = false
     nivel_superado = false
     boss_vivo = true
-    llama = 1
+    tipo_nivel = true
     DestruirSprites()
     scene.setBackgroundImage(assets.image`fondo_nivel_1`)
     if (nivel == 1) {
-        tipo_nivel = true
         tiles.setCurrentTilemap(tilemap`nivel5`)
     } else if (nivel == 2) {
         tiles.setCurrentTilemap(tilemap`nivel0`)
@@ -444,8 +438,10 @@ function GenerarNivel () {
         scene.setBackgroundImage(assets.image`cityscape`)
         tiles.setCurrentTilemap(tilemap`level`)
     }
+    GenerarPuertaEspecial()
+    GenerarPuerta()
+    GenerarCorazones()
     GenerarAntorchas()
-    MostrarNivel()
     CreacionPersonaje()
     CrearEnemigos()
     if (tipo_nivel) {
@@ -453,7 +449,7 @@ function GenerarNivel () {
     } else {
         GenerarBoss()
     }
-    GenerarCorazones()
+    MostrarNivel()
 }
 function Boss1 () {
     if (prota.x + 30 < serpiente.x) {
@@ -649,18 +645,12 @@ function CrearEnemigos () {
     }
 }
 info.onLifeZero(function () {
-    if (!(win) && !(end_game)) {
-        llave_especial = false
-        EndGame()
-    }
+	
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite6, otherSprite3) {
     sprites.destroyAllSpritesOfKind(SpriteKind.Key)
     nivel_superado = true
     music.play(music.createSong(hex`00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a`), music.PlaybackMode.UntilDone)
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`puerta_4_nivel_1`, function (sprite22, location22) {
-    NextLevel()
 })
 function DestruirSprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
@@ -672,6 +662,15 @@ function DestruirSprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Map)
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
     sprites.destroyAllSpritesOfKind(SpriteKind.SpecialKey)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Door)
+    sprites.destroyAllSpritesOfKind(SpriteKind.SpecialDoor)
+}
+function GenerarPuertaEspecial () {
+    for (let value of tiles.getTilesByType(assets.tile`myTile6`)) {
+        puerta_aula = sprites.create(assets.image`myImage6`, SpriteKind.SpecialDoor)
+        tiles.placeOnRandomTile(puerta_aula, assets.tile`myTile6`)
+        puerta_aula.y += -7
+    }
 }
 function MostrarInstrucciones () {
     game.setDialogTextColor(2)
@@ -719,9 +718,9 @@ function EndGame () {
     }
 }
 let end_game = false
+let puerta_aula: Sprite = null
 let fantasma: Sprite = null
 let salto = false
-let llama = 0
 let tipo_nivel = false
 let boss_vivo = false
 let nivel_superado = false
@@ -736,13 +735,14 @@ let mapStripe: Sprite = null
 let llave: Sprite = null
 let murcielago: Sprite = null
 let ataque_prota = 0
+let jugador_en_puerta_especial = false
 let ataque_prota2 = 0
+let flecha_puerta_nivel: Sprite = null
 let jugador_en_puerta = false
 let spawn_y = 0
 let spawn_x = 0
+let puerta: Sprite = null
 let nivel = 0
-let flecha_puerta_nivel: Sprite = null
-let jugador_en_puerta_especial = false
 let arana: Sprite = null
 let prota: Sprite = null
 let llave_especial = false
