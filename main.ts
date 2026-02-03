@@ -645,7 +645,10 @@ function CrearEnemigos () {
     }
 }
 info.onLifeZero(function () {
-	
+    if (!(win) && !(end_game)) {
+        llave_especial = false
+        EndGame()
+    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite6, otherSprite3) {
     sprites.destroyAllSpritesOfKind(SpriteKind.Key)
@@ -717,8 +720,8 @@ function EndGame () {
         music.play(music.melodyPlayable(music.wawawawaa), music.PlaybackMode.InBackground)
     }
 }
-let end_game = false
 let puerta_aula: Sprite = null
+let end_game = false
 let fantasma: Sprite = null
 let salto = false
 let tipo_nivel = false
