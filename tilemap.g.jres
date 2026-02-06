@@ -40,48 +40,6 @@
         "tilemapTile": true,
         "displayName": "pared_nivel_2"
     },
-    "tile26": {
-        "data": "hwQQABAAAABORERERET0/07u7u7u7kT/Tk5ERO7uTkROTu5O7u7u7k7u5E7u7u7u7uTk5O7u7u7u5E7u7k7uTu5O7u7u5O7k7v7k7u5ORO7//0/k7u7u7v///09ERERE////7+7u///u/v/v7u7//+7u/+/u7v/v7u7/7+7u/+/u7v/v7u7/7w==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_2_nivel_2"
-    },
-    "tile25": {
-        "data": "hwQQABAAAADu7v/v7u7/7+7u/+/u7v/v7u7//+7+/+/u7v//////7+7u///////v7u7/T0RERETu7k/k7u7u7u7u5O7uTkTu7k7u7u7k7uT/5E7u7k7uTv/k5OTu7u7uT+7kTu7u7u5OTu5O7u7u7k5ORETu7k5ETu7u7u7uRP9ORERERET0/w==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_1_nivel_2"
-    },
-    "tile28": {
-        "data": "hwQQABAAAAD/RERERERERETk7u7u7u5ORO7u7u7u7k7u7u7u7u7uTu7u7u7u7uRO7u7u7u5OTk7k7uTuTuROTk7uTu7k7k5O7kTk7k5ERE7u7u7u7u7uTkRERERERERE////7+7u///u/v/v7u7//+7u/+/u7v/v7u7/7+7u/+/u7v/v7u7/7w==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_4_nivel_2"
-    },
-    "tile9": {
-        "data": "hwQQABAAAADMzP/PzMz/z8zM/8/MzP/PzMz//8z8/8/MzP//////z8zM///////PzMz/r6qqqqrMzK+6u7u7u8zMuru7q6q7zKy7u7u6u7r/uqu7u6u7q/+6urq7u7u7r7u6q7u7u7usq7uru7u7u6yrqqq7u6uqrLu7u7u7qv+sqqqqqqr6/w==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_1_nivel_1"
-    },
-    "tile14": {
-        "data": "hwQQABAAAACsqqqqqqr6/6y7u7u7u6r/rKuqqru7q6qsq7uru7u7u6y7uqu7u7u7zLq6uru7u7vMuqu7u6u7q8ysu7u7uru6zPy6u7urqrv//6+6u7u7u////6+qqqqq////z8zM///M/P/PzMz//8zM/8/MzP/PzMz/z8zM/8/MzP/PzMz/zw==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_2_nivel_1"
-    },
-    "tile5": {
-        "data": "hwQQABAAAADMzP/PzMz/z8zM/8/MzP/PzMz//8z8/8/MzP//////z8zM///////Pqqqqqqqqqqq7u7u7u7u7q7uqururqqqrq7uru7q7q6u6u7q7q7qrq7u7u7u7q6uru7u7u7u7uqu7u7u7u7u7q6q7u7u7u7urqrq7u7u7u6v/qqqqqqqqqg==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_3_nivel_1"
-    },
-    "tile27": {
-        "data": "hwQQABAAAADu7v/v7u7/7+7u/+/u7v/v7u7//+7+/+/u7v//////7+7u///////vRERERERERETu7u7u7u7uTu5E5O5OREROTu5O7uTuTk7k7uTuTuROTu7u7u7uTk5O7u7u7u7u5E7u7u7u7u7uTkTu7u7u7u5OROTu7u7u7k7/RERERERERA==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_3_nivel_2"
-    },
     "tile8": {
         "data": "hwQQABAAAADd3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3Q==",
         "mimeType": "image/x-mkcd-f4",
@@ -177,30 +135,6 @@
         "mimeType": "image/x-mkcd-f4",
         "tilemapTile": true,
         "displayName": "antorhca_nivel_3"
-    },
-    "tile34": {
-        "data": "hwQQABAAAACIiP+PiIj/j4iI/4+IiP+PiIj//4j4/4+IiP//////j4iI//////+PiIj/b2ZmZmaIiG+GiIiIiIiIhoiIaGaIiGiIiIiGiIb/hmiIiGiIaP+GhoaIiIiIb4iGaIiIiIhoaIhoiIiIiGhoZmaIiGhmaIiIiIiIZv9oZmZmZmb2/w==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_1_nivel_3"
-    },
-    "tile35": {
-        "data": "hwQQABAAAABoZmZmZmb2/2iIiIiIiGb/aGhmZoiIaGZoaIhoiIiIiGiIhmiIiIiIiIaGhoiIiIiIhmiIiGiIaIhoiIiIhoiGiPiGiIhoZoj//2+GiIiIiP///29mZmZm////j4iI//+I+P+PiIj//4iI/4+IiP+PiIj/j4iI/4+IiP+PiIj/jw==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_2_nivel_3"
-    },
-    "tile36": {
-        "data": "hwQQABAAAACIiP+PiIj/j4iI/4+IiP+PiIj//4j4/4+IiP//////j4iI//////+PZmZmZmZmZmaIiIiIiIiIaIhmhohoZmZoaIhoiIaIaGiGiIaIaIZoaIiIiIiIaGhoiIiIiIiIhmiIiIiIiIiIaGaIiIiIiIhoZoaIiIiIiGj/ZmZmZmZmZg==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_3_nivel_3"
-    },
-    "tile37": {
-        "data": "hwQQABAAAAD/ZmZmZmZmZmaGiIiIiIhoZoiIiIiIiGiIiIiIiIiIaIiIiIiIiIZoiIiIiIhoaGiGiIaIaIZoaGiIaIiGiGhoiGaGiGhmZmiIiIiIiIiIaGZmZmZmZmZm////j4iI//+I+P+PiIj//4iI/4+IiP+PiIj/j4iI/4+IiP+PiIj/jw==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "puerta_4_nivel_3"
     },
     "tile30": {
         "data": "hwQQABAAAACIiP+PiIj/j4iI/4+IiP+PiIj//4j4/4+IiP//////j4iI//////+PiIj/b2ZmZmaIiG8GAAAAYIiIBgAAAABgiGgAAAAAAGD/BgAAAAAAYP8GAAAAAABgbwAAAAAAAGBoAAAAAAAAYGgAAAAAAABgaAAAAAAAAGBoZmZmZmZmZg==",

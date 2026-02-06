@@ -15,20 +15,6 @@ namespace myTiles {
     //% fixedInstance jres blockIdentity=images._tile
     export const tile19 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
-    export const tile26 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile25 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile28 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile9 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile14 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile5 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile27 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
     export const tile8 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile4 = image.ofBuffer(hex``);
@@ -60,14 +46,6 @@ namespace myTiles {
     export const tile17 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile38 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile34 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile35 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile36 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
-    export const tile37 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile30 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
@@ -1148,20 +1126,6 @@ namespace myTiles {
             case "tile18":return tile18;
             case "pared_nivel_2":
             case "tile19":return tile19;
-            case "puerta_2_nivel_2":
-            case "tile26":return tile26;
-            case "puerta_1_nivel_2":
-            case "tile25":return tile25;
-            case "puerta_4_nivel_2":
-            case "tile28":return tile28;
-            case "puerta_1_nivel_1":
-            case "tile9":return tile9;
-            case "puerta_2_nivel_1":
-            case "tile14":return tile14;
-            case "puerta_3_nivel_1":
-            case "tile5":return tile5;
-            case "puerta_3_nivel_2":
-            case "tile27":return tile27;
             case "pared_aula":
             case "tile8":return tile8;
             case "ordenador":
@@ -1194,14 +1158,6 @@ namespace myTiles {
             case "tile17":return tile17;
             case "antorhca_nivel_3":
             case "tile38":return tile38;
-            case "puerta_1_nivel_3":
-            case "tile34":return tile34;
-            case "puerta_2_nivel_3":
-            case "tile35":return tile35;
-            case "puerta_3_nivel_3":
-            case "tile36":return tile36;
-            case "puerta_4_nivel_3":
-            case "tile37":return tile37;
             case "ventana_1_nivel_3":
             case "tile30":return tile30;
             case "ventana_2_nivel_3":
