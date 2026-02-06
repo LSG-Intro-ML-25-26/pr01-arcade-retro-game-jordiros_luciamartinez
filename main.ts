@@ -238,7 +238,7 @@ function Boss3 () {
     }
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (partida) {
+    if (partida && !(controller.right.isPressed())) {
         animation.runImageAnimation(
         prota,
         assets.animation`player_left_animated`,
@@ -326,20 +326,20 @@ function ShowFinal () {
     }
 }
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
-    if (partida) {
+    if (partida && !(controller.left.isPressed())) {
         animation.runImageAnimation(
         prota,
-        assets.animation`player_right_animated`,
+        assets.animation`myAnim4`,
         200,
         false
         )
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
-    if (partida) {
+    if (partida && !(controller.right.isPressed())) {
         animation.runImageAnimation(
         prota,
-        assets.animation`player_left_animated`,
+        assets.animation`myAnim3`,
         200,
         false
         )
@@ -478,13 +478,13 @@ function SistemaDeDobleSalto () {
     }
 }
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-    prota,
-    assets.animation`player_right_animated`,
-    200,
-    true
-    )
-    if (partida) {
+    if (partida && !(controller.left.isPressed())) {
+        animation.runImageAnimation(
+        prota,
+        assets.animation`player_right_animated`,
+        200,
+        true
+        )
         characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
         ataque_prota2 = 0
     }
@@ -778,12 +778,6 @@ game.onUpdate(function () {
         }
     }
 })
-game.onUpdateInterval(1000, function () {
-    if (partida && prota.isHittingTile(CollisionDirection.Bottom)) {
-        spawn_x = prota.x
-        spawn_y = prota.y
-    }
-})
 game.onUpdateInterval(1, function () {
     if (menu) {
         scene.setBackgroundImage(assets.image`fondo_menu2`)
@@ -807,5 +801,11 @@ game.onUpdateInterval(1, function () {
     }
     if (final) {
         ShowFinal()
+    }
+})
+game.onUpdateInterval(100, function () {
+    if (partida && prota.isHittingTile(CollisionDirection.Bottom)) {
+        spawn_x = prota.x
+        spawn_y = prota.y
     }
 })
