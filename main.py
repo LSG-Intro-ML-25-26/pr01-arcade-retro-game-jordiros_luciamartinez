@@ -3,25 +3,41 @@ class SpriteKind:
     Decorativo = SpriteKind.create()
     Map = SpriteKind.create()
     Boss = SpriteKind.create()
-    indicador = SpriteKind.create()
+    Indicator = SpriteKind.create()
     Key = SpriteKind.create()
     Heart = SpriteKind.create()
-def Boss2():
-    if prota.x + 30 < arana.x:
-        arana.vx = -20
-        arana.set_image(assets.image("""
-            faraon_izquierda
+    Antorcha = SpriteKind.create()
+    SpecialKey = SpriteKind.create()
+    Door = SpriteKind.create()
+    SpecialDoor = SpriteKind.create()
+def GenerarPuerta():
+    global puerta
+    for valor in tiles.get_tiles_by_type(assets.tile("""
+        puerta_4_nivel_1
+        """)):
+        if nivel <= 10:
+            puerta = sprites.create(assets.image("""
+                myImage8
+                """), SpriteKind.Door)
+        elif nivel > 10 and nivel <= 20:
+            puerta = sprites.create(assets.image("""
+                myImage7
+                """), SpriteKind.Door)
+        elif nivel > 20 and nivel <= 30:
+            puerta = sprites.create(assets.image("""
+                myImage9
+                """), SpriteKind.Door)
+        tiles.place_on_random_tile(puerta, assets.tile("""
+            puerta_4_nivel_1
             """))
-    elif prota.x - 30 > arana.x:
-        arana.vx = 20
-        arana.set_image(assets.image("""
-            faraon_derecha
-            """))
-    else:
-        arana.vx = 0
+        puerta.y += -7
 
 def on_overlap_tile(sprite, location):
     prota.set_position(spawn_x, spawn_y)
+    music.play(music.create_song(assets.song("""
+            muerte_prota
+            """)),
+        music.PlaybackMode.IN_BACKGROUND)
     info.change_life_by(-1)
 scene.on_overlap_tile(SpriteKind.player,
     assets.tile("""
@@ -36,48 +52,46 @@ def MostrarFlecha():
             flecha_puerta_nivel = sprites.create(assets.image("""
                     flecha_nivel1
                     """),
-                SpriteKind.indicador)
+                SpriteKind.Indicator)
             animation.run_image_animation(flecha_puerta_nivel,
                 assets.animation("""
                     animacion_flecha_nivel1
                     """),
                 150,
                 True)
-            tiles.place_on_random_tile(flecha_puerta_nivel,
-                assets.tile("""
-                    puerta_1_nivel_1
-                    """))
         elif nivel > 10 and nivel <= 20:
             flecha_puerta_nivel = sprites.create(assets.image("""
                     flecha_nivel2
                     """),
-                SpriteKind.indicador)
+                SpriteKind.Indicator)
             animation.run_image_animation(flecha_puerta_nivel,
                 assets.animation("""
                     animacion_flecha_nivel2
                     """),
                 150,
                 True)
-            tiles.place_on_random_tile(flecha_puerta_nivel,
-                assets.tile("""
-                    puerta_1_nivel_2
-                    """))
         elif nivel > 20 and nivel <= 30:
             flecha_puerta_nivel = sprites.create(assets.image("""
                     flecha_nivel3
                     """),
-                SpriteKind.indicador)
+                SpriteKind.Indicator)
             animation.run_image_animation(flecha_puerta_nivel,
                 assets.animation("""
                     animacion_flecha_nivel3
                     """),
                 150,
                 True)
-            tiles.place_on_random_tile(flecha_puerta_nivel,
-                assets.tile("""
-                    puerta_1_nivel_3
-                    """))
-        flecha_puerta_nivel.y += -30
+        elif nivel == 408:
+            flecha_puerta_nivel = sprites.create(assets.image("""
+                myImage5
+                """), SpriteKind.Indicator)
+            animation.run_image_animation(flecha_puerta_nivel,
+                assets.animation("""
+                    animacion_flecha_nivel0
+                    """),
+                150,
+                True)
+        flecha_puerta_nivel.set_position(puerta.x - 8, puerta.y - 40)
 
 def on_b_pressed():
     global ataque_prota2
@@ -90,101 +104,134 @@ def on_b_pressed():
         pause(100)
 controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
 
-def on_overlap_tile2(sprite3, location3):
-    NextLevel()
-scene.on_overlap_tile(SpriteKind.player,
-    assets.tile("""
-        puerta_4_nivel_2
-        """),
-    on_overlap_tile2)
+def on_on_overlap(sprite2, otherSprite):
+    global jugador_en_puerta_especial, nivel
+    if not (jugador_en_puerta_especial) and llave_especial:
+        MostrarFlecha()
+        jugador_en_puerta_especial = True
+    if controller.up.is_pressed():
+        if llave_especial:
+            jugador_en_puerta_especial = False
+            if nivel == 9:
+                nivel = 408
+            else:
+                nivel = 9
+            GenerarNivel()
+        else:
+            game.splash("Necesitas la llave", "del aula 408")
+sprites.on_overlap(SpriteKind.player, SpriteKind.SpecialDoor, on_on_overlap)
 
 def CreacionPersonaje():
-    global prota, ataque_prota, ataque_prota2, spawn_x, spawn_y
+    global prota, ataque_prota, ataque_prota2, spawn_x, spawn_y, mostrar_minimapa
     prota = sprites.create(assets.image("""
         player
         """), SpriteKind.player)
-    info.set_life(3)
     characterAnimations.set_character_state(prota, characterAnimations.rule(Predicate.FACING_RIGHT))
     controller.move_sprite(prota, 100, 0)
     scene.camera_follow_sprite(prota)
     prota.ay = 200
     ataque_prota = 0
     ataque_prota2 = 0
-    for set_player in tiles.get_tiles_by_type(assets.tile("""
+    for valor2 in tiles.get_tiles_by_type(assets.tile("""
         myTile2
         """)):
-        tiles.place_on_tile(prota, set_player)
+        tiles.place_on_tile(prota, valor2)
         spawn_x = prota.x
         spawn_y = prota.y
         if nivel <= 10:
-            tiles.set_tile_at(set_player, assets.tile("""
+            tiles.set_tile_at(valor2, assets.tile("""
                 pared_nivel_1
                 """))
         elif nivel > 10 and nivel <= 20:
-            tiles.set_tile_at(set_player, assets.tile("""
+            tiles.set_tile_at(valor2, assets.tile("""
                 pared_nivel_2
                 """))
-        elif nivel > 10 and nivel <= 20:
-            tiles.set_tile_at(set_player, assets.tile("""
+        elif nivel > 20 and nivel <= 30:
+            tiles.set_tile_at(valor2, assets.tile("""
                 pared_nivel_3
                 """))
+        elif nivel <= 408:
+            mostrar_minimapa = False
+            tiles.set_tile_at(valor2, assets.tile("""
+                pared_aula
+                """))
+
+def on_on_overlap2(sprite3, otherSprite2):
+    global llave_especial
+    sprites.destroy_all_sprites_of_kind(SpriteKind.SpecialKey)
+    llave_especial = True
+    music.play(music.create_song(hex("""
+            00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a
+            """)),
+        music.PlaybackMode.IN_BACKGROUND)
+    game.splash("Conseguiste la llave", "del aula 408")
+sprites.on_overlap(SpriteKind.player, SpriteKind.SpecialKey, on_on_overlap2)
+
 def EnemigoNivel2():
-    global murcielago
-    for valor2 in tiles.get_tiles_by_type(assets.tile("""
+    global enemigo
+    for valor3 in tiles.get_tiles_by_type(assets.tile("""
         amarillo_enemigo
         """)):
-        murcielago = sprites.create(assets.image("""
+        enemigo = sprites.create(assets.image("""
                 muercielago_izquierda
                 """),
             SpriteKind.enemy)
-        characterAnimations.loop_frames(murcielago,
+        characterAnimations.loop_frames(enemigo,
             assets.animation("""
                 derecha_fantasma
                 """),
             300,
             characterAnimations.rule(Predicate.MOVING_RIGHT))
-        characterAnimations.run_frames(murcielago,
+        characterAnimations.run_frames(enemigo,
             assets.animation("""
                 murcielago_animacion_izquierda
                 """),
             300,
             characterAnimations.rule(Predicate.NOT_MOVING))
-        tiles.place_on_tile(murcielago, valor2)
-        tiles.set_tile_at(valor2, assets.tile("""
+        tiles.place_on_tile(enemigo, valor3)
+        tiles.set_tile_at(valor3, assets.tile("""
             pared_nivel_2
             """))
-        murcielago.ay = 200
-        murcielago.follow(prota, 30)
-
-def on_overlap_tile3(sprite2, location2):
-    NextLevel()
-scene.on_overlap_tile(SpriteKind.player,
-    assets.tile("""
-        puerta_4_nivel_3
-        """),
-    on_overlap_tile3)
-
+        enemigo.ay = 200
+        enemigo.follow(prota, 30)
 def GenerarLlave():
     global llave
-    for valor in tiles.get_tiles_by_type(assets.tile("""
+    for valor4 in tiles.get_tiles_by_type(assets.tile("""
         myTile
         """)):
         llave = sprites.create(assets.image("""
             myImage2
             """), SpriteKind.Key)
-        tiles.place_on_tile(llave, valor)
-        if nivel <= 10:
-            tiles.set_tile_at(valor, assets.tile("""
+        animation.run_image_animation(llave, assets.animation("""
+            myAnim
+            """), 200, True)
+        tiles.place_on_tile(llave, valor4)
+        if nivel < 10:
+            tiles.set_tile_at(valor4, assets.tile("""
                 pared_nivel_1
                 """))
-        elif nivel > 10 and nivel <= 20:
-            tiles.set_tile_at(valor, assets.tile("""
+        elif nivel > 10 and nivel < 20:
+            tiles.set_tile_at(valor4, assets.tile("""
                 pared_nivel_2
                 """))
-        elif nivel > 10 and nivel <= 20:
-            tiles.set_tile_at(valor, assets.tile("""
+        elif nivel > 20 and nivel < 30:
+            tiles.set_tile_at(valor4, assets.tile("""
                 pared_nivel_3
                 """))
+    for valor5 in tiles.get_tiles_by_type(assets.tile("""
+        myTile4
+        """)):
+        llave = sprites.create(assets.image("""
+                myImage4
+                """),
+            SpriteKind.SpecialKey)
+        animation.run_image_animation(llave, assets.animation("""
+            myAnim2
+            """), 200, True)
+        tiles.place_on_tile(llave, valor5)
+        tiles.set_tile_at(valor5, assets.tile("""
+            pared_nivel_3
+            """))
 
 def on_a_pressed():
     if partida:
@@ -197,13 +244,33 @@ def GenerarMinimapa():
     myMinimap = minimap.minimap(MinimapScale.SIXTEENTH, 1, 15)
     mapStripe = sprites.create(minimap.get_image(myMinimap), SpriteKind.Map)
     minimap.include_sprite(myMinimap, prota, MinimapSpriteScale.DOUBLE)
+    for valor6 in sprites.all_of_kind(SpriteKind.enemy):
+        minimap.include_sprite(myMinimap, valor6, MinimapSpriteScale.DOUBLE)
+    if boss_vivo:
+        minimap.include_sprite(myMinimap, boss_actual, MinimapSpriteScale.DOUBLE)
     mapStripe.set_position(scene.camera_property(CameraProperty.X) + 54,
         scene.camera_property(CameraProperty.Y) - 44)
 
-def on_on_overlap(sprite5, otherSprite2):
-    if sprite5.vy > 0 and sprite5.y < otherSprite2.y:
-        sprite5.vy = -70
-        statusbar.value += -3
+def on_on_overlap3(sprite4, otherSprite3):
+    global mensaje_corazon
+    if info.life() < max_corazones:
+        sprites.destroy(otherSprite3, effects.fire, 100)
+        music.play(music.create_song(hex("""
+                00f4010408020100001c00010a006400f4016400000400000000000000000000000000050000040c0000000400012704000800012a
+                """)),
+            music.PlaybackMode.IN_BACKGROUND)
+        info.change_life_by(1)
+    else:
+        if mensaje_corazon:
+            game.splash("No puedes superar",
+                "los " + convert_to_text(max_corazones) + " corazones")
+            mensaje_corazon = False
+sprites.on_overlap(SpriteKind.player, SpriteKind.Heart, on_on_overlap3)
+
+def on_on_overlap4(sprite5, otherSprite22):
+    if sprite5.vy > 0 and sprite5.y < otherSprite22.y:
+        prota.set_velocity(0, -125)
+        statusbar.value += -1
         music.play(music.create_sound_effect(WaveShape.NOISE,
                 1259,
                 0,
@@ -219,28 +286,12 @@ def on_on_overlap(sprite5, otherSprite2):
                 muerte_prota
                 """)),
             music.PlaybackMode.IN_BACKGROUND)
-    if statusbar.value > 1:
-        sprite5.set_position(otherSprite2.x - 50, sprite5.y - 10)
     pause(1000)
-sprites.on_overlap(SpriteKind.player, SpriteKind.Boss, on_on_overlap)
-
-def Boss3():
-    if prota.x + 30 < leviatan.x:
-        leviatan.vx = -20
-        leviatan.set_image(assets.image("""
-            myImage0
-            """))
-    elif prota.x - 30 > leviatan.x:
-        leviatan.vx = 20
-        leviatan.set_image(assets.image("""
-            myImage
-            """))
-    else:
-        leviatan.vx = 0
+sprites.on_overlap(SpriteKind.player, SpriteKind.Boss, on_on_overlap4)
 
 def on_left_pressed():
     global ataque_prota2
-    if partida:
+    if partida and not (controller.right.is_pressed()):
         animation.run_image_animation(prota,
             assets.animation("""
                 player_left_animated
@@ -251,39 +302,90 @@ def on_left_pressed():
         ataque_prota2 = 0
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
+def on_on_overlap5(sprite6, otherSprite4):
+    NextLevel()
+sprites.on_overlap(SpriteKind.player, SpriteKind.Door, on_on_overlap5)
+
 def EnemigoNivel3():
-    global tiburon
-    for valor3 in tiles.get_tiles_by_type(assets.tile("""
+    global enemigo
+    for valor7 in tiles.get_tiles_by_type(assets.tile("""
         amarillo_enemigo
         """)):
-        tiburon = sprites.create(assets.image("""
+        enemigo = sprites.create(assets.image("""
                 caracol_izquierda
                 """),
             SpriteKind.enemy)
-        characterAnimations.loop_frames(tiburon,
+        characterAnimations.loop_frames(enemigo,
             assets.animation("""
                 pez_animacion_derecha
                 """),
             300,
             characterAnimations.rule(Predicate.MOVING_RIGHT))
-        characterAnimations.loop_frames(tiburon,
+        characterAnimations.loop_frames(enemigo,
             assets.animation("""
                 pez_animacion_izquierda
                 """),
             300,
             characterAnimations.rule(Predicate.MOVING_LEFT))
-        tiles.place_on_tile(tiburon, valor3)
-        tiles.set_tile_at(valor3, assets.tile("""
+        tiles.place_on_tile(enemigo, valor7)
+        tiles.set_tile_at(valor7, assets.tile("""
             pared_nivel_3
             """))
-        tiburon.ay = 200
-        tiburon.follow(prota, 30)
-
-def on_on_overlap2(sprite4, otherSprite):
-    sprites.destroy(otherSprite)
-    info.change_life_by(1)
-sprites.on_overlap(SpriteKind.player, SpriteKind.Heart, on_on_overlap2)
-
+        enemigo.ay = 200
+        enemigo.follow(prota, 30)
+def GenerarAntorchas():
+    global antorcha
+    for valor8 in tiles.get_tiles_by_type(assets.tile("""
+        antorcha_nivel_1
+        """)):
+        antorcha = sprites.create(assets.image("""
+            myImage3
+            """), SpriteKind.Antorcha)
+        animation.run_image_animation(antorcha,
+            assets.animation("""
+                myAnim1
+                """),
+            200,
+            True)
+        tiles.place_on_tile(antorcha, valor8)
+        tiles.set_tile_at(valor8, assets.tile("""
+            pared_nivel_1
+            """))
+        antorcha.y += -1
+    for valor9 in tiles.get_tiles_by_type(assets.tile("""
+        antorcha_nivel_2
+        """)):
+        antorcha = sprites.create(assets.image("""
+            myImage3
+            """), SpriteKind.Antorcha)
+        animation.run_image_animation(antorcha,
+            assets.animation("""
+                myAnim1
+                """),
+            200,
+            True)
+        tiles.place_on_tile(antorcha, valor9)
+        tiles.set_tile_at(valor9, assets.tile("""
+            pared_nivel_2
+            """))
+        antorcha.y += -1
+    for valor10 in tiles.get_tiles_by_type(assets.tile("""
+        antorhca_nivel_3
+        """)):
+        antorcha = sprites.create(assets.image("""
+            myImage3
+            """), SpriteKind.Antorcha)
+        animation.run_image_animation(antorcha,
+            assets.animation("""
+                myAnim1
+                """),
+            200,
+            True)
+        tiles.place_on_tile(antorcha, valor10)
+        tiles.set_tile_at(valor10, assets.tile("""
+            pared_nivel_3
+            """))
+        antorcha.y += -1
 def ShowFinal():
     global menu, final
     tiles.set_current_tilemap(tilemap("""
@@ -307,63 +409,46 @@ def ShowFinal():
         pause(1000)
 
 def on_right_released():
-    if partida:
-        animation.run_image_animation(prota,
-            assets.animation("""
-                player_right_animated
-                """),
-            200,
-            False)
+    if partida and not (controller.left.is_pressed()):
+        animation.run_image_animation(prota, assets.animation("""
+            myAnim4
+            """), 200, False)
 controller.right.on_event(ControllerButtonEvent.RELEASED, on_right_released)
 
 def on_left_released():
-    if partida:
-        animation.run_image_animation(prota,
-            assets.animation("""
-                player_left_animated
-                """),
-            200,
-            False)
+    if partida and not (controller.right.is_pressed()):
+        animation.run_image_animation(prota, assets.animation("""
+            myAnim3
+            """), 200, False)
 controller.left.on_event(ControllerButtonEvent.RELEASED, on_left_released)
 
-def on_on_overlap3(sprite6, otherSprite3):
-    global nivel_superado
-    sprites.destroy_all_sprites_of_kind(SpriteKind.Key)
-    nivel_superado = True
-sprites.on_overlap(SpriteKind.player, SpriteKind.Key, on_on_overlap3)
-
 def on_on_zero(status):
-    global boss_actual, nivel_superado, boss_vivo
-    if nivel == 10:
-        boss_actual = serpiente
-    elif nivel == 20:
-        boss_actual = arana
-    elif nivel == 30:
-        boss_actual = leviatan
+    global max_corazones, mensaje_corazon, nivel_superado, boss_vivo
     music.play(music.create_song(assets.song("""
             ashes
             """)),
         music.PlaybackMode.IN_BACKGROUND)
     sprites.destroy(boss_actual, effects.disintegrate, 500)
     sprites.destroy(statusbar)
-    info.set_life(5)
+    max_corazones += 10
+    game.splash("+10 corazones maximos")
+    mensaje_corazon = True
     nivel_superado = True
     boss_vivo = False
 statusbars.on_zero(StatusBarKind.enemy_health, on_on_zero)
 
 def GenerarNivel():
-    global jugador_en_puerta, nivel_superado, boss_vivo, tipo_nivel
+    global tipo_nivel, jugador_en_puerta, jugador_en_puerta_especial, nivel_superado
+    tipo_nivel = True
     jugador_en_puerta = False
+    jugador_en_puerta_especial = False
     nivel_superado = False
-    boss_vivo = True
-    sprites.destroy_all_sprites_of_kind(SpriteKind.Boss)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.indicador)
+    tipo_nivel = True
+    DestruirSprites()
+    scene.set_background_image(assets.image("""
+        fondo_nivel_1
+        """))
     if nivel == 1:
-        tipo_nivel = True
-        scene.set_background_image(assets.image("""
-            fondo_nivel_1
-            """))
         tiles.set_current_tilemap(tilemap("""
             nivel5
             """))
@@ -377,7 +462,7 @@ def GenerarNivel():
             """))
     elif nivel == 4:
         tiles.set_current_tilemap(tilemap("""
-            nivel9
+            nivel16
             """))
     elif nivel == 5:
         tiles.set_current_tilemap(tilemap("""
@@ -388,53 +473,153 @@ def GenerarNivel():
             nivel14
             """))
     elif nivel == 7:
-        pass
+        tiles.set_current_tilemap(tilemap("""
+            nivel9
+            """))
     elif nivel == 8:
-        pass
+        tiles.set_current_tilemap(tilemap("""
+            nivel18
+            """))
     elif nivel == 9:
-        pass
+        tiles.set_current_tilemap(tilemap("""
+            nivel21
+            """))
     elif nivel == 10:
+        tipo_nivel = False
         tiles.set_current_tilemap(tilemap("""
             nivel10
             """))
-        tipo_nivel = False
-    elif nivel == 20:
-        scene.set_background_image(assets.image("""
-            fondo_nivel_2
+    elif nivel == 11:
+        tiles.set_current_tilemap(tilemap("""
+            nivel23
             """))
+    elif nivel == 12:
+        tiles.set_current_tilemap(tilemap("""
+            nivel25
+            """))
+    elif nivel == 13:
+        tiles.set_current_tilemap(tilemap("""
+            nivel27
+            """))
+    elif nivel == 14:
+        tiles.set_current_tilemap(tilemap("""
+            nivel29
+            """))
+    elif nivel == 15:
+        tiles.set_current_tilemap(tilemap("""
+            nivel34
+            """))
+    elif nivel == 16:
+        tiles.set_current_tilemap(tilemap("""
+            nivel36
+            """))
+    elif nivel == 17:
+        tiles.set_current_tilemap(tilemap("""
+            nivel38
+            """))
+    elif nivel == 18:
+        tiles.set_current_tilemap(tilemap("""
+            nivel40
+            """))
+    elif nivel == 19:
+        tiles.set_current_tilemap(tilemap("""
+            nivel42
+            """))
+    elif nivel == 20:
+        tipo_nivel = False
         tiles.set_current_tilemap(tilemap("""
             nivel20
             """))
-        tipo_nivel = False
-    elif nivel == 30:
-        scene.set_background_image(assets.image("""
-            fondo_nivel_3
+    elif nivel == 21:
+        tiles.set_current_tilemap(tilemap("""
+            nivel44
             """))
+    elif nivel == 22:
+        tiles.set_current_tilemap(tilemap("""
+            nivel46
+            """))
+    elif nivel == 23:
+        tiles.set_current_tilemap(tilemap("""
+            nivel48
+            """))
+    elif nivel == 24:
+        tiles.set_current_tilemap(tilemap("""
+            nivel50
+            """))
+    elif nivel == 25:
+        tiles.set_current_tilemap(tilemap("""
+            nivel52
+            """))
+    elif nivel == 26:
+        tiles.set_current_tilemap(tilemap("""
+            nivel54
+            """))
+    elif nivel == 27:
+        tiles.set_current_tilemap(tilemap("""
+            nivel32
+            """))
+    elif nivel == 28:
+        tiles.set_current_tilemap(tilemap("""
+            nivel56
+            """))
+    elif nivel == 29:
+        tiles.set_current_tilemap(tilemap("""
+            nivel58
+            """))
+    elif nivel == 30:
+        tipo_nivel = False
         tiles.set_current_tilemap(tilemap("""
             nivel30
             """))
-        tipo_nivel = False
+    elif nivel == 408:
+        scene.set_background_image(assets.image("""
+            cityscape
+            """))
+        tiles.set_current_tilemap(tilemap("""
+            level
+            """))
+    GenerarPuertaEspecial()
+    GenerarPuerta()
+    GenerarCorazones()
+    GenerarAntorchas()
     CreacionPersonaje()
     CrearEnemigos()
     if tipo_nivel:
         GenerarLlave()
     else:
         GenerarBoss()
-    GenerarCorazones()
     MostrarNivel()
 def Boss1():
-    if prota.x + 30 < serpiente.x:
-        serpiente.vx = -20
-        serpiente.set_image(assets.image("""
-            leviatan_izquierda
-            """))
-    elif prota.x - 30 > serpiente.x:
-        serpiente.vx = 20
-        serpiente.set_image(assets.image("""
-            leviatan_derecha
-            """))
+    if prota.x + 30 < boss_actual.x:
+        boss_actual.vx = -20
+        if nivel == 10:
+            boss_actual.set_image(assets.image("""
+                leviatan_izquierda
+                """))
+        elif nivel == 20:
+            boss_actual.set_image(assets.image("""
+                faraon_izquierda
+                """))
+        elif nivel == 30:
+            boss_actual.set_image(assets.image("""
+                myImage0
+                """))
+    elif prota.x - 30 > boss_actual.x:
+        boss_actual.vx = 20
+        if nivel == 10:
+            boss_actual.set_image(assets.image("""
+                leviatan_derecha
+                """))
+        elif nivel == 20:
+            boss_actual.set_image(assets.image("""
+                faraon_derecha
+                """))
+        elif nivel == 30:
+            boss_actual.set_image(assets.image("""
+                myImage
+                """))
     else:
-        serpiente.vx = 0
+        boss_actual.vx = 0
 def SistemaDeDobleSalto():
     global salto
     if prota.is_hitting_tile(CollisionDirection.BOTTOM):
@@ -454,7 +639,7 @@ def SistemaDeDobleSalto():
 
 def on_right_pressed():
     global ataque_prota2
-    if partida:
+    if partida and not (controller.left.is_pressed()):
         animation.run_image_animation(prota,
             assets.animation("""
                 player_right_animated
@@ -464,6 +649,16 @@ def on_right_pressed():
         characterAnimations.set_character_state(prota, characterAnimations.rule(Predicate.FACING_RIGHT))
         ataque_prota2 = 0
 controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
+
+def on_on_overlap6(sprite7, otherSprite5):
+    scene.camera_shake(5, 500)
+    info.change_life_by(-1)
+    sprites.destroy(otherSprite5)
+    music.play(music.create_song(assets.song("""
+            muerte_prota
+            """)),
+        music.PlaybackMode.IN_BACKGROUND)
+sprites.on_overlap(SpriteKind.player, SpriteKind.projectile, on_on_overlap6)
 
 def AtaqueIzquierda():
     animation.run_image_animation(prota,
@@ -489,6 +684,25 @@ def AtaqueIzquierda():
                 """),
             200,
             True)
+
+def on_on_overlap7(sprite42, otherSprite42):
+    if ataque_prota < ataque_prota2:
+        sprites.destroy(otherSprite42, effects.ashes, 200)
+        music.play(music.create_song(assets.song("""
+                ashes
+                """)),
+            music.PlaybackMode.UNTIL_DONE)
+    else:
+        sprite42.start_effect(effects.ashes, 1000)
+        scene.camera_shake(5, 500)
+        info.change_life_by(-1)
+        music.play(music.create_song(assets.song("""
+                muerte_prota
+                """)),
+            music.PlaybackMode.IN_BACKGROUND)
+        sprites.destroy(otherSprite42)
+sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap7)
+
 def NextLevel():
     global jugador_en_puerta, win, nivel
     if nivel_superado:
@@ -512,9 +726,8 @@ def NextLevel():
                 nivel += 1
                 sprites.destroy_all_sprites_of_kind(SpriteKind.player)
                 GenerarNivel()
-    else:
-        if controller.up.is_pressed():
-            game.splash("Necesitas la llave")
+    elif controller.up.is_pressed():
+        game.splash("Necesitas la llave")
 def AtaqueDerecha():
     animation.run_image_animation(prota,
         assets.animation("""
@@ -540,68 +753,56 @@ def AtaqueDerecha():
             200,
             True)
 def GenerarBoss():
-    global statusbar, serpiente, arana, leviatan
-    if boss_vivo == True:
-        statusbar = statusbars.create(40, 4, StatusBarKind.enemy_health)
-        statusbar.max = 9
-        statusbar.set_color(7, 2, 0)
-        statusbar.set_status_bar_flag(StatusBarFlag.SMOOTH_TRANSITION, True)
-        if nivel == 10:
-            serpiente = sprites.create(assets.image("""
-                    leviatan_derecha
-                    """),
-                SpriteKind.Boss)
-            serpiente.set_scale(3, ScaleAnchor.MIDDLE)
-            serpiente.ay = 200
-            statusbar.attach_to_sprite(serpiente)
-            for valor4 in tiles.get_tiles_by_type(assets.tile("""
-                myTile3
-                """)):
-                tiles.place_on_tile(serpiente, valor4)
-                tiles.set_tile_at(valor4, assets.tile("""
-                    pared_nivel_1
-                    """))
-        elif nivel == 20:
-            arana = sprites.create(assets.image("""
-                    faraon_derecha
-                    """),
-                SpriteKind.Boss)
-            arana.set_scale(2.5, ScaleAnchor.MIDDLE)
-            arana.ay = 200
-            statusbar.attach_to_sprite(arana)
-            for valor5 in tiles.get_tiles_by_type(assets.tile("""
-                myTile3
-                """)):
-                tiles.place_on_tile(arana, valor5)
-                tiles.set_tile_at(valor5, assets.tile("""
-                    pared_nivel_2
-                    """))
-        elif nivel == 30:
-            leviatan = sprites.create(assets.image("""
-                myImage0
-                """), SpriteKind.Boss)
-            leviatan.set_scale(1.5, ScaleAnchor.MIDDLE)
-            leviatan.ay = 200
-            statusbar.attach_to_sprite(leviatan)
-            for valor6 in tiles.get_tiles_by_type(assets.tile("""
-                myTile3
-                """)):
-                tiles.place_on_tile(leviatan, valor6)
-                tiles.set_tile_at(valor6, assets.tile("""
-                    pared_nivel_3
-                    """))
-
-def on_overlap_tile4(sprite22, location22):
-    NextLevel()
-scene.on_overlap_tile(SpriteKind.player,
-    assets.tile("""
-        puerta_4_nivel_1
-        """),
-    on_overlap_tile4)
+    global statusbar, boss_actual, boss_vivo
+    statusbar = statusbars.create(40, 4, StatusBarKind.enemy_health)
+    statusbar.max = 20
+    statusbar.set_color(7, 2, 0)
+    statusbar.set_status_bar_flag(StatusBarFlag.SMOOTH_TRANSITION, True)
+    if nivel == 10:
+        boss_actual = sprites.create(assets.image("""
+                leviatan_derecha
+                """),
+            SpriteKind.Boss)
+        boss_actual.set_scale(1.5, ScaleAnchor.MIDDLE)
+        for valor11 in tiles.get_tiles_by_type(assets.tile("""
+            myTile3
+            """)):
+            tiles.place_on_tile(boss_actual, valor11)
+            tiles.set_tile_at(valor11, assets.tile("""
+                pared_nivel_1
+                """))
+    elif nivel == 20:
+        boss_actual = sprites.create(assets.image("""
+                faraon_derecha
+                """),
+            SpriteKind.Boss)
+        boss_actual.set_scale(1.5, ScaleAnchor.MIDDLE)
+        for valor12 in tiles.get_tiles_by_type(assets.tile("""
+            myTile3
+            """)):
+            tiles.place_on_tile(boss_actual, valor12)
+            tiles.set_tile_at(valor12, assets.tile("""
+                pared_nivel_2
+                """))
+    elif nivel == 30:
+        boss_actual = sprites.create(assets.image("""
+            myImage0
+            """), SpriteKind.Boss)
+        for valor13 in tiles.get_tiles_by_type(assets.tile("""
+            myTile3
+            """)):
+            tiles.place_on_tile(boss_actual, valor13)
+            tiles.set_tile_at(valor13, assets.tile("""
+                pared_nivel_3
+                """))
+        boss_actual.set_scale(1.5, ScaleAnchor.MIDDLE)
+    boss_actual.ay = 200
+    statusbar.attach_to_sprite(boss_actual)
+    boss_vivo = True
 
 def on_down_pressed():
     global mostrar_minimapa
-    if partida:
+    if partida and nivel != 408:
         if mostrar_minimapa:
             mostrar_minimapa = False
             sprites.destroy(mapStripe)
@@ -610,32 +811,32 @@ def on_down_pressed():
 controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
 def EnemigoNivel1():
-    global fantasma
-    for valor7 in tiles.get_tiles_by_type(assets.tile("""
+    global enemigo
+    for valor14 in tiles.get_tiles_by_type(assets.tile("""
         amarillo_enemigo
         """)):
-        fantasma = sprites.create(assets.image("""
+        enemigo = sprites.create(assets.image("""
                 fantasma_derecha
                 """),
             SpriteKind.enemy)
-        characterAnimations.loop_frames(fantasma,
+        characterAnimations.loop_frames(enemigo,
             assets.animation("""
                 derecha_fantasma0
                 """),
             500,
             characterAnimations.rule(Predicate.MOVING_RIGHT))
-        characterAnimations.loop_frames(fantasma,
+        characterAnimations.loop_frames(enemigo,
             assets.animation("""
                 izquierda_fantasma
                 """),
             500,
             characterAnimations.rule(Predicate.MOVING_LEFT))
-        tiles.place_on_tile(fantasma, valor7)
-        tiles.set_tile_at(valor7, assets.tile("""
+        tiles.place_on_tile(enemigo, valor14)
+        tiles.set_tile_at(valor14, assets.tile("""
             pared_nivel_1
             """))
-        fantasma.ay = 200
-        fantasma.follow(prota, 30)
+        enemigo.ay = 200
+        enemigo.follow(prota, 30)
 def MostrarLore():
     game.set_dialog_text_color(2)
     game.set_dialog_frame(assets.image("""
@@ -645,9 +846,9 @@ def MostrarLore():
         DialogLayout.FULL)
     game.show_long_text("Tras mucho tiempo de batalla, este ejercito termino conquistando el reino y rebautizandolo como \"Reino Nochesfera\", controlado por 3 reyes.",
         DialogLayout.FULL)
-    game.show_long_text("El 1r rey es Sssiniestro, lider de los fantasmas, quien ha conquistado gran parte del territorio por sus estrategias militares.",
+    game.show_long_text("El 1r rey es Espectro, lider de los fantasmas, quien ha conquistado gran parte del territorio por sus estrategias militares.",
         DialogLayout.FULL)
-    game.show_long_text("El 2o rey es Aracno, lider de los murcielagos, quien es responsable de grandes robos de suministros en las aldeas vecinas.",
+    game.show_long_text("El 2o rey es Murcielagor, lider de los murcielagos, quien es responsable de grandes robos de suministros en las aldeas vecinas.",
         DialogLayout.FULL)
     game.show_long_text("El ultimo rey es Anguilo, lider de los tiburones, quien es quien crea el veneno que fluye en los rios de los territorios vecinos.",
         DialogLayout.FULL)
@@ -664,29 +865,47 @@ def CrearEnemigos():
         EnemigoNivel3()
 
 def on_life_zero():
+    global llave_especial
     if not (win) and not (end_game):
-        sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
+        llave_especial = False
         EndGame()
 info.on_life_zero(on_life_zero)
 
-def on_on_overlap4(sprite42, otherSprite4):
-    if ataque_prota < ataque_prota2:
-        sprites.destroy(otherSprite4, effects.ashes, 200)
-        music.play(music.create_song(assets.song("""
-                ashes
-                """)),
-            music.PlaybackMode.UNTIL_DONE)
-    else:
-        sprite42.start_effect(effects.ashes, 1000)
-        scene.camera_shake(5, 500)
-        info.change_life_by(-1)
-        music.play(music.create_song(assets.song("""
-                muerte_prota
-                """)),
-            music.PlaybackMode.IN_BACKGROUND)
-        sprites.destroy(otherSprite4)
-sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap4)
+def on_on_overlap8(sprite62, otherSprite32):
+    global nivel_superado
+    sprites.destroy(otherSprite32, effects.ashes, 100)
+    nivel_superado = True
+    music.play(music.create_song(hex("""
+            00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a
+            """)),
+        music.PlaybackMode.UNTIL_DONE)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Key, on_on_overlap8)
 
+def DestruirSprites():
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Boss)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Indicator)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Heart)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Antorcha)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Key)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Map)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.player)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.SpecialKey)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Door)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.SpecialDoor)
+def GenerarPuertaEspecial():
+    global puerta_aula
+    for valor15 in tiles.get_tiles_by_type(assets.tile("""
+        myTile6
+        """)):
+        puerta_aula = sprites.create(assets.image("""
+                myImage6
+                """),
+            SpriteKind.SpecialDoor)
+        tiles.place_on_random_tile(puerta_aula, assets.tile("""
+            myTile6
+            """))
+        puerta_aula.y += -7
 def MostrarInstrucciones():
     game.set_dialog_text_color(2)
     game.set_dialog_frame(assets.image("""
@@ -695,24 +914,30 @@ def MostrarInstrucciones():
     game.show_long_text("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa\\nARRIBA    : Interactuar",
         DialogLayout.FULL)
 def GenerarCorazones():
-    global llave
-    for valor8 in tiles.get_tiles_by_type(assets.tile("""
+    global corazon
+    for valor16 in tiles.get_tiles_by_type(assets.tile("""
         myTile0
         """)):
-        llave = sprites.create(assets.image("""
+        corazon = sprites.create(assets.image("""
             myImage1
             """), SpriteKind.Heart)
-        tiles.place_on_tile(llave, valor8)
+        animation.run_image_animation(corazon,
+            assets.animation("""
+                myAnim0
+                """),
+            200,
+            True)
+        tiles.place_on_tile(corazon, valor16)
         if nivel <= 10:
-            tiles.set_tile_at(valor8, assets.tile("""
+            tiles.set_tile_at(valor16, assets.tile("""
                 pared_nivel_1
                 """))
         elif nivel > 10 and nivel <= 20:
-            tiles.set_tile_at(valor8, assets.tile("""
+            tiles.set_tile_at(valor16, assets.tile("""
                 pared_nivel_2
                 """))
-        elif nivel > 10 and nivel <= 20:
-            tiles.set_tile_at(valor8, assets.tile("""
+        elif nivel > 20 and nivel <= 30:
+            tiles.set_tile_at(valor16, assets.tile("""
                 pared_nivel_3
                 """))
 def MostrarNivel():
@@ -730,70 +955,243 @@ def EndGame():
     final = True
     mostrar_minimapa = False
     info.set_life(0)
+    DestruirSprites()
     sprites.destroy(mapStripe)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.Boss)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.Map)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.player)
     if win:
         music.play(music.melody_playable(music.magic_wand),
             music.PlaybackMode.IN_BACKGROUND)
     else:
         music.play(music.melody_playable(music.wawawawaa),
             music.PlaybackMode.IN_BACKGROUND)
+projectile: Sprite = None
+corazon: Sprite = None
+puerta_aula: Sprite = None
 end_game = False
-fantasma: Sprite = None
 salto = False
 tipo_nivel = False
-boss_vivo = False
-serpiente: Sprite = None
-boss_actual: Sprite = None
 nivel_superado = False
-tiburon: Sprite = None
-leviatan: Sprite = None
+antorcha: Sprite = None
 statusbar: StatusBarSprite = None
+boss_actual: Sprite = None
+boss_vivo = False
 myMinimap: minimap.Minimap = None
 mapStripe: Sprite = None
 llave: Sprite = None
-murcielago: Sprite = None
+enemigo: Sprite = None
 ataque_prota = 0
+jugador_en_puerta_especial = False
 ataque_prota2 = 0
 flecha_puerta_nivel: Sprite = None
-nivel = 0
 jugador_en_puerta = False
 spawn_y = 0
 spawn_x = 0
-arana: Sprite = None
 prota: Sprite = None
+puerta: Sprite = None
+nivel = 0
+llave_especial = False
+mensaje_corazon = False
 mostrar_minimapa = False
 win = False
 final = False
 partida = False
 menu = False
-music.set_volume(70)
+max_corazones = 0
+atacar = False
+music.set_volume(255)
 music.play(music.create_song(assets.song("""
         background_song
         """)),
     music.PlaybackMode.LOOPING_IN_BACKGROUND)
+max_corazones = 10
 menu = True
 partida = False
 final = False
 win = False
 mostrar_minimapa = True
-atacar = False
+mensaje_corazon = True
+llave_especial = False
 
 def on_on_update():
     if boss_vivo:
-        if nivel == 10:
-            Boss1()
-        elif nivel == 20:
-            Boss2()
-        elif nivel == 30:
-            Boss3()
+        Boss1()
 game.on_update(on_on_update)
 
 def on_update_interval():
-    global menu, nivel, win, end_game, partida
+    global projectile
+    if boss_vivo:
+        if prota.y < boss_actual.y:
+            if prota.x < boss_actual.x - 10:
+                projectile = sprites.create_projectile_from_sprite(img("""
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . b d b c . . . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . b b 5 5 5 1 1 1 5 3 5 b b .
+                        . . d d 5 1 1 1 1 1 1 1 5 d d .
+                        . . b b 5 5 5 1 1 1 5 5 5 b b .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . . . c b d b c . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        """),
+                    boss_actual,
+                    -100,
+                    -100)
+            elif prota.x > boss_actual.x + 10:
+                projectile = sprites.create_projectile_from_sprite(img("""
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . b d b c . . . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . b b 5 5 5 1 1 1 5 3 5 b b .
+                        . . d d 5 1 1 1 1 1 1 1 5 d d .
+                        . . b b 5 5 5 1 1 1 5 5 5 b b .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . . . c b d b c . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        """),
+                    boss_actual,
+                    100,
+                    -100)
+            else:
+                projectile = sprites.create_projectile_from_sprite(img("""
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . b d b c . . . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . b b 5 5 5 1 1 1 5 3 5 b b .
+                        . . d d 5 1 1 1 1 1 1 1 5 d d .
+                        . . b b 5 5 5 1 1 1 5 5 5 b b .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . . . c b d b c . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        """),
+                    boss_actual,
+                    0,
+                    -100)
+        else:
+            if prota.x < boss_actual.x - 10:
+                projectile = sprites.create_projectile_from_sprite(img("""
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . b d b c . . . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . b b 5 5 5 1 1 1 5 3 5 b b .
+                        . . d d 5 1 1 1 1 1 1 1 5 d d .
+                        . . b b 5 5 5 1 1 1 5 5 5 b b .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . . . c b d b c . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        """),
+                    boss_actual,
+                    -100,
+                    0)
+            elif prota.x > boss_actual.x + 10:
+                projectile = sprites.create_projectile_from_sprite(img("""
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . b d b c . . . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . b b 5 5 5 1 1 1 5 3 5 b b .
+                        . . d d 5 1 1 1 1 1 1 1 5 d d .
+                        . . b b 5 5 5 1 1 1 5 5 5 b b .
+                        . . . c c 5 5 5 1 5 5 5 c c . .
+                        . . . . b 5 5 5 1 5 5 5 b . . .
+                        . . . . b b c 5 5 5 c b b . . .
+                        . . . . . . c b d b c . . . . .
+                        . . . . . . . b d b . . . . . .
+                        . . . . . . . . . . . . . . . .
+                        """),
+                    boss_actual,
+                    100,
+                    0)
+        animation.run_image_animation(projectile,
+            [img("""
+                    . . . . . . . . . . . . . . . .
+                    . . . . . . . . . . . . . . . .
+                    . . . . . . . . b . . . . . . .
+                    . . . . . . . b d b . . . . . .
+                    . . . . . . . c d c . . . . . .
+                    . . . . . . . c 5 c . . . . . .
+                    . . . . . . c d 5 d c . . . . .
+                    . . . b c c d 5 5 5 d c c b . .
+                    . . b d d 5 5 5 5 5 5 5 d d b .
+                    . . . b c c d 5 5 5 d c c b . .
+                    . . . . . . c d 5 d c . . . . .
+                    . . . . . . . c 5 c . . . . . .
+                    . . . . . . . c d c . . . . . .
+                    . . . . . . . b d b . . . . . .
+                    . . . . . . . . b . . . . . . .
+                    . . . . . . . . . . . . . . . .
+                    """),
+                img("""
+                    . . . . . . . . . . . . . . . .
+                    . . . . . . . . . . . . . . . .
+                    . . . . . . . b d b . . . . . .
+                    . . . . . . . b d b c . . . . .
+                    . . . . b b c 5 5 5 c b b . . .
+                    . . . . b 5 5 5 1 5 5 5 b . . .
+                    . . . c c 5 5 5 1 5 5 5 c c . .
+                    . . b b 5 5 5 1 1 1 5 5 5 b b .
+                    . . d d 5 1 1 1 1 1 1 1 5 d d .
+                    . . b b 5 5 5 1 1 1 5 5 5 b b .
+                    . . . c c 5 5 5 1 5 5 5 c c . .
+                    . . . . b 5 5 5 1 5 5 5 b . . .
+                    . . . . b b c 5 5 5 c b b . . .
+                    . . . . . . c b d b c . . . . .
+                    . . . . . . . b d b . . . . . .
+                    . . . . . . . . . . . . . . . .
+                    """),
+                img("""
+                    . . . . . . . . . . . . . . . .
+                    . . . . . 1 . . . . . . . . . .
+                    . . 1 1 . . . 1 1 1 . . . . . .
+                    . . 1 1 . 1 1 1 1 1 1 1 . . . .
+                    . . . . 1 1 1 1 1 1 1 1 1 . . .
+                    . . . 1 1 1 1 1 1 1 1 1 1 1 . .
+                    . . . 1 1 1 1 1 1 1 1 1 1 1 . .
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 1 .
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 1 .
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 1 .
+                    . . . 1 1 1 1 1 1 1 1 1 1 1 . .
+                    . . . 1 1 1 1 1 1 1 1 1 1 1 . .
+                    . . . . 1 1 1 1 1 1 1 1 1 . . .
+                    . . 1 . . 1 1 1 1 1 1 1 . . . .
+                    . . . . . . . 1 1 1 . . . . 1 .
+                    . . . . . . . . . . . . . . . .
+                    """)],
+            100,
+            True)
+game.on_update_interval(2000, on_update_interval)
+
+def on_update_interval2():
+    global menu, nivel, max_corazones, win, end_game, partida
     if menu:
         scene.set_background_image(assets.image("""
             fondo_menu2
@@ -805,7 +1203,9 @@ def on_update_interval():
             pause(1000)
     elif not (partida) and not (final):
         MostrarInstrucciones()
-        nivel = 6
+        info.set_life(5)
+        nivel = 1
+        max_corazones = 10
         win = False
         end_game = False
         GenerarNivel()
@@ -814,4 +1214,11 @@ def on_update_interval():
         GenerarMinimapa()
     if final:
         ShowFinal()
-game.on_update_interval(1, on_update_interval)
+game.on_update_interval(1, on_update_interval2)
+
+def on_update_interval3():
+    global spawn_x, spawn_y
+    if partida and prota.is_hitting_tile(CollisionDirection.BOTTOM):
+        spawn_x = prota.x
+        spawn_y = prota.y
+game.on_update_interval(100, on_update_interval3)

@@ -10,6 +10,18 @@ namespace SpriteKind {
     export const Door = SpriteKind.create()
     export const SpecialDoor = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite42, otherSprite42) {
+    if (ataque_prota < ataque_prota2) {
+        sprites.destroy(otherSprite42, effects.ashes, 200)
+        music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.UntilDone)
+    } else {
+        sprite42.startEffect(effects.ashes, 1000)
+        scene.cameraShake(5, 500)
+        info.changeLifeBy(-1)
+        music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
+        sprites.destroy(otherSprite42)
+    }
+})
 function GenerarPuerta () {
     for (let valor of tiles.getTilesByType(assets.tile`puerta_4_nivel_1`)) {
         if (nivel <= 10) {
@@ -77,7 +89,15 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         pause(100)
     }
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialDoor, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialKey, function (sprite3, otherSprite2) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.SpecialKey)
+    llave_especial = true
+    music.play(music.createSong(hex`
+                    00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a
+                    `), music.PlaybackMode.InBackground)
+    game.splash("Conseguiste la llave", "del aula 408")
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialDoor, function (sprite2, otherSprite) {
     if (!(jugador_en_puerta_especial) && llave_especial) {
         MostrarFlecha()
         jugador_en_puerta_especial = true
@@ -104,30 +124,24 @@ function CreacionPersonaje () {
     prota.ay = 200
     ataque_prota = 0
     ataque_prota2 = 0
-    for (let valor of tiles.getTilesByType(assets.tile`myTile2`)) {
-        tiles.placeOnTile(prota, valor)
+    for (let valor2 of tiles.getTilesByType(assets.tile`myTile2`)) {
+        tiles.placeOnTile(prota, valor2)
         spawn_x = prota.x
         spawn_y = prota.y
         if (nivel <= 10) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+            tiles.setTileAt(valor2, assets.tile`pared_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
+            tiles.setTileAt(valor2, assets.tile`pared_nivel_2`)
         } else if (nivel > 20 && nivel <= 30) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+            tiles.setTileAt(valor2, assets.tile`pared_nivel_3`)
         } else if (nivel <= 408) {
             mostrar_minimapa = false
-            tiles.setTileAt(valor, assets.tile`pared_aula`)
+            tiles.setTileAt(valor2, assets.tile`pared_aula`)
         }
     }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialKey, function (sprite, otherSprite) {
-    sprites.destroyAllSpritesOfKind(SpriteKind.SpecialKey)
-    llave_especial = true
-    music.play(music.createSong(hex`00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a`), music.PlaybackMode.InBackground)
-    game.splash("Conseguiste la llave", "del aula 408")
-})
 function EnemigoNivel2 () {
-    for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
+    for (let valor3 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         enemigo = sprites.create(assets.image`muercielago_izquierda`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
         enemigo,
@@ -141,14 +155,26 @@ function EnemigoNivel2 () {
         300,
         characterAnimations.rule(Predicate.NotMoving)
         )
-        tiles.placeOnTile(enemigo, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
+        tiles.placeOnTile(enemigo, valor3)
+        tiles.setTileAt(valor3, assets.tile`pared_nivel_2`)
         enemigo.ay = 200
         enemigo.follow(prota, 30)
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherSprite3) {
+    if (info.life() < max_corazones) {
+        sprites.destroy(otherSprite3, effects.fire, 100)
+        music.play(music.createSong(hex`
+                            00f4010408020100001c00010a006400f4016400000400000000000000000000000000050000040c0000000400012704000800012a
+                            `), music.PlaybackMode.InBackground)
+        info.changeLifeBy(1)
+    } else if (mensaje_corazon) {
+        game.splash("No puedes superar", "los " + convertToText(max_corazones) + " corazones")
+        mensaje_corazon = false
+    }
+})
 function GenerarLlave () {
-    for (let valor of tiles.getTilesByType(assets.tile`myTile`)) {
+    for (let valor4 of tiles.getTilesByType(assets.tile`myTile`)) {
         llave = sprites.create(assets.image`myImage2`, SpriteKind.Key)
         animation.runImageAnimation(
         llave,
@@ -156,16 +182,16 @@ function GenerarLlave () {
         200,
         true
         )
-        tiles.placeOnTile(llave, valor)
+        tiles.placeOnTile(llave, valor4)
         if (nivel < 10) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+            tiles.setTileAt(valor4, assets.tile`pared_nivel_1`)
         } else if (nivel > 10 && nivel < 20) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
+            tiles.setTileAt(valor4, assets.tile`pared_nivel_2`)
         } else if (nivel > 20 && nivel < 30) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+            tiles.setTileAt(valor4, assets.tile`pared_nivel_3`)
         }
     }
-    for (let valor of tiles.getTilesByType(assets.tile`myTile4`)) {
+    for (let valor5 of tiles.getTilesByType(assets.tile`myTile4`)) {
         llave = sprites.create(assets.image`myImage4`, SpriteKind.SpecialKey)
         animation.runImageAnimation(
         llave,
@@ -173,8 +199,8 @@ function GenerarLlave () {
         200,
         true
         )
-        tiles.placeOnTile(llave, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+        tiles.placeOnTile(llave, valor5)
+        tiles.setTileAt(valor5, assets.tile`pared_nivel_3`)
     }
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -187,37 +213,14 @@ function GenerarMinimapa () {
     myMinimap = minimap.minimap(MinimapScale.Sixteenth, 1, 15)
     mapStripe = sprites.create(minimap.getImage(myMinimap), SpriteKind.Map)
     minimap.includeSprite(myMinimap, prota, MinimapSpriteScale.Double)
-    for (let valor of sprites.allOfKind(SpriteKind.Enemy)) {
-        minimap.includeSprite(myMinimap, valor, MinimapSpriteScale.Double)
+    for (let valor6 of sprites.allOfKind(SpriteKind.Enemy)) {
+        minimap.includeSprite(myMinimap, valor6, MinimapSpriteScale.Double)
     }
     if (boss_vivo) {
         minimap.includeSprite(myMinimap, boss_actual, MinimapSpriteScale.Double)
     }
     mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherSprite) {
-    if (info.life() < max_corazones) {
-        sprites.destroy(otherSprite, effects.fire, 100)
-        music.play(music.createSong(hex`00f4010408020100001c00010a006400f4016400000400000000000000000000000000050000040c0000000400012704000800012a`), music.PlaybackMode.InBackground)
-        info.changeLifeBy(1)
-    } else {
-        if (mensaje_corazon) {
-            game.splash("No puedes superar", "los " + convertToText(max_corazones) + " corazones")
-            mensaje_corazon = false
-        }
-    }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite5, otherSprite2) {
-    if (sprite5.vy > 0 && sprite5.y < otherSprite2.y) {
-        prota.setVelocity(0, -125)
-        statusbar.value += -1
-        music.play(music.createSoundEffect(WaveShape.Noise, 1259, 0, 255, 255, 100, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.UntilDone)
-    } else {
-        info.changeLifeBy(-1)
-        music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
-    }
-    pause(1000)
-})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida && !(controller.right.isPressed())) {
         animation.runImageAnimation(
@@ -230,11 +233,8 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         ataque_prota2 = 0
     }
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, function (sprite, otherSprite) {
-    NextLevel()
-})
 function EnemigoNivel3 () {
-    for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
+    for (let valor7 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         enemigo = sprites.create(assets.image`caracol_izquierda`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
         enemigo,
@@ -248,14 +248,14 @@ function EnemigoNivel3 () {
         300,
         characterAnimations.rule(Predicate.MovingLeft)
         )
-        tiles.placeOnTile(enemigo, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+        tiles.placeOnTile(enemigo, valor7)
+        tiles.setTileAt(valor7, assets.tile`pared_nivel_3`)
         enemigo.ay = 200
         enemigo.follow(prota, 30)
     }
 }
 function GenerarAntorchas () {
-    for (let valor of tiles.getTilesByType(assets.tile`antorcha_nivel_1`)) {
+    for (let valor8 of tiles.getTilesByType(assets.tile`antorcha_nivel_1`)) {
         antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
         animation.runImageAnimation(
         antorcha,
@@ -263,11 +263,11 @@ function GenerarAntorchas () {
         200,
         true
         )
-        tiles.placeOnTile(antorcha, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+        tiles.placeOnTile(antorcha, valor8)
+        tiles.setTileAt(valor8, assets.tile`pared_nivel_1`)
         antorcha.y += -1
     }
-    for (let valor of tiles.getTilesByType(assets.tile`antorcha_nivel_2`)) {
+    for (let valor9 of tiles.getTilesByType(assets.tile`antorcha_nivel_2`)) {
         antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
         animation.runImageAnimation(
         antorcha,
@@ -275,11 +275,11 @@ function GenerarAntorchas () {
         200,
         true
         )
-        tiles.placeOnTile(antorcha, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
+        tiles.placeOnTile(antorcha, valor9)
+        tiles.setTileAt(valor9, assets.tile`pared_nivel_2`)
         antorcha.y += -1
     }
-    for (let valor of tiles.getTilesByType(assets.tile`antorhca_nivel_3`)) {
+    for (let valor10 of tiles.getTilesByType(assets.tile`antorhca_nivel_3`)) {
         antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
         animation.runImageAnimation(
         antorcha,
@@ -287,8 +287,8 @@ function GenerarAntorchas () {
         200,
         true
         )
-        tiles.placeOnTile(antorcha, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+        tiles.placeOnTile(antorcha, valor10)
+        tiles.setTileAt(valor10, assets.tile`pared_nivel_3`)
         antorcha.y += -1
     }
 }
@@ -325,6 +325,17 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
         false
         )
     }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite5, otherSprite22) {
+    if (sprite5.vy > 0 && sprite5.y < otherSprite22.y) {
+        prota.setVelocity(0, -125)
+        statusbar.value += -1
+        music.play(music.createSoundEffect(WaveShape.Noise, 1259, 0, 255, 255, 100, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.UntilDone)
+    } else {
+        info.changeLifeBy(-1)
+        music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
+    }
+    pause(1000)
 })
 statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
     music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.InBackground)
@@ -451,15 +462,11 @@ function SistemaDeDobleSalto () {
     if (prota.isHittingTile(CollisionDirection.Bottom)) {
         prota.setVelocity(0, -125)
         salto = true
-        music.play(music.createSong(hex`
-                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                            `), music.PlaybackMode.InBackground)
+        music.play(music.createSong(hex`0078000408010100001c00010a006400f4016400000400000000000000000000000000050000040c0000000100011b01000200011d`), music.PlaybackMode.InBackground)
     } else if (salto == true) {
         prota.setVelocity(0, -125)
         salto = false
-        music.play(music.createSong(hex`
-                            00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
-                            `), music.PlaybackMode.InBackground)
+        music.play(music.createSong(hex`0078000408010100001c00010a006400f4016400000400000000000000000000000000050000040c0000000100011b01000200011d`), music.PlaybackMode.InBackground)
     }
 }
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -473,12 +480,6 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
         ataque_prota2 = 0
     }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    scene.cameraShake(5, 500)
-    info.changeLifeBy(-1)
-    sprites.destroy(otherSprite)
-    music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
 })
 function AtaqueIzquierda () {
     animation.runImageAnimation(
@@ -498,18 +499,6 @@ function AtaqueIzquierda () {
         )
     }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite42, otherSprite4) {
-    if (ataque_prota < ataque_prota2) {
-        sprites.destroy(otherSprite4, effects.ashes, 200)
-        music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.UntilDone)
-    } else {
-        sprite42.startEffect(effects.ashes, 1000)
-        scene.cameraShake(5, 500)
-        info.changeLifeBy(-1)
-        music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
-        sprites.destroy(otherSprite4)
-    }
-})
 function NextLevel () {
     if (nivel_superado) {
         MostrarFlecha()
@@ -556,22 +545,22 @@ function GenerarBoss () {
     if (nivel == 10) {
         boss_actual = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
         boss_actual.setScale(1.5, ScaleAnchor.Middle)
-        for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
-            tiles.placeOnTile(boss_actual, valor)
-            tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+        for (let valor11 of tiles.getTilesByType(assets.tile`myTile3`)) {
+            tiles.placeOnTile(boss_actual, valor11)
+            tiles.setTileAt(valor11, assets.tile`pared_nivel_1`)
         }
     } else if (nivel == 20) {
         boss_actual = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
         boss_actual.setScale(1.5, ScaleAnchor.Middle)
-        for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
-            tiles.placeOnTile(boss_actual, valor)
-            tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
+        for (let valor12 of tiles.getTilesByType(assets.tile`myTile3`)) {
+            tiles.placeOnTile(boss_actual, valor12)
+            tiles.setTileAt(valor12, assets.tile`pared_nivel_2`)
         }
     } else if (nivel == 30) {
         boss_actual = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
-        for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
-            tiles.placeOnTile(boss_actual, valor)
-            tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+        for (let valor13 of tiles.getTilesByType(assets.tile`myTile3`)) {
+            tiles.placeOnTile(boss_actual, valor13)
+            tiles.setTileAt(valor13, assets.tile`pared_nivel_3`)
         }
         boss_actual.setScale(1.5, ScaleAnchor.Middle)
     }
@@ -590,7 +579,7 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 function EnemigoNivel1 () {
-    for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
+    for (let valor14 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         enemigo = sprites.create(assets.image`fantasma_derecha`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
         enemigo,
@@ -604,8 +593,8 @@ function EnemigoNivel1 () {
         500,
         characterAnimations.rule(Predicate.MovingLeft)
         )
-        tiles.placeOnTile(enemigo, valor)
-        tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+        tiles.placeOnTile(enemigo, valor14)
+        tiles.setTileAt(valor14, assets.tile`pared_nivel_1`)
         enemigo.ay = 200
         enemigo.follow(prota, 30)
     }
@@ -636,11 +625,6 @@ info.onLifeZero(function () {
         EndGame()
     }
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite6, otherSprite3) {
-    sprites.destroy(otherSprite3, effects.ashes, 100)
-    nivel_superado = true
-    music.play(music.createSong(hex`00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a`), music.PlaybackMode.UntilDone)
-})
 function DestruirSprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Boss)
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
@@ -654,20 +638,36 @@ function DestruirSprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Door)
     sprites.destroyAllSpritesOfKind(SpriteKind.SpecialDoor)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite62, otherSprite32) {
+    sprites.destroy(otherSprite32, effects.ashes, 100)
+    nivel_superado = true
+    music.play(music.createSong(hex`
+                    00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a
+                    `), music.PlaybackMode.UntilDone)
+})
 function GenerarPuertaEspecial () {
-    for (let valor of tiles.getTilesByType(assets.tile`myTile6`)) {
+    for (let valor15 of tiles.getTilesByType(assets.tile`myTile6`)) {
         puerta_aula = sprites.create(assets.image`myImage6`, SpriteKind.SpecialDoor)
         tiles.placeOnRandomTile(puerta_aula, assets.tile`myTile6`)
         puerta_aula.y += -7
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, function (sprite6, otherSprite4) {
+    NextLevel()
+})
 function MostrarInstrucciones () {
     game.setDialogTextColor(2)
     game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa\\nARRIBA    : Interactuar", DialogLayout.Full)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite7, otherSprite5) {
+    scene.cameraShake(5, 500)
+    info.changeLifeBy(-1)
+    sprites.destroy(otherSprite5)
+    music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
+})
 function GenerarCorazones () {
-    for (let valor of tiles.getTilesByType(assets.tile`myTile0`)) {
+    for (let valor16 of tiles.getTilesByType(assets.tile`myTile0`)) {
         corazon = sprites.create(assets.image`myImage1`, SpriteKind.Heart)
         animation.runImageAnimation(
         corazon,
@@ -675,13 +675,13 @@ function GenerarCorazones () {
         200,
         true
         )
-        tiles.placeOnTile(corazon, valor)
+        tiles.placeOnTile(corazon, valor16)
         if (nivel <= 10) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
+            tiles.setTileAt(valor16, assets.tile`pared_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
+            tiles.setTileAt(valor16, assets.tile`pared_nivel_2`)
         } else if (nivel > 20 && nivel <= 30) {
-            tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
+            tiles.setTileAt(valor16, assets.tile`pared_nivel_3`)
         }
     }
 }
@@ -713,17 +713,15 @@ let end_game = false
 let salto = false
 let tipo_nivel = false
 let nivel_superado = false
-let antorcha: Sprite = null
 let statusbar: StatusBarSprite = null
+let antorcha: Sprite = null
 let boss_actual: Sprite = null
 let boss_vivo = false
 let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
 let llave: Sprite = null
 let enemigo: Sprite = null
-let ataque_prota = 0
 let jugador_en_puerta_especial = false
-let ataque_prota2 = 0
 let flecha_puerta_nivel: Sprite = null
 let jugador_en_puerta = false
 let spawn_y = 0
@@ -731,6 +729,8 @@ let spawn_x = 0
 let prota: Sprite = null
 let puerta: Sprite = null
 let nivel = 0
+let ataque_prota2 = 0
+let ataque_prota = 0
 let llave_especial = false
 let mensaje_corazon = false
 let mostrar_minimapa = false
@@ -740,7 +740,7 @@ let partida = false
 let menu = false
 let max_corazones = 0
 let atacar = false
-music.setVolume(255)
+music.setVolume(70)
 music.play(music.createSong(assets.song`background_song`), music.PlaybackMode.LoopingInBackground)
 max_corazones = 10
 menu = true
@@ -816,46 +816,44 @@ game.onUpdateInterval(2000, function () {
                     . . . . . . . . . . . . . . . . 
                     `, boss_actual, 0, -100)
             }
-        } else {
-            if (prota.x < boss_actual.x - 10) {
-                projectile = sprites.createProjectileFromSprite(img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . b d b . . . . . . 
-                    . . . . . . . b d b c . . . . . 
-                    . . . . b b c 5 5 5 c b b . . . 
-                    . . . . b 5 5 5 1 5 5 5 b . . . 
-                    . . . c c 5 5 5 1 5 5 5 c c . . 
-                    . . b b 5 5 5 1 1 1 5 3 5 b b . 
-                    . . d d 5 1 1 1 1 1 1 1 5 d d . 
-                    . . b b 5 5 5 1 1 1 5 5 5 b b . 
-                    . . . c c 5 5 5 1 5 5 5 c c . . 
-                    . . . . b 5 5 5 1 5 5 5 b . . . 
-                    . . . . b b c 5 5 5 c b b . . . 
-                    . . . . . . c b d b c . . . . . 
-                    . . . . . . . b d b . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    `, boss_actual, -100, 0)
-            } else if (prota.x > boss_actual.x + 10) {
-                projectile = sprites.createProjectileFromSprite(img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . b d b . . . . . . 
-                    . . . . . . . b d b c . . . . . 
-                    . . . . b b c 5 5 5 c b b . . . 
-                    . . . . b 5 5 5 1 5 5 5 b . . . 
-                    . . . c c 5 5 5 1 5 5 5 c c . . 
-                    . . b b 5 5 5 1 1 1 5 3 5 b b . 
-                    . . d d 5 1 1 1 1 1 1 1 5 d d . 
-                    . . b b 5 5 5 1 1 1 5 5 5 b b . 
-                    . . . c c 5 5 5 1 5 5 5 c c . . 
-                    . . . . b 5 5 5 1 5 5 5 b . . . 
-                    . . . . b b c 5 5 5 c b b . . . 
-                    . . . . . . c b d b c . . . . . 
-                    . . . . . . . b d b . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    `, boss_actual, 100, 0)
-            }
+        } else if (prota.x < boss_actual.x - 10) {
+            projectile = sprites.createProjectileFromSprite(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . b d b . . . . . . 
+                . . . . . . . b d b c . . . . . 
+                . . . . b b c 5 5 5 c b b . . . 
+                . . . . b 5 5 5 1 5 5 5 b . . . 
+                . . . c c 5 5 5 1 5 5 5 c c . . 
+                . . b b 5 5 5 1 1 1 5 3 5 b b . 
+                . . d d 5 1 1 1 1 1 1 1 5 d d . 
+                . . b b 5 5 5 1 1 1 5 5 5 b b . 
+                . . . c c 5 5 5 1 5 5 5 c c . . 
+                . . . . b 5 5 5 1 5 5 5 b . . . 
+                . . . . b b c 5 5 5 c b b . . . 
+                . . . . . . c b d b c . . . . . 
+                . . . . . . . b d b . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, boss_actual, -100, 0)
+        } else if (prota.x > boss_actual.x + 10) {
+            projectile = sprites.createProjectileFromSprite(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . b d b . . . . . . 
+                . . . . . . . b d b c . . . . . 
+                . . . . b b c 5 5 5 c b b . . . 
+                . . . . b 5 5 5 1 5 5 5 b . . . 
+                . . . c c 5 5 5 1 5 5 5 c c . . 
+                . . b b 5 5 5 1 1 1 5 3 5 b b . 
+                . . d d 5 1 1 1 1 1 1 1 5 d d . 
+                . . b b 5 5 5 1 1 1 5 5 5 b b . 
+                . . . c c 5 5 5 1 5 5 5 c c . . 
+                . . . . b 5 5 5 1 5 5 5 b . . . 
+                . . . . b b c 5 5 5 c b b . . . 
+                . . . . . . c b d b c . . . . . 
+                . . . . . . . b d b . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, boss_actual, 100, 0)
         }
         animation.runImageAnimation(
         projectile,
