@@ -128,23 +128,23 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialKey, function (sprite, ot
 })
 function EnemigoNivel2 () {
     for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
-        murcielago = sprites.create(assets.image`muercielago_izquierda`, SpriteKind.Enemy)
+        enemigo = sprites.create(assets.image`muercielago_izquierda`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
-        murcielago,
+        enemigo,
         assets.animation`derecha_fantasma`,
         300,
         characterAnimations.rule(Predicate.MovingRight)
         )
         characterAnimations.runFrames(
-        murcielago,
+        enemigo,
         assets.animation`murcielago_animacion_izquierda`,
         300,
         characterAnimations.rule(Predicate.NotMoving)
         )
-        tiles.placeOnTile(murcielago, valor)
+        tiles.placeOnTile(enemigo, valor)
         tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
-        murcielago.ay = 200
-        murcielago.follow(prota, 30)
+        enemigo.ay = 200
+        enemigo.follow(prota, 30)
     }
 }
 function GenerarLlave () {
@@ -187,6 +187,12 @@ function GenerarMinimapa () {
     myMinimap = minimap.minimap(MinimapScale.Sixteenth, 1, 15)
     mapStripe = sprites.create(minimap.getImage(myMinimap), SpriteKind.Map)
     minimap.includeSprite(myMinimap, prota, MinimapSpriteScale.Double)
+    for (let valor of sprites.allOfKind(SpriteKind.Enemy)) {
+        minimap.includeSprite(myMinimap, valor, MinimapSpriteScale.Double)
+    }
+    if (boss_vivo) {
+        minimap.includeSprite(myMinimap, boss_actual, MinimapSpriteScale.Double)
+    }
     mapStripe.setPosition(scene.cameraProperty(CameraProperty.X) + 54, scene.cameraProperty(CameraProperty.Y) - 44)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherSprite) {
@@ -229,23 +235,23 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, function (sprite, otherSpr
 })
 function EnemigoNivel3 () {
     for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
-        tiburon = sprites.create(assets.image`caracol_izquierda`, SpriteKind.Enemy)
+        enemigo = sprites.create(assets.image`caracol_izquierda`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
-        tiburon,
+        enemigo,
         assets.animation`pez_animacion_derecha`,
         300,
         characterAnimations.rule(Predicate.MovingRight)
         )
         characterAnimations.loopFrames(
-        tiburon,
+        enemigo,
         assets.animation`pez_animacion_izquierda`,
         300,
         characterAnimations.rule(Predicate.MovingLeft)
         )
-        tiles.placeOnTile(tiburon, valor)
+        tiles.placeOnTile(enemigo, valor)
         tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
-        tiburon.ay = 200
-        tiburon.follow(prota, 30)
+        enemigo.ay = 200
+        enemigo.follow(prota, 30)
     }
 }
 function GenerarAntorchas () {
@@ -470,7 +476,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     scene.cameraShake(5, 500)
-    info.changeLifeBy(-1)
+    info.changeLifeBy(-3)
     sprites.destroy(otherSprite)
     music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
 })
@@ -549,14 +555,14 @@ function GenerarBoss () {
     statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
     if (nivel == 10) {
         boss_actual = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
-        boss_actual.setScale(3, ScaleAnchor.Middle)
+        boss_actual.setScale(1.5, ScaleAnchor.Middle)
         for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
             tiles.placeOnTile(boss_actual, valor)
             tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
         }
     } else if (nivel == 20) {
         boss_actual = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
-        boss_actual.setScale(2.5, ScaleAnchor.Middle)
+        boss_actual.setScale(1.5, ScaleAnchor.Middle)
         for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
             tiles.placeOnTile(boss_actual, valor)
             tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
@@ -585,23 +591,23 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function EnemigoNivel1 () {
     for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
-        fantasma = sprites.create(assets.image`fantasma_derecha`, SpriteKind.Enemy)
+        enemigo = sprites.create(assets.image`fantasma_derecha`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
-        fantasma,
+        enemigo,
         assets.animation`derecha_fantasma0`,
         500,
         characterAnimations.rule(Predicate.MovingRight)
         )
         characterAnimations.loopFrames(
-        fantasma,
+        enemigo,
         assets.animation`izquierda_fantasma`,
         500,
         characterAnimations.rule(Predicate.MovingLeft)
         )
-        tiles.placeOnTile(fantasma, valor)
+        tiles.placeOnTile(enemigo, valor)
         tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
-        fantasma.ay = 200
-        fantasma.follow(prota, 30)
+        enemigo.ay = 200
+        enemigo.follow(prota, 30)
     }
 }
 function MostrarLore () {
@@ -704,19 +710,17 @@ let projectile: Sprite = null
 let corazon: Sprite = null
 let puerta_aula: Sprite = null
 let end_game = false
-let fantasma: Sprite = null
 let salto = false
 let tipo_nivel = false
-let boss_vivo = false
 let nivel_superado = false
-let boss_actual: Sprite = null
 let antorcha: Sprite = null
-let tiburon: Sprite = null
 let statusbar: StatusBarSprite = null
+let boss_actual: Sprite = null
+let boss_vivo = false
 let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
 let llave: Sprite = null
-let murcielago: Sprite = null
+let enemigo: Sprite = null
 let ataque_prota = 0
 let jugador_en_puerta_especial = false
 let ataque_prota2 = 0
@@ -754,7 +758,7 @@ game.onUpdate(function () {
 game.onUpdateInterval(2000, function () {
     if (boss_vivo) {
         if (prota.y < boss_actual.y) {
-            if (prota.x < boss_actual.x - 20) {
+            if (prota.x < boss_actual.x - 10) {
                 projectile = sprites.createProjectileFromSprite(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -773,7 +777,7 @@ game.onUpdateInterval(2000, function () {
                     . . . . . . . b d b . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     `, boss_actual, -100, -100)
-            } else if (prota.x > boss_actual.x + 20) {
+            } else if (prota.x > boss_actual.x + 10) {
                 projectile = sprites.createProjectileFromSprite(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -813,7 +817,7 @@ game.onUpdateInterval(2000, function () {
                     `, boss_actual, 0, -100)
             }
         } else {
-            if (prota.x < boss_actual.x - 20) {
+            if (prota.x < boss_actual.x - 10) {
                 projectile = sprites.createProjectileFromSprite(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -832,7 +836,7 @@ game.onUpdateInterval(2000, function () {
                     . . . . . . . b d b . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     `, boss_actual, -100, 0)
-            } else if (prota.x > boss_actual.x + 20) {
+            } else if (prota.x > boss_actual.x + 10) {
                 projectile = sprites.createProjectileFromSprite(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -924,7 +928,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(5)
-        nivel = 1
+        nivel = 20
         max_corazones = 10
         win = false
         end_game = false
