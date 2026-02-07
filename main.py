@@ -10,6 +10,25 @@ class SpriteKind:
     SpecialKey = SpriteKind.create()
     Door = SpriteKind.create()
     SpecialDoor = SpriteKind.create()
+
+def on_on_overlap(sprite42, otherSprite42):
+    if ataque_prota < ataque_prota2:
+        sprites.destroy(otherSprite42, effects.ashes, 200)
+        music.play(music.create_song(assets.song("""
+                ashes
+                """)),
+            music.PlaybackMode.UNTIL_DONE)
+    else:
+        sprite42.start_effect(effects.ashes, 1000)
+        scene.camera_shake(5, 500)
+        info.change_life_by(-1)
+        music.play(music.create_song(assets.song("""
+                muerte_prota
+                """)),
+            music.PlaybackMode.IN_BACKGROUND)
+        sprites.destroy(otherSprite42)
+sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap)
+
 def GenerarPuerta():
     global puerta
     for valor in tiles.get_tiles_by_type(assets.tile("""
@@ -104,7 +123,18 @@ def on_b_pressed():
         pause(100)
 controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
 
-def on_on_overlap(sprite2, otherSprite):
+def on_on_overlap2(sprite3, otherSprite2):
+    global llave_especial
+    sprites.destroy_all_sprites_of_kind(SpriteKind.SpecialKey)
+    llave_especial = True
+    music.play(music.create_song(hex("""
+            00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a
+            """)),
+        music.PlaybackMode.IN_BACKGROUND)
+    game.splash("Conseguiste la llave", "del aula 408")
+sprites.on_overlap(SpriteKind.player, SpriteKind.SpecialKey, on_on_overlap2)
+
+def on_on_overlap3(sprite2, otherSprite):
     global jugador_en_puerta_especial, nivel
     if not (jugador_en_puerta_especial) and llave_especial:
         MostrarFlecha()
@@ -119,7 +149,7 @@ def on_on_overlap(sprite2, otherSprite):
             GenerarNivel()
         else:
             game.splash("Necesitas la llave", "del aula 408")
-sprites.on_overlap(SpriteKind.player, SpriteKind.SpecialDoor, on_on_overlap)
+sprites.on_overlap(SpriteKind.player, SpriteKind.SpecialDoor, on_on_overlap3)
 
 def CreacionPersonaje():
     global prota, ataque_prota, ataque_prota2, spawn_x, spawn_y, mostrar_minimapa
@@ -155,18 +185,6 @@ def CreacionPersonaje():
             tiles.set_tile_at(valor2, assets.tile("""
                 pared_aula
                 """))
-
-def on_on_overlap2(sprite3, otherSprite2):
-    global llave_especial
-    sprites.destroy_all_sprites_of_kind(SpriteKind.SpecialKey)
-    llave_especial = True
-    music.play(music.create_song(hex("""
-            00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a
-            """)),
-        music.PlaybackMode.IN_BACKGROUND)
-    game.splash("Conseguiste la llave", "del aula 408")
-sprites.on_overlap(SpriteKind.player, SpriteKind.SpecialKey, on_on_overlap2)
-
 def EnemigoNivel2():
     global enemigo
     for valor3 in tiles.get_tiles_by_type(assets.tile("""
@@ -194,6 +212,22 @@ def EnemigoNivel2():
             """))
         enemigo.ay = 200
         enemigo.follow(prota, 30)
+
+def on_on_overlap4(sprite4, otherSprite3):
+    global mensaje_corazon
+    if info.life() < max_corazones:
+        sprites.destroy(otherSprite3, effects.fire, 100)
+        music.play(music.create_song(hex("""
+                00f4010408020100001c00010a006400f4016400000400000000000000000000000000050000040c0000000400012704000800012a
+                """)),
+            music.PlaybackMode.IN_BACKGROUND)
+        info.change_life_by(1)
+    elif mensaje_corazon:
+        game.splash("No puedes superar",
+            "los " + convert_to_text(max_corazones) + " corazones")
+        mensaje_corazon = False
+sprites.on_overlap(SpriteKind.player, SpriteKind.Heart, on_on_overlap4)
+
 def GenerarLlave():
     global llave
     for valor4 in tiles.get_tiles_by_type(assets.tile("""
@@ -251,44 +285,6 @@ def GenerarMinimapa():
     mapStripe.set_position(scene.camera_property(CameraProperty.X) + 54,
         scene.camera_property(CameraProperty.Y) - 44)
 
-def on_on_overlap3(sprite4, otherSprite3):
-    global mensaje_corazon
-    if info.life() < max_corazones:
-        sprites.destroy(otherSprite3, effects.fire, 100)
-        music.play(music.create_song(hex("""
-                00f4010408020100001c00010a006400f4016400000400000000000000000000000000050000040c0000000400012704000800012a
-                """)),
-            music.PlaybackMode.IN_BACKGROUND)
-        info.change_life_by(1)
-    else:
-        if mensaje_corazon:
-            game.splash("No puedes superar",
-                "los " + convert_to_text(max_corazones) + " corazones")
-            mensaje_corazon = False
-sprites.on_overlap(SpriteKind.player, SpriteKind.Heart, on_on_overlap3)
-
-def on_on_overlap4(sprite5, otherSprite22):
-    if sprite5.vy > 0 and sprite5.y < otherSprite22.y:
-        prota.set_velocity(0, -125)
-        statusbar.value += -1
-        music.play(music.create_sound_effect(WaveShape.NOISE,
-                1259,
-                0,
-                255,
-                255,
-                100,
-                SoundExpressionEffect.NONE,
-                InterpolationCurve.LOGARITHMIC),
-            music.PlaybackMode.UNTIL_DONE)
-    else:
-        info.change_life_by(-1)
-        music.play(music.create_song(assets.song("""
-                muerte_prota
-                """)),
-            music.PlaybackMode.IN_BACKGROUND)
-    pause(1000)
-sprites.on_overlap(SpriteKind.player, SpriteKind.Boss, on_on_overlap4)
-
 def on_left_pressed():
     global ataque_prota2
     if partida and not (controller.right.is_pressed()):
@@ -301,10 +297,6 @@ def on_left_pressed():
         characterAnimations.set_character_state(prota, characterAnimations.rule(Predicate.FACING_LEFT))
         ataque_prota2 = 0
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
-
-def on_on_overlap5(sprite6, otherSprite4):
-    NextLevel()
-sprites.on_overlap(SpriteKind.player, SpriteKind.Door, on_on_overlap5)
 
 def EnemigoNivel3():
     global enemigo
@@ -421,6 +413,28 @@ def on_left_released():
             myAnim3
             """), 200, False)
 controller.left.on_event(ControllerButtonEvent.RELEASED, on_left_released)
+
+def on_on_overlap5(sprite5, otherSprite22):
+    if sprite5.vy > 0 and sprite5.y < otherSprite22.y:
+        prota.set_velocity(0, -125)
+        statusbar.value += -1
+        music.play(music.create_sound_effect(WaveShape.NOISE,
+                1259,
+                0,
+                255,
+                255,
+                100,
+                SoundExpressionEffect.NONE,
+                InterpolationCurve.LOGARITHMIC),
+            music.PlaybackMode.UNTIL_DONE)
+    else:
+        info.change_life_by(-1)
+        music.play(music.create_song(assets.song("""
+                muerte_prota
+                """)),
+            music.PlaybackMode.IN_BACKGROUND)
+    pause(1000)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Boss, on_on_overlap5)
 
 def on_on_zero(status):
     global max_corazones, mensaje_corazon, nivel_superado, boss_vivo
@@ -626,14 +640,14 @@ def SistemaDeDobleSalto():
         prota.set_velocity(0, -125)
         salto = True
         music.play(music.create_song(hex("""
-                00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                0078000408010100001c00010a006400f4016400000400000000000000000000000000050000040c0000000100011b01000200011d
                 """)),
             music.PlaybackMode.IN_BACKGROUND)
     elif salto == True:
         prota.set_velocity(0, -125)
         salto = False
         music.play(music.create_song(hex("""
-                00f4010408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012704000800012a
+                0078000408010100001c00010a006400f4016400000400000000000000000000000000050000040c0000000100011b01000200011d
                 """)),
             music.PlaybackMode.IN_BACKGROUND)
 
@@ -649,16 +663,6 @@ def on_right_pressed():
         characterAnimations.set_character_state(prota, characterAnimations.rule(Predicate.FACING_RIGHT))
         ataque_prota2 = 0
 controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
-
-def on_on_overlap6(sprite7, otherSprite5):
-    scene.camera_shake(5, 500)
-    info.change_life_by(-1)
-    sprites.destroy(otherSprite5)
-    music.play(music.create_song(assets.song("""
-            muerte_prota
-            """)),
-        music.PlaybackMode.IN_BACKGROUND)
-sprites.on_overlap(SpriteKind.player, SpriteKind.projectile, on_on_overlap6)
 
 def AtaqueIzquierda():
     animation.run_image_animation(prota,
@@ -684,25 +688,6 @@ def AtaqueIzquierda():
                 """),
             200,
             True)
-
-def on_on_overlap7(sprite42, otherSprite42):
-    if ataque_prota < ataque_prota2:
-        sprites.destroy(otherSprite42, effects.ashes, 200)
-        music.play(music.create_song(assets.song("""
-                ashes
-                """)),
-            music.PlaybackMode.UNTIL_DONE)
-    else:
-        sprite42.start_effect(effects.ashes, 1000)
-        scene.camera_shake(5, 500)
-        info.change_life_by(-1)
-        music.play(music.create_song(assets.song("""
-                muerte_prota
-                """)),
-            music.PlaybackMode.IN_BACKGROUND)
-        sprites.destroy(otherSprite42)
-sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap7)
-
 def NextLevel():
     global jugador_en_puerta, win, nivel
     if nivel_superado:
@@ -871,16 +856,6 @@ def on_life_zero():
         EndGame()
 info.on_life_zero(on_life_zero)
 
-def on_on_overlap8(sprite62, otherSprite32):
-    global nivel_superado
-    sprites.destroy(otherSprite32, effects.ashes, 100)
-    nivel_superado = True
-    music.play(music.create_song(hex("""
-            00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a
-            """)),
-        music.PlaybackMode.UNTIL_DONE)
-sprites.on_overlap(SpriteKind.player, SpriteKind.Key, on_on_overlap8)
-
 def DestruirSprites():
     sprites.destroy_all_sprites_of_kind(SpriteKind.Boss)
     sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
@@ -893,6 +868,17 @@ def DestruirSprites():
     sprites.destroy_all_sprites_of_kind(SpriteKind.SpecialKey)
     sprites.destroy_all_sprites_of_kind(SpriteKind.Door)
     sprites.destroy_all_sprites_of_kind(SpriteKind.SpecialDoor)
+
+def on_on_overlap6(sprite62, otherSprite32):
+    global nivel_superado
+    sprites.destroy(otherSprite32, effects.ashes, 100)
+    nivel_superado = True
+    music.play(music.create_song(hex("""
+            00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a
+            """)),
+        music.PlaybackMode.UNTIL_DONE)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Key, on_on_overlap6)
+
 def GenerarPuertaEspecial():
     global puerta_aula
     for valor15 in tiles.get_tiles_by_type(assets.tile("""
@@ -906,6 +892,11 @@ def GenerarPuertaEspecial():
             myTile6
             """))
         puerta_aula.y += -7
+
+def on_on_overlap7(sprite6, otherSprite4):
+    NextLevel()
+sprites.on_overlap(SpriteKind.player, SpriteKind.Door, on_on_overlap7)
+
 def MostrarInstrucciones():
     game.set_dialog_text_color(2)
     game.set_dialog_frame(assets.image("""
@@ -913,6 +904,17 @@ def MostrarInstrucciones():
         """))
     game.show_long_text("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa\\nARRIBA    : Interactuar",
         DialogLayout.FULL)
+
+def on_on_overlap8(sprite7, otherSprite5):
+    scene.camera_shake(5, 500)
+    info.change_life_by(-1)
+    sprites.destroy(otherSprite5)
+    music.play(music.create_song(assets.song("""
+            muerte_prota
+            """)),
+        music.PlaybackMode.IN_BACKGROUND)
+sprites.on_overlap(SpriteKind.player, SpriteKind.projectile, on_on_overlap8)
+
 def GenerarCorazones():
     global corazon
     for valor16 in tiles.get_tiles_by_type(assets.tile("""
@@ -970,17 +972,15 @@ end_game = False
 salto = False
 tipo_nivel = False
 nivel_superado = False
-antorcha: Sprite = None
 statusbar: StatusBarSprite = None
+antorcha: Sprite = None
 boss_actual: Sprite = None
 boss_vivo = False
 myMinimap: minimap.Minimap = None
 mapStripe: Sprite = None
 llave: Sprite = None
 enemigo: Sprite = None
-ataque_prota = 0
 jugador_en_puerta_especial = False
-ataque_prota2 = 0
 flecha_puerta_nivel: Sprite = None
 jugador_en_puerta = False
 spawn_y = 0
@@ -988,6 +988,8 @@ spawn_x = 0
 prota: Sprite = None
 puerta: Sprite = None
 nivel = 0
+ataque_prota2 = 0
+ataque_prota = 0
 llave_especial = False
 mensaje_corazon = False
 mostrar_minimapa = False
@@ -996,8 +998,140 @@ final = False
 partida = False
 menu = False
 max_corazones = 0
-atacar = False
-music.set_volume(255)
+scene.set_background_image(img("""
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcffffffffffffffffffffffccfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccffffffffffffffffffffccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccfffffffffffffffffffccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccccffffffffffffffffcccccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccccccffffffffffffffcccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccccccccffffffffffffcccccccccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccccccccccffffccfffffccccccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccccccccccffffbbbcffffcccccccccccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccccfffcdbbdcffffcccccccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccccfffcddbbbdcffffcccccccccccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccccfffcd1dbbbddcffffcccccccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccccfffbd1dbbbbdddcffffcccccccccccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccccfffcdd1dbbbbddddcfffccccccccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccccffcdd1dbbbbbbddddcfffcccccccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccfffbdd11dbbbbbbbddddcfffccccccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccccffbddd11bbbbbbbbdddddcfffcccccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccccccccffcddd111bbbbbbbbbdddddcffcccccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccccffcdddd11bbbbbbbbbbddddddcffccccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccccccffbdddd11dbbbbbbbbbbdddddddcffcccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccccccfbdddd11dbbbbbbbbbbbcbddddddbfcccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccccfcdddd11dccbbbbbbbbbbcfdddddddcfccccccccffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccfcddddd1dcccbbbbbbbbbbcffbddddddcfccccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccfbddddd1bccfcbbbbbbbbbbcfffbddddddcfcccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccbddddd1dcccfcbbbbbbbbbbcffffbddddddbcccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccdddddddccccfcbbbbbbbbbbcfffffdddddddcccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffccccdddddddcccccfcbbbbbbbbbbcffffffbddddddccccfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffccbdddddddccccccfcbbbbbbbbbbcfffffffbddddddbccfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbdddddddcccccccfcbbbbbbbbbbcffffffffbddddddbcfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffcdddddddbccccccffcbbbbbbbbbbcfffffffffdddddddcfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffbbbbbbbcccccccffcbbbbbbbbbbcfffcbdddbbbbbbbbcfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbcfffffffcbbbbbbbbbbcffffcbdbbbbbbbbbffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbfffffffcbbbbbbbbbbcfffffcbbbbbbbdbcffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbbbbbbbbffffffcbbbbbbbbbbcffffffcbbbbbdbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbfffffcbbbbbbbbbbcfffffcbbbbddbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbcffffcbbbbbbbbbbcffffcbbbbddbcfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbcfffcbbbbbbbbbbcfffcbbddddbcffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbbbbbbbcfffbbbbbbbbbbcffcbbddddbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbcffbbbbbbbbbbcfcbbddddbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbcfbbbbbbbbbbccbbddddbcfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbcbbbbbbbbbbbbdddddbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbbbbbbbbbbddddddbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbbbbbbbbbdddddbcffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbbbbbbbbdddddcfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbbbbbbbdddddbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbbbbbbddddbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbbbbbdddbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbbbdddbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbbddbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbbbdbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbdbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbbbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffccfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffbbbbfffffffffffffffffffffffcbffffffffffffffffbffffffffffffffffbbbbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffd111fffffffffffffffffffffffb1ffffffffffffffffdffffffffffffffff111dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffddffddfffffffffffffffffffffb1ffffffffffffffffcbfffffffffffffddffff1cfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffddffb1cfffbbbbcfffffcbbbfffb1ffffbcfcffffbcffbffffbbbbbcffffddffff1cffcbbbcfffcbbbbccbbcfffcbbbbffffcbbbbcfffffffffffffffffffffffffff
+ffffffffffffffffffffffffffddfff1bffbbcccdcffcbccccbbfb1fbbbccfdffff1bffffffbcccccfffffddfcbfcffbbccccbffc1cccdcccbcfcccccddffcccccccfffffffffffffffffffffffffff
+ffffffffffffffffffffffffffddfff1bff1cfff1cffc1ffffddfb1f111fffdffff1bffffffdffffffffffddfb1ffff1bfffc1ffc1ffcdfffbcfccfffb1ffbfffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffddfff1bff1cfff1cffc1fffffffb11cfffffdffff1bfffffff1111bfffffddffd11cf1bfffc1ffc1ffcdfffbcfc111bfffffd1111ffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffddffc1cff1cfff1cffc1fffffffb1bbccfffbcccc1bfffffffbbbbdcffffddffbb1cf1bfffc1ffc1ffcdfffbcfcdbbcccfffbbbb1cfffffffffffffffffffffffffff
+ffffffffffffffffffffffffffd1dddbfffddddddddfc1fffffffb1fddddcffdddd1bffffffddddddcffffbddddddcfddddddddbc1ffcdfffbcfcdddddbffcdddd1bfffffffffffffffffffffffffff
+ffffffffffffffffffffffffffd111ffffff1111bb1fc1fffffffb1ffff1bffffff1bffffff11111bfffffff111dffffc111bfddc1ffcdfffbcffb1111fffb11111ffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdffff1bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbbbb1cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1111dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd1bfffffffffffffffffffffffffffffdbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbdbfffffffffffffffffffffffffffffdbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1ffccfbbbffcbbfffcbbcffbbffcbbcfc1dbbffcbbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1ffccbccbdfbccbfbcccffdccdfcbccbfdbccffbccdbffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffc111bfdfffff11ffffd1bff11cffccffbfdbffffbff1bffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1ffffdfffffbccbfcccccfbccbfccffbfbbccbfbccddffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffcffffcffffffccffccccfffccffffffcffcccfffccfccfffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    """))
+pause(3000)
+music.set_volume(70)
 music.play(music.create_song(assets.song("""
         background_song
         """)),
@@ -1010,6 +1144,7 @@ win = False
 mostrar_minimapa = True
 mensaje_corazon = True
 llave_especial = False
+atacar = False
 
 def on_on_update():
     if boss_vivo:
@@ -1086,51 +1221,50 @@ def on_update_interval():
                     boss_actual,
                     0,
                     -100)
-        else:
-            if prota.x < boss_actual.x - 10:
-                projectile = sprites.create_projectile_from_sprite(img("""
-                        . . . . . . . . . . . . . . . .
-                        . . . . . . . . . . . . . . . .
-                        . . . . . . . b d b . . . . . .
-                        . . . . . . . b d b c . . . . .
-                        . . . . b b c 5 5 5 c b b . . .
-                        . . . . b 5 5 5 1 5 5 5 b . . .
-                        . . . c c 5 5 5 1 5 5 5 c c . .
-                        . . b b 5 5 5 1 1 1 5 3 5 b b .
-                        . . d d 5 1 1 1 1 1 1 1 5 d d .
-                        . . b b 5 5 5 1 1 1 5 5 5 b b .
-                        . . . c c 5 5 5 1 5 5 5 c c . .
-                        . . . . b 5 5 5 1 5 5 5 b . . .
-                        . . . . b b c 5 5 5 c b b . . .
-                        . . . . . . c b d b c . . . . .
-                        . . . . . . . b d b . . . . . .
-                        . . . . . . . . . . . . . . . .
-                        """),
-                    boss_actual,
-                    -100,
-                    0)
-            elif prota.x > boss_actual.x + 10:
-                projectile = sprites.create_projectile_from_sprite(img("""
-                        . . . . . . . . . . . . . . . .
-                        . . . . . . . . . . . . . . . .
-                        . . . . . . . b d b . . . . . .
-                        . . . . . . . b d b c . . . . .
-                        . . . . b b c 5 5 5 c b b . . .
-                        . . . . b 5 5 5 1 5 5 5 b . . .
-                        . . . c c 5 5 5 1 5 5 5 c c . .
-                        . . b b 5 5 5 1 1 1 5 3 5 b b .
-                        . . d d 5 1 1 1 1 1 1 1 5 d d .
-                        . . b b 5 5 5 1 1 1 5 5 5 b b .
-                        . . . c c 5 5 5 1 5 5 5 c c . .
-                        . . . . b 5 5 5 1 5 5 5 b . . .
-                        . . . . b b c 5 5 5 c b b . . .
-                        . . . . . . c b d b c . . . . .
-                        . . . . . . . b d b . . . . . .
-                        . . . . . . . . . . . . . . . .
-                        """),
-                    boss_actual,
-                    100,
-                    0)
+        elif prota.x < boss_actual.x - 10:
+            projectile = sprites.create_projectile_from_sprite(img("""
+                    . . . . . . . . . . . . . . . .
+                    . . . . . . . . . . . . . . . .
+                    . . . . . . . b d b . . . . . .
+                    . . . . . . . b d b c . . . . .
+                    . . . . b b c 5 5 5 c b b . . .
+                    . . . . b 5 5 5 1 5 5 5 b . . .
+                    . . . c c 5 5 5 1 5 5 5 c c . .
+                    . . b b 5 5 5 1 1 1 5 3 5 b b .
+                    . . d d 5 1 1 1 1 1 1 1 5 d d .
+                    . . b b 5 5 5 1 1 1 5 5 5 b b .
+                    . . . c c 5 5 5 1 5 5 5 c c . .
+                    . . . . b 5 5 5 1 5 5 5 b . . .
+                    . . . . b b c 5 5 5 c b b . . .
+                    . . . . . . c b d b c . . . . .
+                    . . . . . . . b d b . . . . . .
+                    . . . . . . . . . . . . . . . .
+                    """),
+                boss_actual,
+                -100,
+                0)
+        elif prota.x > boss_actual.x + 10:
+            projectile = sprites.create_projectile_from_sprite(img("""
+                    . . . . . . . . . . . . . . . .
+                    . . . . . . . . . . . . . . . .
+                    . . . . . . . b d b . . . . . .
+                    . . . . . . . b d b c . . . . .
+                    . . . . b b c 5 5 5 c b b . . .
+                    . . . . b 5 5 5 1 5 5 5 b . . .
+                    . . . c c 5 5 5 1 5 5 5 c c . .
+                    . . b b 5 5 5 1 1 1 5 3 5 b b .
+                    . . d d 5 1 1 1 1 1 1 1 5 d d .
+                    . . b b 5 5 5 1 1 1 5 5 5 b b .
+                    . . . c c 5 5 5 1 5 5 5 c c . .
+                    . . . . b 5 5 5 1 5 5 5 b . . .
+                    . . . . b b c 5 5 5 c b b . . .
+                    . . . . . . c b d b c . . . . .
+                    . . . . . . . b d b . . . . . .
+                    . . . . . . . . . . . . . . . .
+                    """),
+                boss_actual,
+                100,
+                0)
         animation.run_image_animation(projectile,
             [img("""
                     . . . . . . . . . . . . . . . .
