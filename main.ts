@@ -10,17 +10,6 @@ namespace SpriteKind {
     export const Door = SpriteKind.create()
     export const SpecialDoor = SpriteKind.create()
 }
-function Boss2 () {
-    if (prota.x + 30 < arana.x) {
-        arana.vx = -20
-        arana.setImage(assets.image`faraon_izquierda`)
-    } else if (prota.x - 30 > arana.x) {
-        arana.vx = 20
-        arana.setImage(assets.image`faraon_derecha`)
-    } else {
-        arana.vx = 0
-    }
-}
 function GenerarPuerta () {
     for (let value of tiles.getTilesByType(assets.tile`puerta_4_nivel_1`)) {
         if (nivel <= 10) {
@@ -214,29 +203,15 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherS
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite5, otherSprite2) {
     if (sprite5.vy > 0 && sprite5.y < otherSprite2.y) {
-        sprite5.vy = -70
-        statusbar.value += -3
+        prota.setVelocity(0, -125)
+        statusbar.value += -1
         music.play(music.createSoundEffect(WaveShape.Noise, 1259, 0, 255, 255, 100, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.UntilDone)
     } else {
         info.changeLifeBy(-1)
         music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
     }
-    if (statusbar.value > 1) {
-        sprite5.setPosition(otherSprite2.x - 50, sprite5.y - 10)
-    }
     pause(1000)
 })
-function Boss3 () {
-    if (prota.x + 30 < leviatan.x) {
-        leviatan.vx = -20
-        leviatan.setImage(assets.image`myImage0`)
-    } else if (prota.x - 30 > leviatan.x) {
-        leviatan.vx = 20
-        leviatan.setImage(assets.image`myImage`)
-    } else {
-        leviatan.vx = 0
-    }
-}
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida && !(controller.right.isPressed())) {
         animation.runImageAnimation(
@@ -346,13 +321,6 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
     }
 })
 statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
-    if (nivel == 10) {
-        boss_actual = serpiente
-    } else if (nivel == 20) {
-        boss_actual = arana
-    } else if (nivel == 30) {
-        boss_actual = leviatan
-    }
     music.play(music.createSong(assets.song`ashes`), music.PlaybackMode.InBackground)
     sprites.destroy(boss_actual, effects.disintegrate, 500)
     sprites.destroy(statusbar)
@@ -452,14 +420,26 @@ function GenerarNivel () {
     MostrarNivel()
 }
 function Boss1 () {
-    if (prota.x + 30 < serpiente.x) {
-        serpiente.vx = -20
-        serpiente.setImage(assets.image`leviatan_izquierda`)
-    } else if (prota.x - 30 > serpiente.x) {
-        serpiente.vx = 20
-        serpiente.setImage(assets.image`leviatan_derecha`)
+    if (prota.x + 30 < boss_actual.x) {
+        boss_actual.vx = -20
+        if (nivel == 10) {
+            boss_actual.setImage(assets.image`leviatan_izquierda`)
+        } else if (nivel == 20) {
+            boss_actual.setImage(assets.image`faraon_izquierda`)
+        } else if (nivel == 30) {
+            boss_actual.setImage(assets.image`myImage0`)
+        }
+    } else if (prota.x - 30 > boss_actual.x) {
+        boss_actual.vx = 20
+        if (nivel == 10) {
+            boss_actual.setImage(assets.image`leviatan_derecha`)
+        } else if (nivel == 20) {
+            boss_actual.setImage(assets.image`faraon_derecha`)
+        } else if (nivel == 30) {
+            boss_actual.setImage(assets.image`myImage`)
+        }
     } else {
-        serpiente.vx = 0
+        boss_actual.vx = 0
     }
 }
 function SistemaDeDobleSalto () {
@@ -488,6 +468,12 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         characterAnimations.setCharacterState(prota, characterAnimations.rule(Predicate.FacingRight))
         ataque_prota2 = 0
     }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
+    scene.cameraShake(5, 500)
+    info.changeLifeBy(-1)
+    sprites.destroy(otherSprite)
+    music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
 })
 function AtaqueIzquierda () {
     animation.runImageAnimation(
@@ -560,37 +546,33 @@ function AtaqueDerecha () {
 function GenerarBoss () {
     if (boss_vivo == true) {
         statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
-        statusbar.max = 9
+        statusbar.max = 20
         statusbar.setColor(7, 2, 0)
         statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
         if (nivel == 10) {
-            serpiente = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
-            serpiente.setScale(3, ScaleAnchor.Middle)
-            serpiente.ay = 200
-            statusbar.attachToSprite(serpiente)
+            boss_actual = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
+            boss_actual.setScale(3, ScaleAnchor.Middle)
             for (let valor4 of tiles.getTilesByType(assets.tile`myTile3`)) {
-                tiles.placeOnTile(serpiente, valor4)
+                tiles.placeOnTile(boss_actual, valor4)
                 tiles.setTileAt(valor4, assets.tile`pared_nivel_1`)
             }
         } else if (nivel == 20) {
-            arana = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
-            arana.setScale(2.5, ScaleAnchor.Middle)
-            arana.ay = 200
-            statusbar.attachToSprite(arana)
+            boss_actual = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
+            boss_actual.setScale(2.5, ScaleAnchor.Middle)
             for (let valor5 of tiles.getTilesByType(assets.tile`myTile3`)) {
-                tiles.placeOnTile(arana, valor5)
+                tiles.placeOnTile(boss_actual, valor5)
                 tiles.setTileAt(valor5, assets.tile`pared_nivel_2`)
             }
         } else if (nivel == 30) {
-            leviatan = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
-            leviatan.setScale(1.5, ScaleAnchor.Middle)
-            leviatan.ay = 200
-            statusbar.attachToSprite(leviatan)
+            boss_actual = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
             for (let valor6 of tiles.getTilesByType(assets.tile`myTile3`)) {
-                tiles.placeOnTile(leviatan, valor6)
+                tiles.placeOnTile(boss_actual, valor6)
                 tiles.setTileAt(valor6, assets.tile`pared_nivel_3`)
             }
+            boss_actual.setScale(1.5, ScaleAnchor.Middle)
         }
+        boss_actual.ay = 200
+        statusbar.attachToSprite(boss_actual)
     }
 }
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -720,6 +702,7 @@ function EndGame () {
         music.play(music.melodyPlayable(music.wawawawaa), music.PlaybackMode.InBackground)
     }
 }
+let projectile: Sprite = null
 let puerta_aula: Sprite = null
 let end_game = false
 let fantasma: Sprite = null
@@ -727,11 +710,9 @@ let salto = false
 let tipo_nivel = false
 let boss_vivo = false
 let nivel_superado = false
-let serpiente: Sprite = null
 let boss_actual: Sprite = null
 let antorcha: Sprite = null
 let tiburon: Sprite = null
-let leviatan: Sprite = null
 let statusbar: StatusBarSprite = null
 let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
@@ -744,10 +725,9 @@ let flecha_puerta_nivel: Sprite = null
 let jugador_en_puerta = false
 let spawn_y = 0
 let spawn_x = 0
+let prota: Sprite = null
 let puerta: Sprite = null
 let nivel = 0
-let arana: Sprite = null
-let prota: Sprite = null
 let llave_especial = false
 let mensaje_corazon = false
 let mostrar_minimapa = false
@@ -769,13 +749,168 @@ mensaje_corazon = true
 llave_especial = false
 game.onUpdate(function () {
     if (boss_vivo) {
-        if (nivel == 10) {
-            Boss1()
-        } else if (nivel == 20) {
-            Boss2()
-        } else if (nivel == 30) {
-            Boss3()
+        Boss1()
+    }
+})
+game.onUpdateInterval(2000, function () {
+    if (boss_vivo) {
+        if (prota.y < boss_actual.y) {
+            if (prota.x < boss_actual.x - 20) {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . b d b c . . . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . b b 5 5 5 1 1 1 5 3 5 b b . 
+                    . . d d 5 1 1 1 1 1 1 1 5 d d . 
+                    . . b b 5 5 5 1 1 1 5 5 5 b b . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . . . c b d b c . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, boss_actual, -100, -100)
+            } else if (prota.x > boss_actual.x + 20) {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . b d b c . . . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . b b 5 5 5 1 1 1 5 3 5 b b . 
+                    . . d d 5 1 1 1 1 1 1 1 5 d d . 
+                    . . b b 5 5 5 1 1 1 5 5 5 b b . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . . . c b d b c . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, boss_actual, 100, -100)
+            } else {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . b d b c . . . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . b b 5 5 5 1 1 1 5 3 5 b b . 
+                    . . d d 5 1 1 1 1 1 1 1 5 d d . 
+                    . . b b 5 5 5 1 1 1 5 5 5 b b . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . . . c b d b c . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, boss_actual, 0, -100)
+            }
+        } else {
+            if (prota.x < boss_actual.x - 20) {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . b d b c . . . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . b b 5 5 5 1 1 1 5 3 5 b b . 
+                    . . d d 5 1 1 1 1 1 1 1 5 d d . 
+                    . . b b 5 5 5 1 1 1 5 5 5 b b . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . . . c b d b c . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, boss_actual, -100, 0)
+            } else if (prota.x > boss_actual.x + 20) {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . b d b c . . . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . b b 5 5 5 1 1 1 5 3 5 b b . 
+                    . . d d 5 1 1 1 1 1 1 1 5 d d . 
+                    . . b b 5 5 5 1 1 1 5 5 5 b b . 
+                    . . . c c 5 5 5 1 5 5 5 c c . . 
+                    . . . . b 5 5 5 1 5 5 5 b . . . 
+                    . . . . b b c 5 5 5 c b b . . . 
+                    . . . . . . c b d b c . . . . . 
+                    . . . . . . . b d b . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, boss_actual, 100, 0)
+            }
         }
+        animation.runImageAnimation(
+        projectile,
+        [img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . b . . . . . . . 
+            . . . . . . . b d b . . . . . . 
+            . . . . . . . c d c . . . . . . 
+            . . . . . . . c 5 c . . . . . . 
+            . . . . . . c d 5 d c . . . . . 
+            . . . b c c d 5 5 5 d c c b . . 
+            . . b d d 5 5 5 5 5 5 5 d d b . 
+            . . . b c c d 5 5 5 d c c b . . 
+            . . . . . . c d 5 d c . . . . . 
+            . . . . . . . c 5 c . . . . . . 
+            . . . . . . . c d c . . . . . . 
+            . . . . . . . b d b . . . . . . 
+            . . . . . . . . b . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . b d b . . . . . . 
+            . . . . . . . b d b c . . . . . 
+            . . . . b b c 5 5 5 c b b . . . 
+            . . . . b 5 5 5 1 5 5 5 b . . . 
+            . . . c c 5 5 5 1 5 5 5 c c . . 
+            . . b b 5 5 5 1 1 1 5 5 5 b b . 
+            . . d d 5 1 1 1 1 1 1 1 5 d d . 
+            . . b b 5 5 5 1 1 1 5 5 5 b b . 
+            . . . c c 5 5 5 1 5 5 5 c c . . 
+            . . . . b 5 5 5 1 5 5 5 b . . . 
+            . . . . b b c 5 5 5 c b b . . . 
+            . . . . . . c b d b c . . . . . 
+            . . . . . . . b d b . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . 1 . . . . . . . . . . 
+            . . 1 1 . . . 1 1 1 . . . . . . 
+            . . 1 1 . 1 1 1 1 1 1 1 . . . . 
+            . . . . 1 1 1 1 1 1 1 1 1 . . . 
+            . . . 1 1 1 1 1 1 1 1 1 1 1 . . 
+            . . . 1 1 1 1 1 1 1 1 1 1 1 . . 
+            . . 1 1 1 1 1 1 1 1 1 1 1 1 1 . 
+            . . 1 1 1 1 1 1 1 1 1 1 1 1 1 . 
+            . . 1 1 1 1 1 1 1 1 1 1 1 1 1 . 
+            . . . 1 1 1 1 1 1 1 1 1 1 1 . . 
+            . . . 1 1 1 1 1 1 1 1 1 1 1 . . 
+            . . . . 1 1 1 1 1 1 1 1 1 . . . 
+            . . 1 . . 1 1 1 1 1 1 1 . . . . 
+            . . . . . . . 1 1 1 . . . . 1 . 
+            . . . . . . . . . . . . . . . . 
+            `],
+        100,
+        true
+        )
     }
 })
 game.onUpdateInterval(1, function () {
