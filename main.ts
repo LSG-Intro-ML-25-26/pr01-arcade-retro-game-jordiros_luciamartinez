@@ -740,7 +740,7 @@ let partida = false
 let menu = false
 let max_corazones = 0
 let atacar = false
-music.setVolume(70)
+music.setVolume(255)
 music.play(music.createSong(assets.song`background_song`), music.PlaybackMode.LoopingInBackground)
 max_corazones = 10
 menu = true
