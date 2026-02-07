@@ -335,7 +335,6 @@ function GenerarNivel () {
     jugador_en_puerta = false
     jugador_en_puerta_especial = false
     nivel_superado = false
-    boss_vivo = true
     tipo_nivel = true
     DestruirSprites()
     scene.setBackgroundImage(assets.image`fondo_nivel_1`)
@@ -544,36 +543,35 @@ function AtaqueDerecha () {
     }
 }
 function GenerarBoss () {
-    if (boss_vivo == true) {
-        statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
-        statusbar.max = 20
-        statusbar.setColor(7, 2, 0)
-        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
-        if (nivel == 10) {
-            boss_actual = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
-            boss_actual.setScale(3, ScaleAnchor.Middle)
-            for (let valor4 of tiles.getTilesByType(assets.tile`myTile3`)) {
-                tiles.placeOnTile(boss_actual, valor4)
-                tiles.setTileAt(valor4, assets.tile`pared_nivel_1`)
-            }
-        } else if (nivel == 20) {
-            boss_actual = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
-            boss_actual.setScale(2.5, ScaleAnchor.Middle)
-            for (let valor5 of tiles.getTilesByType(assets.tile`myTile3`)) {
-                tiles.placeOnTile(boss_actual, valor5)
-                tiles.setTileAt(valor5, assets.tile`pared_nivel_2`)
-            }
-        } else if (nivel == 30) {
-            boss_actual = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
-            for (let valor6 of tiles.getTilesByType(assets.tile`myTile3`)) {
-                tiles.placeOnTile(boss_actual, valor6)
-                tiles.setTileAt(valor6, assets.tile`pared_nivel_3`)
-            }
-            boss_actual.setScale(1.5, ScaleAnchor.Middle)
+    statusbar = statusbars.create(40, 4, StatusBarKind.EnemyHealth)
+    statusbar.max = 20
+    statusbar.setColor(7, 2, 0)
+    statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
+    if (nivel == 10) {
+        boss_actual = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
+        boss_actual.setScale(3, ScaleAnchor.Middle)
+        for (let valor4 of tiles.getTilesByType(assets.tile`myTile3`)) {
+            tiles.placeOnTile(boss_actual, valor4)
+            tiles.setTileAt(valor4, assets.tile`pared_nivel_1`)
         }
-        boss_actual.ay = 200
-        statusbar.attachToSprite(boss_actual)
+    } else if (nivel == 20) {
+        boss_actual = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
+        boss_actual.setScale(2.5, ScaleAnchor.Middle)
+        for (let valor5 of tiles.getTilesByType(assets.tile`myTile3`)) {
+            tiles.placeOnTile(boss_actual, valor5)
+            tiles.setTileAt(valor5, assets.tile`pared_nivel_2`)
+        }
+    } else if (nivel == 30) {
+        boss_actual = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
+        for (let valor6 of tiles.getTilesByType(assets.tile`myTile3`)) {
+            tiles.placeOnTile(boss_actual, valor6)
+            tiles.setTileAt(valor6, assets.tile`pared_nivel_3`)
+        }
+        boss_actual.setScale(1.5, ScaleAnchor.Middle)
     }
+    boss_actual.ay = 200
+    statusbar.attachToSprite(boss_actual)
+    boss_vivo = true
 }
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida && nivel != 408) {
