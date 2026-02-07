@@ -66,14 +66,6 @@ function MostrarFlecha () {
             150,
             true
             )
-        } else if (nivel == 408) {
-            flecha_puerta_nivel = sprites.create(assets.image`myImage5`, SpriteKind.Indicator)
-            animation.runImageAnimation(
-            flecha_puerta_nivel,
-            assets.animation`animacion_flecha_nivel0`,
-            150,
-            true
-            )
         }
         flecha_puerta_nivel.setPosition(puerta.x - 8, puerta.y - 40)
     }
@@ -99,7 +91,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialKey, function (sprite3, o
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialDoor, function (sprite2, otherSprite) {
     if (!(jugador_en_puerta_especial) && llave_especial) {
-        MostrarFlecha()
+        flecha_puerta_nivel = sprites.create(assets.image`myImage5`, SpriteKind.Indicator)
+        animation.runImageAnimation(
+        flecha_puerta_nivel,
+        assets.animation`animacion_flecha_nivel0`,
+        150,
+        true
+        )
+        flecha_puerta_nivel.setPosition(puerta_aula.x - 8, puerta_aula.y - 40)
         jugador_en_puerta_especial = true
     }
     if (controller.up.isPressed()) {
@@ -128,13 +127,8 @@ function CreacionPersonaje () {
         tiles.placeOnTile(prota, valor2)
         spawn_x = prota.x
         spawn_y = prota.y
-        if (nivel <= 10) {
-            tiles.setTileAt(valor2, assets.tile`pared_nivel_1`)
-        } else if (nivel > 10 && nivel <= 20) {
-            tiles.setTileAt(valor2, assets.tile`pared_nivel_2`)
-        } else if (nivel > 20 && nivel <= 30) {
-            tiles.setTileAt(valor2, assets.tile`pared_nivel_3`)
-        } else if (nivel <= 408) {
+        PonerPared(valor2)
+        if (nivel == 408) {
             mostrar_minimapa = false
             tiles.setTileAt(valor2, assets.tile`pared_aula`)
         }
@@ -156,7 +150,7 @@ function EnemigoNivel2 () {
         characterAnimations.rule(Predicate.NotMoving)
         )
         tiles.placeOnTile(enemigo, valor3)
-        tiles.setTileAt(valor3, assets.tile`pared_nivel_2`)
+        PonerPared(valor3)
         enemigo.ay = 200
         enemigo.follow(prota, 30)
     }
@@ -183,13 +177,7 @@ function GenerarLlave () {
         true
         )
         tiles.placeOnTile(llave, valor4)
-        if (nivel < 10) {
-            tiles.setTileAt(valor4, assets.tile`pared_nivel_1`)
-        } else if (nivel > 10 && nivel < 20) {
-            tiles.setTileAt(valor4, assets.tile`pared_nivel_2`)
-        } else if (nivel > 20 && nivel < 30) {
-            tiles.setTileAt(valor4, assets.tile`pared_nivel_3`)
-        }
+        PonerPared(valor4)
     }
     for (let valor5 of tiles.getTilesByType(assets.tile`myTile4`)) {
         llave = sprites.create(assets.image`myImage4`, SpriteKind.SpecialKey)
@@ -249,46 +237,44 @@ function EnemigoNivel3 () {
         characterAnimations.rule(Predicate.MovingLeft)
         )
         tiles.placeOnTile(enemigo, valor7)
-        tiles.setTileAt(valor7, assets.tile`pared_nivel_3`)
+        PonerPared(valor7)
         enemigo.ay = 200
         enemigo.follow(prota, 30)
     }
 }
 function GenerarAntorchas () {
-    for (let valor8 of tiles.getTilesByType(assets.tile`antorcha_nivel_1`)) {
+    if (nivel != 408) {
         antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
-        animation.runImageAnimation(
-        antorcha,
-        assets.animation`myAnim1`,
-        200,
-        true
-        )
-        tiles.placeOnTile(antorcha, valor8)
-        tiles.setTileAt(valor8, assets.tile`pared_nivel_1`)
-        antorcha.y += -1
-    }
-    for (let valor9 of tiles.getTilesByType(assets.tile`antorcha_nivel_2`)) {
-        antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
-        animation.runImageAnimation(
-        antorcha,
-        assets.animation`myAnim1`,
-        200,
-        true
-        )
-        tiles.placeOnTile(antorcha, valor9)
-        tiles.setTileAt(valor9, assets.tile`pared_nivel_2`)
-        antorcha.y += -1
-    }
-    for (let valor10 of tiles.getTilesByType(assets.tile`antorhca_nivel_3`)) {
-        antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
-        animation.runImageAnimation(
-        antorcha,
-        assets.animation`myAnim1`,
-        200,
-        true
-        )
-        tiles.placeOnTile(antorcha, valor10)
-        tiles.setTileAt(valor10, assets.tile`pared_nivel_3`)
+        for (let valor8 of tiles.getTilesByType(assets.tile`antorcha_nivel_1`)) {
+            animation.runImageAnimation(
+            antorcha,
+            assets.animation`myAnim1`,
+            200,
+            true
+            )
+            tiles.placeOnTile(antorcha, valor8)
+            PonerPared(valor8)
+        }
+        for (let valor9 of tiles.getTilesByType(assets.tile`antorcha_nivel_2`)) {
+            animation.runImageAnimation(
+            antorcha,
+            assets.animation`myAnim1`,
+            200,
+            true
+            )
+            tiles.placeOnTile(antorcha, valor9)
+            PonerPared(valor9)
+        }
+        for (let valor10 of tiles.getTilesByType(assets.tile`antorhca_nivel_3`)) {
+            animation.runImageAnimation(
+            antorcha,
+            assets.animation`myAnim1`,
+            200,
+            true
+            )
+            tiles.placeOnTile(antorcha, valor10)
+            PonerPared(valor10)
+        }
         antorcha.y += -1
     }
 }
@@ -473,6 +459,15 @@ function SistemaDeDobleSalto () {
                             `), music.PlaybackMode.InBackground)
     }
 }
+function PonerPared (myLocation: tiles.Location) {
+    if (nivel <= 10) {
+        tiles.setTileAt(myLocation, assets.tile`pared_nivel_1`)
+    } else if (nivel > 10 && nivel <= 20) {
+        tiles.setTileAt(myLocation, assets.tile`pared_nivel_2`)
+    } else if (nivel > 20 && nivel <= 30) {
+        tiles.setTileAt(myLocation, assets.tile`pared_nivel_3`)
+    }
+}
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (partida && !(controller.left.isPressed())) {
         animation.runImageAnimation(
@@ -551,20 +546,20 @@ function GenerarBoss () {
         boss_actual.setScale(1.5, ScaleAnchor.Middle)
         for (let valor11 of tiles.getTilesByType(assets.tile`myTile3`)) {
             tiles.placeOnTile(boss_actual, valor11)
-            tiles.setTileAt(valor11, assets.tile`pared_nivel_1`)
+            PonerPared(valor11)
         }
     } else if (nivel == 20) {
         boss_actual = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
         boss_actual.setScale(1.5, ScaleAnchor.Middle)
         for (let valor12 of tiles.getTilesByType(assets.tile`myTile3`)) {
             tiles.placeOnTile(boss_actual, valor12)
-            tiles.setTileAt(valor12, assets.tile`pared_nivel_2`)
+            PonerPared(valor12)
         }
     } else if (nivel == 30) {
         boss_actual = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
         for (let valor13 of tiles.getTilesByType(assets.tile`myTile3`)) {
             tiles.placeOnTile(boss_actual, valor13)
-            tiles.setTileAt(valor13, assets.tile`pared_nivel_3`)
+            PonerPared(valor13)
         }
         boss_actual.setScale(1.5, ScaleAnchor.Middle)
     }
@@ -598,7 +593,7 @@ function EnemigoNivel1 () {
         characterAnimations.rule(Predicate.MovingLeft)
         )
         tiles.placeOnTile(enemigo, valor14)
-        tiles.setTileAt(valor14, assets.tile`pared_nivel_1`)
+        PonerPared(valor14)
         enemigo.ay = 200
         enemigo.follow(prota, 30)
     }
@@ -680,13 +675,7 @@ function GenerarCorazones () {
         true
         )
         tiles.placeOnTile(corazon, valor16)
-        if (nivel <= 10) {
-            tiles.setTileAt(valor16, assets.tile`pared_nivel_1`)
-        } else if (nivel > 10 && nivel <= 20) {
-            tiles.setTileAt(valor16, assets.tile`pared_nivel_2`)
-        } else if (nivel > 20 && nivel <= 30) {
-            tiles.setTileAt(valor16, assets.tile`pared_nivel_3`)
-        }
+        PonerPared(valor16)
     }
 }
 function MostrarNivel () {
@@ -712,7 +701,6 @@ function EndGame () {
 }
 let projectile: Sprite = null
 let corazon: Sprite = null
-let puerta_aula: Sprite = null
 let end_game = false
 let salto = false
 let tipo_nivel = false
@@ -725,6 +713,7 @@ let myMinimap: minimap.Minimap = null
 let mapStripe: Sprite = null
 let llave: Sprite = null
 let enemigo: Sprite = null
+let puerta_aula: Sprite = null
 let jugador_en_puerta_especial = false
 let flecha_puerta_nivel: Sprite = null
 let jugador_en_puerta = false
@@ -1018,7 +1007,7 @@ final = false
 win = false
 mostrar_minimapa = true
 mensaje_corazon = true
-llave_especial = false
+llave_especial = true
 let atacar = false
 game.onUpdate(function () {
     if (boss_vivo) {
