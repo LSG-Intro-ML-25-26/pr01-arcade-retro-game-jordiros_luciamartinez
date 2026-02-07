@@ -197,7 +197,7 @@ function GenerarMinimapa () {
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite4, otherSprite) {
     if (info.life() < max_corazones) {
-        sprites.destroy(otherSprite)
+        sprites.destroy(otherSprite, effects.fire, 100)
         music.play(music.createSong(hex`00f4010408020100001c00010a006400f4016400000400000000000000000000000000050000040c0000000400012704000800012a`), music.PlaybackMode.InBackground)
         info.changeLifeBy(1)
     } else {
@@ -615,8 +615,8 @@ function MostrarLore () {
     game.setDialogFrame(assets.image`fondo_1`)
     game.showLongText("Hace mucho tiempo existia un reino pacífico que, un triste dia, fue conquistado por un ejercito demoniaco.", DialogLayout.Full)
     game.showLongText("Tras mucho tiempo de batalla, este ejercito termino conquistando el reino y rebautizandolo como \"Reino Nochesfera\", controlado por 3 reyes.", DialogLayout.Full)
-    game.showLongText("El 1r rey es Sssiniestro, lider de los fantasmas, quien ha conquistado gran parte del territorio por sus estrategias militares.", DialogLayout.Full)
-    game.showLongText("El 2o rey es Aracno, lider de los murcielagos, quien es responsable de grandes robos de suministros en las aldeas vecinas.", DialogLayout.Full)
+    game.showLongText("El 1r rey es Espectro, lider de los fantasmas, quien ha conquistado gran parte del territorio por sus estrategias militares.", DialogLayout.Full)
+    game.showLongText("El 2o rey es Murcielagor, lider de los murcielagos, quien es responsable de grandes robos de suministros en las aldeas vecinas.", DialogLayout.Full)
     game.showLongText("El ultimo rey es Anguilo, lider de los tiburones, quien es quien crea el veneno que fluye en los rios de los territorios vecinos.", DialogLayout.Full)
     game.showLongText("Parecia que no habia esperanza, pero entonces apareció el caballero End, quien juro que derrotaria a los 3 reyes de la Nochesfera.", DialogLayout.Full)
     game.showLongText("Y asi, End se adentro al castillo de la Nochesfera para derrotar a los 3 reyes malignos.", DialogLayout.Full)
@@ -637,7 +637,7 @@ info.onLifeZero(function () {
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite6, otherSprite3) {
-    sprites.destroyAllSpritesOfKind(SpriteKind.Key)
+    sprites.destroy(otherSprite3, effects.ashes, 100)
     nivel_superado = true
     music.play(music.createSong(hex`00f4010408020200001c00010a006400f401640000040000000000000000000000000005000004120000000400012704000800012a08000c00012a01001c000f05001202c102c20100040500280000006400280003140006020004120000000400012704000800012a08000c00012a`), music.PlaybackMode.UntilDone)
 })
