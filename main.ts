@@ -476,7 +476,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     scene.cameraShake(5, 500)
-    info.changeLifeBy(-3)
+    info.changeLifeBy(-1)
     sprites.destroy(otherSprite)
     music.play(music.createSong(assets.song`muerte_prota`), music.PlaybackMode.InBackground)
 })
@@ -928,7 +928,7 @@ game.onUpdateInterval(1, function () {
     } else if (!(partida) && !(final)) {
         MostrarInstrucciones()
         info.setLife(5)
-        nivel = 20
+        nivel = 1
         max_corazones = 10
         win = false
         end_game = false
