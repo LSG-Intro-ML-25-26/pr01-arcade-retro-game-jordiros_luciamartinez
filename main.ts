@@ -11,7 +11,7 @@ namespace SpriteKind {
     export const SpecialDoor = SpriteKind.create()
 }
 function GenerarPuerta () {
-    for (let value of tiles.getTilesByType(assets.tile`puerta_4_nivel_1`)) {
+    for (let valor of tiles.getTilesByType(assets.tile`puerta_4_nivel_1`)) {
         if (nivel <= 10) {
             puerta = sprites.create(assets.image`myImage8`, SpriteKind.Door)
         } else if (nivel > 10 && nivel <= 20) {
@@ -104,19 +104,19 @@ function CreacionPersonaje () {
     prota.ay = 200
     ataque_prota = 0
     ataque_prota2 = 0
-    for (let set_player of tiles.getTilesByType(assets.tile`myTile2`)) {
-        tiles.placeOnTile(prota, set_player)
+    for (let valor of tiles.getTilesByType(assets.tile`myTile2`)) {
+        tiles.placeOnTile(prota, valor)
         spawn_x = prota.x
         spawn_y = prota.y
         if (nivel <= 10) {
-            tiles.setTileAt(set_player, assets.tile`pared_nivel_1`)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
-            tiles.setTileAt(set_player, assets.tile`pared_nivel_2`)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
         } else if (nivel > 20 && nivel <= 30) {
-            tiles.setTileAt(set_player, assets.tile`pared_nivel_3`)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
         } else if (nivel <= 408) {
             mostrar_minimapa = false
-            tiles.setTileAt(set_player, assets.tile`pared_aula`)
+            tiles.setTileAt(valor, assets.tile`pared_aula`)
         }
     }
 }
@@ -127,7 +127,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.SpecialKey, function (sprite, ot
     game.splash("Conseguiste la llave", "del aula 408")
 })
 function EnemigoNivel2 () {
-    for (let valor2 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
+    for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         murcielago = sprites.create(assets.image`muercielago_izquierda`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
         murcielago,
@@ -141,8 +141,8 @@ function EnemigoNivel2 () {
         300,
         characterAnimations.rule(Predicate.NotMoving)
         )
-        tiles.placeOnTile(murcielago, valor2)
-        tiles.setTileAt(valor2, assets.tile`pared_nivel_2`)
+        tiles.placeOnTile(murcielago, valor)
+        tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
         murcielago.ay = 200
         murcielago.follow(prota, 30)
     }
@@ -228,7 +228,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, function (sprite, otherSpr
     NextLevel()
 })
 function EnemigoNivel3 () {
-    for (let valor3 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
+    for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         tiburon = sprites.create(assets.image`caracol_izquierda`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
         tiburon,
@@ -242,14 +242,14 @@ function EnemigoNivel3 () {
         300,
         characterAnimations.rule(Predicate.MovingLeft)
         )
-        tiles.placeOnTile(tiburon, valor3)
-        tiles.setTileAt(valor3, assets.tile`pared_nivel_3`)
+        tiles.placeOnTile(tiburon, valor)
+        tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
         tiburon.ay = 200
         tiburon.follow(prota, 30)
     }
 }
 function GenerarAntorchas () {
-    for (let antorcha_value of tiles.getTilesByType(assets.tile`antorcha_nivel_1`)) {
+    for (let valor of tiles.getTilesByType(assets.tile`antorcha_nivel_1`)) {
         antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
         animation.runImageAnimation(
         antorcha,
@@ -257,11 +257,11 @@ function GenerarAntorchas () {
         200,
         true
         )
-        tiles.placeOnTile(antorcha, antorcha_value)
-        tiles.setTileAt(antorcha_value, assets.tile`pared_nivel_1`)
+        tiles.placeOnTile(antorcha, valor)
+        tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
         antorcha.y += -1
     }
-    for (let antorcha_value of tiles.getTilesByType(assets.tile`antorcha_nivel_2`)) {
+    for (let valor of tiles.getTilesByType(assets.tile`antorcha_nivel_2`)) {
         antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
         animation.runImageAnimation(
         antorcha,
@@ -269,11 +269,11 @@ function GenerarAntorchas () {
         200,
         true
         )
-        tiles.placeOnTile(antorcha, antorcha_value)
-        tiles.setTileAt(antorcha_value, assets.tile`pared_nivel_2`)
+        tiles.placeOnTile(antorcha, valor)
+        tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
         antorcha.y += -1
     }
-    for (let antorcha_value of tiles.getTilesByType(assets.tile`antorhca_nivel_3`)) {
+    for (let valor of tiles.getTilesByType(assets.tile`antorhca_nivel_3`)) {
         antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
         animation.runImageAnimation(
         antorcha,
@@ -281,8 +281,8 @@ function GenerarAntorchas () {
         200,
         true
         )
-        tiles.placeOnTile(antorcha, antorcha_value)
-        tiles.setTileAt(antorcha_value, assets.tile`pared_nivel_3`)
+        tiles.placeOnTile(antorcha, valor)
+        tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
         antorcha.y += -1
     }
 }
@@ -550,22 +550,22 @@ function GenerarBoss () {
     if (nivel == 10) {
         boss_actual = sprites.create(assets.image`leviatan_derecha`, SpriteKind.Boss)
         boss_actual.setScale(3, ScaleAnchor.Middle)
-        for (let valor4 of tiles.getTilesByType(assets.tile`myTile3`)) {
-            tiles.placeOnTile(boss_actual, valor4)
-            tiles.setTileAt(valor4, assets.tile`pared_nivel_1`)
+        for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
+            tiles.placeOnTile(boss_actual, valor)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
         }
     } else if (nivel == 20) {
         boss_actual = sprites.create(assets.image`faraon_derecha`, SpriteKind.Boss)
         boss_actual.setScale(2.5, ScaleAnchor.Middle)
-        for (let valor5 of tiles.getTilesByType(assets.tile`myTile3`)) {
-            tiles.placeOnTile(boss_actual, valor5)
-            tiles.setTileAt(valor5, assets.tile`pared_nivel_2`)
+        for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
+            tiles.placeOnTile(boss_actual, valor)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
         }
     } else if (nivel == 30) {
         boss_actual = sprites.create(assets.image`myImage0`, SpriteKind.Boss)
-        for (let valor6 of tiles.getTilesByType(assets.tile`myTile3`)) {
-            tiles.placeOnTile(boss_actual, valor6)
-            tiles.setTileAt(valor6, assets.tile`pared_nivel_3`)
+        for (let valor of tiles.getTilesByType(assets.tile`myTile3`)) {
+            tiles.placeOnTile(boss_actual, valor)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
         }
         boss_actual.setScale(1.5, ScaleAnchor.Middle)
     }
@@ -584,7 +584,7 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 function EnemigoNivel1 () {
-    for (let valor7 of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
+    for (let valor of tiles.getTilesByType(assets.tile`amarillo_enemigo`)) {
         fantasma = sprites.create(assets.image`fantasma_derecha`, SpriteKind.Enemy)
         characterAnimations.loopFrames(
         fantasma,
@@ -598,8 +598,8 @@ function EnemigoNivel1 () {
         500,
         characterAnimations.rule(Predicate.MovingLeft)
         )
-        tiles.placeOnTile(fantasma, valor7)
-        tiles.setTileAt(valor7, assets.tile`pared_nivel_1`)
+        tiles.placeOnTile(fantasma, valor)
+        tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
         fantasma.ay = 200
         fantasma.follow(prota, 30)
     }
@@ -649,7 +649,7 @@ function DestruirSprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.SpecialDoor)
 }
 function GenerarPuertaEspecial () {
-    for (let value of tiles.getTilesByType(assets.tile`myTile6`)) {
+    for (let valor of tiles.getTilesByType(assets.tile`myTile6`)) {
         puerta_aula = sprites.create(assets.image`myImage6`, SpriteKind.SpecialDoor)
         tiles.placeOnRandomTile(puerta_aula, assets.tile`myTile6`)
         puerta_aula.y += -7
@@ -661,21 +661,21 @@ function MostrarInstrucciones () {
     game.showLongText("A         : Saltar\\nA+A       : Doble salto\\nB         : Atacar\\nDER./IZQ. : Moverse\\nBAJO      : Minimapa\\nARRIBA    : Interactuar", DialogLayout.Full)
 }
 function GenerarCorazones () {
-    for (let valor8 of tiles.getTilesByType(assets.tile`myTile0`)) {
-        llave = sprites.create(assets.image`myImage1`, SpriteKind.Heart)
+    for (let valor of tiles.getTilesByType(assets.tile`myTile0`)) {
+        corazon = sprites.create(assets.image`myImage1`, SpriteKind.Heart)
         animation.runImageAnimation(
-        llave,
+        corazon,
         assets.animation`myAnim0`,
         200,
         true
         )
-        tiles.placeOnTile(llave, valor8)
+        tiles.placeOnTile(corazon, valor)
         if (nivel <= 10) {
-            tiles.setTileAt(valor8, assets.tile`pared_nivel_1`)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_1`)
         } else if (nivel > 10 && nivel <= 20) {
-            tiles.setTileAt(valor8, assets.tile`pared_nivel_2`)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_2`)
         } else if (nivel > 20 && nivel <= 30) {
-            tiles.setTileAt(valor8, assets.tile`pared_nivel_3`)
+            tiles.setTileAt(valor, assets.tile`pared_nivel_3`)
         }
     }
 }
@@ -701,6 +701,7 @@ function EndGame () {
     }
 }
 let projectile: Sprite = null
+let corazon: Sprite = null
 let puerta_aula: Sprite = null
 let end_game = false
 let fantasma: Sprite = null
