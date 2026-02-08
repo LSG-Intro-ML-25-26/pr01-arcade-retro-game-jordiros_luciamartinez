@@ -256,7 +256,7 @@ function GenerarAntorchas () {
     }
 }
 function ShowFinal () {
-    tiles.setCurrentTilemap(tilemap`tilemap_vacio`)
+    tiles.setCurrentTilemap(tilemap`level3`)
     if (win) {
         scene.setBackgroundImage(assets.image`fondo_ganador`)
     } else {
@@ -289,6 +289,20 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
         )
     }
 })
+function GenerarMusica () {
+    musica_randoom = randint(1, 2)
+    if (musica_randoom == 1) {
+        music.play(music.createSong(assets.song`Cancion2`), music.PlaybackMode.LoopingInBackground)
+    } else if (musica_randoom == 2) {
+        music.play(music.createSong(assets.song`Cancion3`), music.PlaybackMode.LoopingInBackground)
+    } else if (musica_randoom == 3) {
+        music.play(music.createSong(hex`00780004080400`), music.PlaybackMode.LoopingInBackground)
+    } else if (musica_randoom == 4) {
+        music.play(music.createSong(hex`00780004080200`), music.PlaybackMode.LoopingInBackground)
+    } else if (musica_randoom == 5) {
+        music.play(music.createSong(hex`00780004080200`), music.PlaybackMode.LoopingInBackground)
+    }
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite5, otherSprite22) {
     if (sprite5.vy > 0 && sprite5.y < otherSprite22.y) {
         prota.setVelocity(0, -125)
@@ -311,6 +325,7 @@ statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
     boss_vivo = false
 })
 function GenerarNivel () {
+    music.stopAllSounds()
     tipo_nivel = true
     jugador_en_puerta = false
     jugador_en_puerta_especial = false
@@ -397,6 +412,7 @@ function GenerarNivel () {
         GenerarBoss()
     }
     MostrarNivel()
+    GenerarMusica()
 }
 function Boss1 () {
     if (prota.x + 30 < boss_actual.x) {
@@ -692,6 +708,7 @@ let salto = false
 let tipo_nivel = false
 let nivel_superado = false
 let statusbar: StatusBarSprite = null
+let musica_randoom = 0
 let boss_actual: Sprite = null
 let boss_vivo = false
 let myMinimap: minimap.Minimap = null
@@ -720,8 +737,6 @@ let max_corazones = 0
 pause(500)
 scene.setBackgroundImage(assets.image`darkys_games_pantalla`)
 pause(3000)
-music.setVolume(70)
-music.play(music.createSong(assets.song`Cancion1`), music.PlaybackMode.LoopingInBackground)
 max_corazones = 10
 menu = true
 partida = false
@@ -729,8 +744,10 @@ final = false
 win = false
 mostrar_minimapa = true
 mensaje_corazon = true
-llave_especial = true
+llave_especial = false
 let atacar = false
+music.setVolume(70)
+music.play(music.createSong(assets.song`Cancion1`), music.PlaybackMode.LoopingInBackground)
 game.onUpdate(function () {
     if (menu) {
         scene.setBackgroundImage(assets.image`fondo_menu2`)
