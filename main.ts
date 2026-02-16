@@ -290,17 +290,13 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
     }
 })
 function GenerarMusica () {
-    musica_randoom = randint(1, 2)
+    musica_randoom = randint(1, 3)
     if (musica_randoom == 1) {
         music.play(music.createSong(assets.song`Cancion2`), music.PlaybackMode.LoopingInBackground)
     } else if (musica_randoom == 2) {
         music.play(music.createSong(assets.song`Cancion3`), music.PlaybackMode.LoopingInBackground)
     } else if (musica_randoom == 3) {
-        music.play(music.createSong(hex`00780004080400`), music.PlaybackMode.LoopingInBackground)
-    } else if (musica_randoom == 4) {
-        music.play(music.createSong(hex`00780004080200`), music.PlaybackMode.LoopingInBackground)
-    } else if (musica_randoom == 5) {
-        music.play(music.createSong(hex`00780004080200`), music.PlaybackMode.LoopingInBackground)
+        music.play(music.createSong(assets.song`Cancion4`), music.PlaybackMode.LoopingInBackground)
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite5, otherSprite22) {
@@ -582,7 +578,7 @@ function MostrarLore () {
     game.showLongText("Parecia que no habia esperanza, pero entonces apareció el caballero End, quien juro que derrotaria a los 3 reyes de la Nochesfera.", DialogLayout.Full)
     game.showLongText("Y asi, End se adentro al castillo de la Nochesfera para derrotar a los 3 reyes malignos.", DialogLayout.Full)
 }
-function ColocarAnimacionAntorcha (myLocation: tiles.Location) {
+function ColocarAnimacionAntorcha (myLocation2: tiles.Location) {
     antorcha = sprites.create(assets.image`myImage3`, SpriteKind.Antorcha)
     animation.runImageAnimation(
     antorcha,
@@ -590,7 +586,7 @@ function ColocarAnimacionAntorcha (myLocation: tiles.Location) {
     200,
     true
     )
-    tiles.placeOnTile(antorcha, myLocation)
+    tiles.placeOnTile(antorcha, myLocation2)
     antorcha.y += -1
 }
 function CrearEnemigos () {
@@ -734,6 +730,7 @@ let final = false
 let partida = false
 let menu = false
 let max_corazones = 0
+let atacar = false
 pause(500)
 scene.setBackgroundImage(assets.image`darkys_games_pantalla`)
 pause(3000)
@@ -745,7 +742,6 @@ win = false
 mostrar_minimapa = true
 mensaje_corazon = true
 llave_especial = false
-let atacar = false
 music.setVolume(70)
 music.play(music.createSong(assets.song`Cancion1`), music.PlaybackMode.LoopingInBackground)
 game.onUpdate(function () {
@@ -772,8 +768,6 @@ game.onUpdate(function () {
     if (final) {
         ShowFinal()
     }
-})
-game.onUpdate(function () {
     if (boss_vivo) {
         Boss1()
     }
